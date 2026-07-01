@@ -2,6 +2,8 @@
   "itemGroup.requiem_armory.armory": "Armory",
   "item.requiem_armory.pole": "Pole",
 
+  "tooltip.requiem_armory.two_handed_1": "Two-Handed I",
+  "tooltip.requiem_armory.two_handed_2": "Two-Handed II",
   "tooltip.requiem_armory.versatile": "Versatile",
   "tooltip.requiem_armory.breach": "Breach",
   "tooltip.requiem_armory.armor_piercing": "Armor Piercing",
@@ -96,5 +98,23 @@
   "item.requiem_armory.iron_hatchet": "Iron Hatchet",
   "item.requiem_armory.golden_hatchet": "Golden Hatchet",
   "item.requiem_armory.diamond_hatchet": "Diamond Hatchet",
-  "item.requiem_armory.netherite_hatchet": "Netherite Hatchet"
+  "item.requiem_armory.netherite_hatchet": "Netherite Hatchet",
+  "item.requiem_armory.wooden_saber": "Wooden Saber",
+  "item.requiem_armory.stone_saber": "Stone Saber",
+  "item.requiem_armory.iron_saber": "Iron Saber",
+  "item.requiem_armory.golden_saber": "Golden Saber",
+  "item.requiem_armory.diamond_saber": "Diamond Saber",
+  "item.requiem_armory.netherite_saber": "Netherite Saber",
+  "item.requiem_armory.wooden_warhammer": "Wooden Warhammer",
+  "item.requiem_armory.stone_warhammer": "Stone Warhammer",
+  "item.requiem_armory.iron_warhammer": "Iron Warhammer",
+  "item.requiem_armory.golden_warhammer": "Golden Warhammer",
+  "item.requiem_armory.diamond_warhammer": "Diamond Warhammer",
+  "item.requiem_armory.netherite_warhammer": "Netherite Warhammer",
+  "item.requiem_armory.wooden_mace": "Wooden Mace",
+  "item.requiem_armory.stone_mace": "Stone Mace",
+  "item.requiem_armory.iron_mace": "Iron Mace",
+  "item.requiem_armory.golden_mace": "Golden Mace",
+  "item.requiem_armory.diamond_mace": "Diamond Mace",
+  "item.requiem_armory.netherite_mace": "Netherite Mace"
 }

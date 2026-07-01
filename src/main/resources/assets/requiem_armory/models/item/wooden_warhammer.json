@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "neoforge:separate_transforms",
+  "textures": { "layer0": "requiem_armory:item/wooden_warhammer_gui" },
+  "base": { "parent": "requiem_armory:item/wooden_warhammer_gui" },
+  "perspectives": {
+    "thirdperson_righthand": { "parent": "requiem_armory:item/wooden_warhammer_handheld" },
+    "thirdperson_lefthand":  { "parent": "requiem_armory:item/wooden_warhammer_handheld" },
+    "firstperson_righthand": { "parent": "requiem_armory:item/wooden_warhammer_handheld" },
+    "firstperson_lefthand":  { "parent": "requiem_armory:item/wooden_warhammer_handheld" }
+  }
+}

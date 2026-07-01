@@ -1,0 +1,4 @@
+{
+  "parent": "requiem_armory:item/battle_axe",
+  "textures": { "layer0": "requiem_armory:item/golden_warhammer_handheld" }
+}

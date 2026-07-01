@@ -5,10 +5,12 @@ import java.util.List;
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
 import io.github.diegovehdz.requiemarmory.registry.ModDamageTypes;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,12 +18,13 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
@@ -31,7 +34,8 @@ import net.neoforged.neoforge.common.ItemAbility;
  * component. Damage/speed/reach come from {@link #buildAttributes}; the special combat behaviours
  * come from the weapon's {@link WeaponAbilities}.
  *
- * <p>Throwing and the two-handed system are layered on in later phases.</p>
+ * <p>Two-handed weapons dynamically swap their attribute modifiers based on whether the off-hand is
+ * occupied (see {@link #inventoryTick}). Throwing lands in a later phase.</p>
  */
 public class WeaponItem extends SwordItem {
     /** Id for our custom reach modifier (distinct from vanilla's attack ids). */
@@ -42,11 +46,26 @@ public class WeaponItem extends SwordItem {
     private final WeaponMaterial material;
     private final WeaponAbilities abilities;
 
+    // Cached attribute variants for the two-handed penalty (null for one-handed weapons).
+    private final ItemAttributeModifiers fullAttributes;
+    private final ItemAttributeModifiers minorAttributes;
+    private final ItemAttributeModifiers majorAttributes;
+
     public WeaponItem(WeaponType type, WeaponMaterial material, Item.Properties properties) {
         super(material.tier, properties);
         this.type = type;
         this.material = material;
         this.abilities = type.abilities;
+
+        if (abilities.isTwoHanded()) {
+            this.fullAttributes = buildAttributes(type, material);
+            this.minorAttributes = buildAttributes(type, material, abilities.twoHandedMinDamage, abilities.twoHandedMinSpeed);
+            this.majorAttributes = buildAttributes(type, material, abilities.twoHandedMajDamage, abilities.twoHandedMajSpeed);
+        } else {
+            this.fullAttributes = null;
+            this.minorAttributes = null;
+            this.majorAttributes = null;
+        }
     }
 
     public WeaponType type() { return this.type; }
@@ -55,16 +74,21 @@ public class WeaponItem extends SwordItem {
     // ------------------------------------------------------------------ attributes
 
     public static ItemAttributeModifiers buildAttributes(WeaponType type, WeaponMaterial material) {
+        return buildAttributes(type, material, 0.0f, 0.0f);
+    }
+
+    /** Attack damage + speed (as a sword) plus reach, with an optional two-handed penalty subtracted. */
+    public static ItemAttributeModifiers buildAttributes(WeaponType type, WeaponMaterial material,
+                                                         float damagePenalty, float speedPenalty) {
+        double damage = type.attackDamageModifier + material.tier.getAttackDamageBonus() - damagePenalty;
+        double speed = type.attackSpeedModifier() - speedPenalty;
+
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder()
                 .add(Attributes.ATTACK_DAMAGE,
-                        new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID,
-                                type.attackDamageModifier + material.tier.getAttackDamageBonus(),
-                                AttributeModifier.Operation.ADD_VALUE),
+                        new AttributeModifier(Item.BASE_ATTACK_DAMAGE_ID, damage, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND)
                 .add(Attributes.ATTACK_SPEED,
-                        new AttributeModifier(Item.BASE_ATTACK_SPEED_ID,
-                                type.attackSpeedModifier(),
-                                AttributeModifier.Operation.ADD_VALUE),
+                        new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, speed, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND);
 
         float reach = type.reachModifier();
@@ -74,6 +98,40 @@ public class WeaponItem extends SwordItem {
                     EquipmentSlotGroup.MAINHAND);
         }
         return builder.build();
+    }
+
+    // ------------------------------------------------------------------ two-handed
+
+    @Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+        super.inventoryTick(stack, level, entity, slotId, isSelected);
+        if (!abilities.isTwoHanded() || level.isClientSide || !(entity instanceof Player player)) {
+            return;
+        }
+
+        boolean inMainHand = player.getMainHandItem() == stack;
+        boolean inOffHand = player.getOffhandItem() == stack;
+
+        ItemAttributeModifiers desired = fullAttributes;
+        if (inMainHand || inOffHand) {
+            ItemStack other = inMainHand ? player.getOffhandItem() : player.getMainHandItem();
+            if (!other.isEmpty()) {
+                boolean major = abilities.twoHandedLevel == 2 || isHeavy(other);
+                desired = major ? majorAttributes : minorAttributes;
+            }
+        }
+
+        if (!desired.equals(stack.get(DataComponents.ATTRIBUTE_MODIFIERS))) {
+            stack.set(DataComponents.ATTRIBUTE_MODIFIERS, desired);
+        }
+    }
+
+    /** A "heavy" off-hand item makes a Two-Handed I weapon take the major penalty. */
+    private static boolean isHeavy(ItemStack stack) {
+        if (stack.getItem() instanceof WeaponItem weapon && weapon.abilities.isTwoHanded()) {
+            return true;
+        }
+        return stack.getItem() instanceof ShieldItem;
     }
 
     // ------------------------------------------------------------------ combat
@@ -159,6 +217,8 @@ public class WeaponItem extends SwordItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        if (abilities.twoHandedLevel == 1) tooltip.add(ability("two_handed_1"));
+        else if (abilities.twoHandedLevel == 2) tooltip.add(ability("two_handed_2"));
         if (abilities.versatile) tooltip.add(ability("versatile"));
         if (abilities.breach) tooltip.add(ability("breach"));
         if (abilities.hasArmorPierce()) tooltip.add(ability("armor_piercing"));

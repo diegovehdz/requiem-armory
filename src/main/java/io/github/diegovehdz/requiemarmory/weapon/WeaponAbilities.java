@@ -21,6 +21,14 @@ public final class WeaponAbilities {
     public final boolean breach;
     public final boolean versatile;
 
+    /** 0 = one-handed. 1 = penalised when off-hand is occupied (worse with a heavy off-hand item).
+     *  2 = always heavily penalised when the off-hand is occupied. */
+    public final int twoHandedLevel;
+    public final float twoHandedMinDamage;
+    public final float twoHandedMajDamage;
+    public final float twoHandedMinSpeed;
+    public final float twoHandedMajSpeed;
+
     private WeaponAbilities(Builder b) {
         this.armorPierceAmount = b.armorPierceAmount;
         this.armorPierceChance = b.armorPierceChance;
@@ -31,7 +39,14 @@ public final class WeaponAbilities {
         this.sweepDamage = b.sweepDamage;
         this.breach = b.breach;
         this.versatile = b.versatile;
+        this.twoHandedLevel = b.twoHandedLevel;
+        this.twoHandedMinDamage = b.twoHandedMinDamage;
+        this.twoHandedMajDamage = b.twoHandedMajDamage;
+        this.twoHandedMinSpeed = b.twoHandedMinSpeed;
+        this.twoHandedMajSpeed = b.twoHandedMajSpeed;
     }
+
+    public boolean isTwoHanded() { return twoHandedLevel > 0; }
 
     public boolean hasArmorPierce() { return armorPierceAmount > 0.0f; }
     public boolean hasUnarmoredBonus() { return unarmoredBonus > 0.0f; }
@@ -54,6 +69,11 @@ public final class WeaponAbilities {
         private float sweepDamage = 0.0f;
         private boolean breach = false;
         private boolean versatile = false;
+        private int twoHandedLevel = 0;
+        private float twoHandedMinDamage = 0.0f;
+        private float twoHandedMajDamage = 0.0f;
+        private float twoHandedMinSpeed = 0.0f;
+        private float twoHandedMajSpeed = 0.0f;
 
         /** Extra armour-ignoring damage on a fully-charged hit (always applies). */
         public Builder pierce(float amount) { this.armorPierceAmount = amount; return this; }
@@ -85,6 +105,24 @@ public final class WeaponAbilities {
 
         /** Can be used as an axe (stripping, scraping, de-waxing) as well as a weapon. */
         public Builder versatile() { this.versatile = true; return this; }
+
+        /** Two-Handed I: minor penalty with a light off-hand item, major with a heavy one. */
+        public Builder twoHandedI(float minDamage, float majDamage, float minSpeed, float majSpeed) {
+            this.twoHandedLevel = 1;
+            this.twoHandedMinDamage = minDamage;
+            this.twoHandedMajDamage = majDamage;
+            this.twoHandedMinSpeed = minSpeed;
+            this.twoHandedMajSpeed = majSpeed;
+            return this;
+        }
+
+        /** Two-Handed II: always a major penalty whenever the off-hand is occupied. */
+        public Builder twoHandedII(float majDamage, float majSpeed) {
+            this.twoHandedLevel = 2;
+            this.twoHandedMajDamage = majDamage;
+            this.twoHandedMajSpeed = majSpeed;
+            return this;
+        }
 
         public WeaponAbilities build() { return new WeaponAbilities(this); }
     }
