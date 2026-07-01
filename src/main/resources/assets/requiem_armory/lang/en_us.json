@@ -2,6 +2,17 @@
   "itemGroup.requiem_armory.armory": "Armory",
   "item.requiem_armory.pole": "Pole",
 
+  "tooltip.requiem_armory.versatile": "Versatile",
+  "tooltip.requiem_armory.breach": "Breach",
+  "tooltip.requiem_armory.armor_piercing": "Armor Piercing",
+  "tooltip.requiem_armory.unarmored_bonus": "Unarmored Bonus",
+  "tooltip.requiem_armory.quick_strike": "Quick Strike",
+  "tooltip.requiem_armory.slow_strike": "Slow Strike",
+  "tooltip.requiem_armory.sweeping": "Sweeping",
+
+  "death.attack.armor_piercing": "%1$s was pierced to death",
+  "death.attack.armor_piercing.player": "%1$s was pierced to death by %2$s",
+
   "item.requiem_armory.wooden_dagger": "Wooden Dagger",
   "item.requiem_armory.stone_dagger": "Stone Dagger",
   "item.requiem_armory.iron_dagger": "Iron Dagger",

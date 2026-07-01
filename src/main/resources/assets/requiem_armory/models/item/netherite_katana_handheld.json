@@ -1,4 +1,4 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "requiem_armory:item/greatsword",
   "textures": { "layer0": "requiem_armory:item/netherite_katana_handheld" }
 }

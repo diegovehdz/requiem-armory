@@ -23,24 +23,24 @@ package io.github.diegovehdz.requiemarmory.weapon;
  * phases; this phase only wires up damage, speed, reach and rendering.</p>
  */
 public enum WeaponType {
-    //             id                 dmg  speed  reach  split  category
-    DAGGER        ("dagger",           0,  3.5f,  1.8f,  false, Category.BLADE),
-    LONGSWORD     ("longsword",        5,  1.3f,  3.5f,  true,  Category.BLADE),
-    RAPIER        ("rapier",           0,  2.0f,  3.0f,  true,  Category.BLADE),
-    KATANA        ("katana",           3,  1.8f,  3.25f, true,  Category.BLADE),
-    TWINBLADE     ("twinblade",        3,  1.9f,  3.5f,  true,  Category.BLADE),
+    //             id                 dmg  speed  reach  split  category          abilities
+    DAGGER        ("dagger",           0,  3.5f,  1.8f,  false, Category.BLADE,   ab().invincibility(15).sweep(0.25f)),
+    LONGSWORD     ("longsword",        5,  1.3f,  3.5f,  true,  Category.BLADE,   ab().sweep(2.0f)),
+    RAPIER        ("rapier",           0,  2.0f,  3.0f,  true,  Category.BLADE,   ab().unarmored(3.0f).sweep()),
+    KATANA        ("katana",           3,  1.8f,  3.25f, true,  Category.BLADE,   ab().sweep(1.25f, 2.0f)),
+    TWINBLADE     ("twinblade",        3,  1.9f,  3.5f,  true,  Category.BLADE,   ab().sweep()),
 
-    GREATSWORD    ("greatsword",       4,  1.2f,  3.5f,  true,  Category.HEAVY),
-    BATTLE_AXE    ("battle_axe",      11,  0.6f,  3.25f, true,  Category.HEAVY),
-    GLAIVE        ("glaive",           6,  1.0f,  4.0f,  true,  Category.HEAVY),
+    GREATSWORD    ("greatsword",       4,  1.2f,  3.5f,  true,  Category.HEAVY,   ab().sweep(1.5f, 5.0f)),
+    BATTLE_AXE    ("battle_axe",      11,  0.6f,  3.25f, true,  Category.HEAVY,   ab().versatile()),
+    GLAIVE        ("glaive",           6,  1.0f,  4.0f,  true,  Category.HEAVY,   ab().sweep()),
 
-    SPEAR         ("spear",            1,  1.3f,  4.2f,  true,  Category.POLEARM),
-    PIKE          ("pike",             4,  0.8f,  5.0f,  true,  Category.POLEARM),
-    HALBERD       ("halberd",          6,  0.7f,  4.5f,  true,  Category.POLEARM),
+    SPEAR         ("spear",            1,  1.3f,  4.2f,  true,  Category.POLEARM, ab().pierce(2.0f)),
+    PIKE          ("pike",             4,  0.8f,  5.0f,  true,  Category.POLEARM, ab().pierce(2.0f)),
+    HALBERD       ("halberd",          6,  0.7f,  4.5f,  true,  Category.POLEARM, ab().pierce(4.0f, 0.5f).breach()),
 
-    THROWING_KNIFE("throwing_knife",   0,  3.0f,  1.8f,  false, Category.THROWN),
-    JAVELIN       ("javelin",          0,  1.2f,  4.0f,  true,  Category.THROWN),
-    HATCHET       ("hatchet",          2,  1.0f,  3.0f,  false, Category.THROWN);
+    THROWING_KNIFE("throwing_knife",   0,  3.0f,  1.8f,  false, Category.THROWN,  ab().invincibility(15)),
+    JAVELIN       ("javelin",          0,  1.2f,  4.0f,  true,  Category.THROWN,  ab().pierce(1.0f)),
+    HATCHET       ("hatchet",          2,  1.0f,  3.0f,  false, Category.THROWN,  ab().versatile());
 
     /** Broad family, used for grouping/tab order and (later) shared ability defaults. */
     public enum Category { BLADE, HEAVY, POLEARM, THROWN }
@@ -51,15 +51,22 @@ public enum WeaponType {
     public final float reachStat;
     public final boolean separateModel;
     public final Category category;
+    public final WeaponAbilities abilities;
 
     WeaponType(String id, int attackDamageModifier, float attackSpeedStat, float reachStat,
-               boolean separateModel, Category category) {
+               boolean separateModel, Category category, WeaponAbilities.Builder abilities) {
         this.id = id;
         this.attackDamageModifier = attackDamageModifier;
         this.attackSpeedStat = attackSpeedStat;
         this.reachStat = reachStat;
         this.separateModel = separateModel;
         this.category = category;
+        this.abilities = abilities.build();
+    }
+
+    /** Short alias for {@link WeaponAbilities#builder()} to keep the table above readable. */
+    private static WeaponAbilities.Builder ab() {
+        return WeaponAbilities.builder();
     }
 
     /** True for weapons meant to be thrown (behaviour arrives in a later phase). */
