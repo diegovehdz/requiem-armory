@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": { "layer0": "requiem_armory:item/wooden_halberd_handheld" }
+}
