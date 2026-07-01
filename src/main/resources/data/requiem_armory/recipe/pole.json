@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "H": {
+      "item": "requiem_armory:handle"
+    }
+  },
+  "pattern": [
+    "S",
+    "H",
+    "S"
+  ],
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:pole"
+  }
+}

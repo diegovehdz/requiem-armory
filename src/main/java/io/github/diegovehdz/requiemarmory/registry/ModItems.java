@@ -24,7 +24,10 @@ public final class ModItems {
     /** Every weapon, keyed by "&lt;material&gt;_&lt;type&gt;", in registration (and tab) order. */
     public static final Map<String, DeferredItem<WeaponItem>> WEAPONS = new LinkedHashMap<>();
 
-    /** Structural ingredient for polearm-style recipes (used later by crafting). */
+    /** Short grip used to craft most weapons. */
+    public static final DeferredItem<Item> HANDLE = ITEMS.registerSimpleItem("handle");
+
+    /** Long "pole handle" (shaft) used to craft polearms. */
     public static final DeferredItem<Item> POLE = ITEMS.registerSimpleItem("pole");
 
     static {

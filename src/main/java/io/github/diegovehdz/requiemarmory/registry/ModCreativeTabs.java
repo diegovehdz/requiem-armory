@@ -25,6 +25,7 @@ public final class ModCreativeTabs {
                     .withTabsBefore(CreativeModeTabs.COMBAT)
                     .icon(() -> new ItemStack(ModItems.weapon("netherite_greatsword")))
                     .displayItems((parameters, output) -> {
+                        output.accept(ModItems.HANDLE.get());
                         output.accept(ModItems.POLE.get());
                         for (DeferredItem<WeaponItem> weapon : ModItems.WEAPONS.values()) {
                             output.accept(weapon.get());

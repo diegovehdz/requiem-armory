@@ -1,12 +1,32 @@
 {
   "parent": "minecraft:item/handheld",
   "loader": "neoforge:separate_transforms",
-  "textures": { "layer0": "requiem_armory:item/golden_javelin_gui" },
-  "base": { "parent": "requiem_armory:item/golden_javelin_gui" },
+  "textures": {
+    "layer0": "requiem_armory:item/golden_javelin_gui"
+  },
+  "base": {
+    "parent": "requiem_armory:item/golden_javelin_gui"
+  },
   "perspectives": {
-    "thirdperson_righthand": { "parent": "requiem_armory:item/golden_javelin_handheld" },
-    "thirdperson_lefthand":  { "parent": "requiem_armory:item/golden_javelin_handheld" },
-    "firstperson_righthand": { "parent": "requiem_armory:item/golden_javelin_handheld" },
-    "firstperson_lefthand":  { "parent": "requiem_armory:item/golden_javelin_handheld" }
-  }
+    "thirdperson_righthand": {
+      "parent": "requiem_armory:item/golden_javelin_handheld"
+    },
+    "thirdperson_lefthand": {
+      "parent": "requiem_armory:item/golden_javelin_handheld"
+    },
+    "firstperson_righthand": {
+      "parent": "requiem_armory:item/golden_javelin_handheld"
+    },
+    "firstperson_lefthand": {
+      "parent": "requiem_armory:item/golden_javelin_handheld"
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "throwing": 1
+      },
+      "model": "requiem_armory:item/golden_javelin_throwing"
+    }
+  ]
 }

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "item": "minecraft:diamond"
+    },
+    "H": {
+      "item": "requiem_armory:handle"
+    },
+    "P": {
+      "item": "requiem_armory:pole"
+    }
+  },
+  "pattern": [
+    "MM",
+    "MH",
+    " P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:diamond_halberd"
+  }
+}
