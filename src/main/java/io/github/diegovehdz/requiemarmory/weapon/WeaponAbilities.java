@@ -29,6 +29,13 @@ public final class WeaponAbilities {
     public final float twoHandedMinSpeed;
     public final float twoHandedMajSpeed;
 
+    /** Damage dealt by the thrown projectile; 0 means the weapon cannot be thrown. */
+    public final float throwDamage;
+    /** Launch power of the thrown projectile (the trident uses 2.5). */
+    public final float throwPower;
+    /** Minimum charge time in ticks before the weapon can be thrown. */
+    public final int throwChargeTicks;
+
     private WeaponAbilities(Builder b) {
         this.armorPierceAmount = b.armorPierceAmount;
         this.armorPierceChance = b.armorPierceChance;
@@ -44,9 +51,14 @@ public final class WeaponAbilities {
         this.twoHandedMajDamage = b.twoHandedMajDamage;
         this.twoHandedMinSpeed = b.twoHandedMinSpeed;
         this.twoHandedMajSpeed = b.twoHandedMajSpeed;
+        this.throwDamage = b.throwDamage;
+        this.throwPower = b.throwPower;
+        this.throwChargeTicks = b.throwChargeTicks;
     }
 
     public boolean isTwoHanded() { return twoHandedLevel > 0; }
+
+    public boolean isThrowable() { return throwDamage > 0.0f; }
 
     public boolean hasArmorPierce() { return armorPierceAmount > 0.0f; }
     public boolean hasUnarmoredBonus() { return unarmoredBonus > 0.0f; }
@@ -74,6 +86,9 @@ public final class WeaponAbilities {
         private float twoHandedMajDamage = 0.0f;
         private float twoHandedMinSpeed = 0.0f;
         private float twoHandedMajSpeed = 0.0f;
+        private float throwDamage = 0.0f;
+        private float throwPower = 0.0f;
+        private int throwChargeTicks = 10;
 
         /** Extra armour-ignoring damage on a fully-charged hit (always applies). */
         public Builder pierce(float amount) { this.armorPierceAmount = amount; return this; }
@@ -121,6 +136,14 @@ public final class WeaponAbilities {
             this.twoHandedLevel = 2;
             this.twoHandedMajDamage = majDamage;
             this.twoHandedMajSpeed = majSpeed;
+            return this;
+        }
+
+        /** Makes the weapon throwable like a trident (single, recoverable projectile). */
+        public Builder throwable(float damage, float power, int chargeTicks) {
+            this.throwDamage = damage;
+            this.throwPower = power;
+            this.throwChargeTicks = chargeTicks;
             return this;
         }
 

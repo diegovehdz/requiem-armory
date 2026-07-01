@@ -44,10 +44,10 @@ public enum WeaponType {
     HALBERD       ("halberd",          6,  0.7f,  4.5f,  true,  Category.POLEARM, ab().pierce(4.0f, 0.5f).breach().twoHandedII(5.0f, 0.2f)),
     PIKE          ("pike",             4,  0.8f,  5.0f,  true,  Category.POLEARM, ab().pierce(2.0f).twoHandedII(4.0f, 0.3f)),
 
-    // --- Throwables (throwing behaviour lands in a later phase) ---
-    THROWING_KNIFE("throwing_knife",   0,  3.0f,  1.8f,  false, Category.THROWN,  ab().invincibility(15)),
-    HATCHET       ("hatchet",          2,  1.0f,  3.0f,  false, Category.THROWN,  ab().versatile()),
-    JAVELIN       ("javelin",          0,  1.2f,  4.0f,  true,  Category.THROWN,  ab().pierce(1.0f));
+    // --- Throwables: usable in melee and thrown like a trident (single, recoverable) ---
+    THROWING_KNIFE("throwing_knife",   0,  3.0f,  1.8f,  false, Category.THROWN,  ab().invincibility(15).throwable(7.0f, 1.5f, 8)),
+    HATCHET       ("hatchet",          2,  1.0f,  3.0f,  false, Category.THROWN,  ab().versatile().throwable(8.0f, 2.0f, 10)),
+    JAVELIN       ("javelin",          0,  1.2f,  4.0f,  true,  Category.THROWN,  ab().pierce(1.0f).throwable(11.0f, 3.0f, 15));
 
     /** Broad family, used for grouping/tab order and (later) shared ability defaults. */
     public enum Category { SWORD, BLUDGEON, POLEARM, THROWN }

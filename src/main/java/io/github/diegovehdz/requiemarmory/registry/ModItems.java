@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
+import io.github.diegovehdz.requiemarmory.weapon.ThrowableWeaponItem;
 import io.github.diegovehdz.requiemarmory.weapon.WeaponItem;
 import io.github.diegovehdz.requiemarmory.weapon.WeaponMaterial;
 import io.github.diegovehdz.requiemarmory.weapon.WeaponType;
@@ -30,9 +31,13 @@ public final class ModItems {
         for (WeaponType type : WeaponType.values()) {
             for (WeaponMaterial material : WeaponMaterial.values()) {
                 String name = material.id + "_" + type.id;
-                DeferredItem<WeaponItem> weapon = ITEMS.registerItem(name, props ->
-                        new WeaponItem(type, material,
-                                material.decorate(props).attributes(WeaponItem.buildAttributes(type, material))));
+                DeferredItem<WeaponItem> weapon = ITEMS.registerItem(name, props -> {
+                    Item.Properties p = material.decorate(props)
+                            .attributes(WeaponItem.buildAttributes(type, material));
+                    return type.isThrown()
+                            ? new ThrowableWeaponItem(type, material, p)
+                            : new WeaponItem(type, material, p);
+                });
                 WEAPONS.put(name, weapon);
             }
         }

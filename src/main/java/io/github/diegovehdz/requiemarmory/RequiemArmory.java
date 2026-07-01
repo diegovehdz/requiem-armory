@@ -1,6 +1,7 @@
 package io.github.diegovehdz.requiemarmory;
 
 import com.mojang.logging.LogUtils;
+import io.github.diegovehdz.requiemarmory.entity.ModEntities;
 import io.github.diegovehdz.requiemarmory.registry.ModCreativeTabs;
 import io.github.diegovehdz.requiemarmory.registry.ModItems;
 import net.neoforged.bus.api.IEventBus;
@@ -26,6 +27,7 @@ public class RequiemArmory {
         // Bind deferred registers to the mod event bus so the game registers their contents.
         ModItems.ITEMS.register(modBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modBus);
+        ModEntities.ENTITY_TYPES.register(modBus);
 
         LOGGER.info("[{}] Loading Requiem Armory", MOD_ID);
     }

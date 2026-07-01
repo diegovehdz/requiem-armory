@@ -70,6 +70,7 @@ public class WeaponItem extends SwordItem {
 
     public WeaponType type() { return this.type; }
     public WeaponMaterial material() { return this.material; }
+    public WeaponAbilities abilities() { return this.abilities; }
 
     // ------------------------------------------------------------------ attributes
 
