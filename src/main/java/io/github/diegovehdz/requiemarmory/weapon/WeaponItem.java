@@ -220,10 +220,6 @@ public class WeaponItem extends SwordItem {
 
     // ------------------------------------------------------------------ tooltip
 
-    /** Custom font (default glyphs + our damage icon) used for tooltip descriptions. */
-    protected static final ResourceLocation TOOLTIP_FONT =
-            ResourceLocation.fromNamespaceAndPath(RequiemArmory.MOD_ID, "tooltip");
-
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         boolean shift = Screen.hasShiftDown();
@@ -296,10 +292,10 @@ public class WeaponItem extends SwordItem {
         return Component.translatable("tooltip." + RequiemArmory.MOD_ID + "." + key).withStyle(ChatFormatting.GOLD);
     }
 
-    /** Gray description line rendered with our custom font so the damage icon shows. */
+    /** Gray, plain-text description line shown when Shift is held. */
     protected static Component abilityDesc(String key, Object... args) {
         return Component.translatable("tooltip." + RequiemArmory.MOD_ID + "." + key, args)
-                .withStyle(style -> style.withColor(ChatFormatting.GRAY).withFont(TOOLTIP_FONT));
+                .withStyle(ChatFormatting.GRAY);
     }
 
     /** Formats a float, dropping a trailing ".0" for whole numbers. */
