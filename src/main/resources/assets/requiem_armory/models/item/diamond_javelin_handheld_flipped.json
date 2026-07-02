@@ -1,42 +1,42 @@
 {
-	"parent": "requiem_armory:item/spear",
-	"textures": {
-		"layer0": "requiem_armory:item/diamond_javelin_handheld"
-	},
-	"display": {
-		"thirdperson_righthand": {
-			"rotation": [
-				180,
-				-90,
-				45
-			],
-			"translation": [
-				0,
-				4.75,
-				1.5
-			],
-			"scale": [
-				1.7,
-				1.7,
-				0.85
-			]
-		},
-		"thirdperson_lefthand": {
-			"rotation": [
-				180,
-				90,
-				-45
-			],
-			"translation": [
-				0,
-				4.75,
-				1.5
-			],
-			"scale": [
-				1.7,
-				1.7,
-				0.85
-			]
-		}
-	}
+  "parent": "requiem_armory:item/spear",
+  "textures": {
+    "layer0": "requiem_armory:item/diamond_javelin_handheld"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        -90,
+        80
+      ],
+      "translation": [
+        0,
+        5,
+        2
+      ],
+      "scale": [
+        1.7,
+        1.7,
+        0.85
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        90,
+        -80
+      ],
+      "translation": [
+        0,
+        5,
+        2
+      ],
+      "scale": [
+        1.7,
+        1.7,
+        0.85
+      ]
+    }
+  }
 }
