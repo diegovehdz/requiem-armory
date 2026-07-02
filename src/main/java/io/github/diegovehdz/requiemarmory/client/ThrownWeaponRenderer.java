@@ -29,13 +29,11 @@ public class ThrownWeaponRenderer extends EntityRenderer<ThrownWeaponEntity> {
         ItemStack stack = entity.getRenderStack();
         if (!stack.isEmpty()) {
             poseStack.pushPose();
+            // Orient the weapon along its flight path (point-first), like a trident. No endless spin.
             poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, entity.yRotO, entity.getYRot()) - 90.0f));
             poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, entity.xRotO, entity.getXRot()) + 90.0f));
-            if (!entity.onGround()) {
-                float spin = (entity.tickCount + partialTick) * 40.0f % 360.0f;
-                poseStack.mulPose(Axis.XP.rotationDegrees(spin));
-            }
-            this.itemRenderer.renderStatic(stack, ItemDisplayContext.GROUND, packedLight,
+            poseStack.mulPose(Axis.XP.rotationDegrees(180.0f));
+            this.itemRenderer.renderStatic(stack, ItemDisplayContext.NONE, packedLight,
                     OverlayTexture.NO_OVERLAY, poseStack, buffer, entity.level(), entity.getId());
             poseStack.popPose();
         }

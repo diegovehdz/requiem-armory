@@ -13,7 +13,7 @@ import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
 /** Client-only setup: entity renderers and the throwables' {@code throwing} model property. */
-@EventBusSubscriber(modid = RequiemArmory.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = RequiemArmory.MOD_ID, value = Dist.CLIENT)
 public final class RequiemArmoryClient {
     private RequiemArmoryClient() {}
 

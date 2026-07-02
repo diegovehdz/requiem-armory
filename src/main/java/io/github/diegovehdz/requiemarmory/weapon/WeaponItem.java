@@ -5,6 +5,7 @@ import java.util.List;
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
 import io.github.diegovehdz.requiemarmory.registry.ModDamageTypes;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -26,6 +27,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 
@@ -92,8 +94,10 @@ public class WeaponItem extends SwordItem {
                         new AttributeModifier(Item.BASE_ATTACK_SPEED_ID, speed, AttributeModifier.Operation.ADD_VALUE),
                         EquipmentSlotGroup.MAINHAND);
 
+        // Better Combat manages reach through its weapon_attributes range_bonus, so only apply our
+        // own reach modifier when Better Combat is absent (mirrors how Dixta's Armory behaved).
         float reach = type.reachModifier();
-        if (reach != 0.0f) {
+        if (reach != 0.0f && !ModList.get().isLoaded("bettercombat")) {
             builder.add(Attributes.ENTITY_INTERACTION_RANGE,
                     new AttributeModifier(REACH_MODIFIER_ID, reach, AttributeModifier.Operation.ADD_VALUE),
                     EquipmentSlotGroup.MAINHAND);
@@ -216,23 +220,91 @@ public class WeaponItem extends SwordItem {
 
     // ------------------------------------------------------------------ tooltip
 
+    /** Custom font (default glyphs + our damage icon) used for tooltip descriptions. */
+    protected static final ResourceLocation TOOLTIP_FONT =
+            ResourceLocation.fromNamespaceAndPath(RequiemArmory.MOD_ID, "tooltip");
+
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        if (abilities.twoHandedLevel == 1) tooltip.add(ability("two_handed_1"));
-        else if (abilities.twoHandedLevel == 2) tooltip.add(ability("two_handed_2"));
-        if (abilities.versatile) tooltip.add(ability("versatile"));
-        if (abilities.breach) tooltip.add(ability("breach"));
-        if (abilities.hasArmorPierce()) tooltip.add(ability("armor_piercing"));
-        if (abilities.hasUnarmoredBonus()) tooltip.add(ability("unarmored_bonus"));
-        if (abilities.hasQuickStrike()) tooltip.add(ability("quick_strike"));
-        if (abilities.hasSlowStrike()) tooltip.add(ability("slow_strike"));
-        if (abilities.showsSweep()) tooltip.add(ability("sweeping"));
+        boolean shift = Screen.hasShiftDown();
+        boolean any = false;
+
+        if (abilities.twoHandedLevel == 1) {
+            tooltip.add(abilityName("two_handed_1"));
+            if (shift) tooltip.add(abilityDesc("two_handed_1.desc"));
+            any = true;
+        } else if (abilities.twoHandedLevel == 2) {
+            tooltip.add(abilityName("two_handed_2"));
+            if (shift) tooltip.add(abilityDesc("two_handed_2.desc"));
+            any = true;
+        }
+        if (abilities.versatile) {
+            tooltip.add(abilityName("versatile"));
+            if (shift) tooltip.add(abilityDesc("versatile.desc"));
+            any = true;
+        }
+        if (abilities.breach) {
+            tooltip.add(abilityName("breach"));
+            if (shift) tooltip.add(abilityDesc("breach.desc"));
+            any = true;
+        }
+        if (abilities.hasArmorPierce()) {
+            tooltip.add(abilityName("armor_piercing"));
+            if (shift) {
+                if (abilities.armorPierceChance >= 1.0f) {
+                    tooltip.add(abilityDesc("armor_piercing.desc", fmt(abilities.armorPierceAmount)));
+                } else {
+                    tooltip.add(abilityDesc("armor_piercing.desc.chance",
+                            Math.round(abilities.armorPierceChance * 100) + "%", fmt(abilities.armorPierceAmount)));
+                }
+            }
+            any = true;
+        }
+        if (abilities.hasUnarmoredBonus()) {
+            tooltip.add(abilityName("unarmored_bonus"));
+            if (shift) tooltip.add(abilityDesc("unarmored_bonus.desc", fmt(abilities.unarmoredBonus)));
+            any = true;
+        }
+        if (abilities.hasQuickStrike()) {
+            tooltip.add(abilityName("quick_strike"));
+            if (shift) tooltip.add(abilityDesc("quick_strike.desc", fmt((abilities.invincibilityTicks - 10) / 20.0f)));
+            any = true;
+        }
+        if (abilities.hasSlowStrike()) {
+            tooltip.add(abilityName("slow_strike"));
+            if (shift) tooltip.add(abilityDesc("slow_strike.desc", fmt((abilities.invincibilityTicks - 10) / 20.0f)));
+            any = true;
+        }
+        if (abilities.showsSweep()) {
+            tooltip.add(abilityName("sweeping"));
+            if (shift) {
+                if (abilities.sweepDamage > 0.0f) tooltip.add(abilityDesc("sweeping.desc.damage", fmt(abilities.sweepDamage)));
+                if (abilities.sweepRadius != 1.0f) tooltip.add(abilityDesc("sweeping.desc.radius", fmt(abilities.sweepRadius)));
+            }
+            any = true;
+        }
+
+        if (any && !shift) {
+            tooltip.add(Component.translatable("tooltip." + RequiemArmory.MOD_ID + ".hold_shift")
+                    .withStyle(ChatFormatting.DARK_GRAY));
+        }
         super.appendHoverText(stack, context, tooltip, flag);
     }
 
-    private static Component ability(String key) {
-        return Component.translatable("tooltip." + RequiemArmory.MOD_ID + "." + key)
-                .withStyle(ChatFormatting.GOLD);
+    /** Gold ability name line. */
+    protected static Component abilityName(String key) {
+        return Component.translatable("tooltip." + RequiemArmory.MOD_ID + "." + key).withStyle(ChatFormatting.GOLD);
+    }
+
+    /** Gray description line rendered with our custom font so the damage icon shows. */
+    protected static Component abilityDesc(String key, Object... args) {
+        return Component.translatable("tooltip." + RequiemArmory.MOD_ID + "." + key, args)
+                .withStyle(style -> style.withColor(ChatFormatting.GRAY).withFont(TOOLTIP_FONT));
+    }
+
+    /** Formats a float, dropping a trailing ".0" for whole numbers. */
+    protected static String fmt(float value) {
+        return value == Math.rint(value) ? String.valueOf((int) value) : String.valueOf(value);
     }
 
     // ------------------------------------------------------------------ helpers

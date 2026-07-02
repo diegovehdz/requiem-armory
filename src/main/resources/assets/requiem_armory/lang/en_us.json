@@ -2,7 +2,6 @@
   "itemGroup.requiem_armory.armory": "Armory",
   "item.requiem_armory.handle": "Handle",
   "item.requiem_armory.pole": "Pole",
-
   "tooltip.requiem_armory.two_handed_1": "Two-Handed I",
   "tooltip.requiem_armory.two_handed_2": "Two-Handed II",
   "tooltip.requiem_armory.versatile": "Versatile",
@@ -12,10 +11,8 @@
   "tooltip.requiem_armory.quick_strike": "Quick Strike",
   "tooltip.requiem_armory.slow_strike": "Slow Strike",
   "tooltip.requiem_armory.sweeping": "Sweeping",
-
   "death.attack.armor_piercing": "%1$s was pierced to death",
   "death.attack.armor_piercing.player": "%1$s was pierced to death by %2$s",
-
   "item.requiem_armory.wooden_dagger": "Wooden Dagger",
   "item.requiem_armory.stone_dagger": "Stone Dagger",
   "item.requiem_armory.iron_dagger": "Iron Dagger",
@@ -117,5 +114,21 @@
   "item.requiem_armory.iron_mace": "Iron Mace",
   "item.requiem_armory.golden_mace": "Golden Mace",
   "item.requiem_armory.diamond_mace": "Diamond Mace",
-  "item.requiem_armory.netherite_mace": "Netherite Mace"
+  "item.requiem_armory.netherite_mace": "Netherite Mace",
+  "tooltip.requiem_armory.hold_shift": "Hold Shift for details",
+  "tooltip.requiem_armory.two_handed_1.desc": "Minorly reduced damage & speed with a light off-hand item; majorly reduced with a heavy one.",
+  "tooltip.requiem_armory.two_handed_2.desc": "Majorly reduced damage & speed while the off-hand is occupied.",
+  "tooltip.requiem_armory.versatile.desc": "Can be used as an axe and a weapon.",
+  "tooltip.requiem_armory.breach.desc": "Disables opponents' shields on hit.",
+  "tooltip.requiem_armory.armor_piercing.desc": "Deals %s extra armor-ignoring damage on a fully charged hit.",
+  "tooltip.requiem_armory.armor_piercing.desc.chance": "%s chance to deal %s extra armor-ignoring damage on a fully charged hit.",
+  "tooltip.requiem_armory.unarmored_bonus.desc": "Deals %s extra damage to unarmored foes on a charged hit.",
+  "tooltip.requiem_armory.quick_strike.desc": "Lets you strike again sooner (%ss invulnerability instead of 0.5s).",
+  "tooltip.requiem_armory.slow_strike.desc": "Slower follow-up hits (%ss invulnerability instead of 0.5s).",
+  "tooltip.requiem_armory.sweeping.desc.damage": "Deals %s to enemies caught in the sweep.",
+  "tooltip.requiem_armory.sweeping.desc.radius": "%sx the sweep radius of a sword.",
+  "tooltip.requiem_armory.throwable": "Throwable",
+  "tooltip.requiem_armory.throwable.desc.damage": "Throw Damage: %s",
+  "tooltip.requiem_armory.throwable.desc.force": "Force: %s",
+  "tooltip.requiem_armory.throwable.desc.charge": "Charge: %ss"
 }

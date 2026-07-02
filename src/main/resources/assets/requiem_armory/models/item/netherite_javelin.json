@@ -19,6 +19,9 @@
     },
     "firstperson_lefthand": {
       "parent": "requiem_armory:item/netherite_javelin_handheld"
+    },
+    "none": {
+      "parent": "requiem_armory:item/netherite_javelin_handheld"
     }
   },
   "overrides": [

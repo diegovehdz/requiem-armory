@@ -1,6 +1,12 @@
 package io.github.diegovehdz.requiemarmory.weapon;
 
+import java.util.List;
+
+import io.github.diegovehdz.requiemarmory.RequiemArmory;
 import io.github.diegovehdz.requiemarmory.entity.ThrownWeaponEntity;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -11,6 +17,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 
@@ -73,5 +80,17 @@ public class ThrowableWeaponItem extends WeaponItem {
 
     private static boolean isTooDamagedToThrow(ItemStack stack) {
         return stack.getDamageValue() >= stack.getMaxDamage() - 1;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        WeaponAbilities a = abilities();
+        tooltip.add(Component.translatable("tooltip." + RequiemArmory.MOD_ID + ".throwable").withStyle(ChatFormatting.GOLD));
+        if (Screen.hasShiftDown()) {
+            tooltip.add(abilityDesc("throwable.desc.damage", fmt(a.throwDamage)));
+            tooltip.add(abilityDesc("throwable.desc.force", fmt(a.throwPower)));
+            tooltip.add(abilityDesc("throwable.desc.charge", fmt(a.throwChargeTicks / 20.0f)));
+        }
+        super.appendHoverText(stack, context, tooltip, flag);
     }
 }

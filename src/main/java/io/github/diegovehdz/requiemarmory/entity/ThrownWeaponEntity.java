@@ -4,6 +4,9 @@ import javax.annotation.Nullable;
 
 import io.github.diegovehdz.requiemarmory.weapon.WeaponItem;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -24,6 +27,10 @@ import net.minecraft.world.phys.Vec3;
  * ammo — the projectile <i>is</i> the weapon). Loyalty/riptide integration can be added later.
  */
 public class ThrownWeaponEntity extends AbstractArrow {
+    // Synced so the client renderer can draw the actual weapon (the pickup stack is server-only).
+    private static final EntityDataAccessor<ItemStack> DATA_ITEM_STACK =
+            SynchedEntityData.defineId(ThrownWeaponEntity.class, EntityDataSerializers.ITEM_STACK);
+
     private boolean dealtDamage;
 
     public ThrownWeaponEntity(EntityType<? extends ThrownWeaponEntity> type, Level level) {
@@ -33,6 +40,13 @@ public class ThrownWeaponEntity extends AbstractArrow {
     public ThrownWeaponEntity(Level level, LivingEntity shooter, ItemStack weapon) {
         super(ModEntities.THROWN_WEAPON.get(), shooter, level, weapon, weapon);
         this.pickup = AbstractArrow.Pickup.ALLOWED;
+        this.entityData.set(DATA_ITEM_STACK, weapon.copy());
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(DATA_ITEM_STACK, ItemStack.EMPTY);
     }
 
     private float throwDamage() {
@@ -91,15 +105,22 @@ public class ThrownWeaponEntity extends AbstractArrow {
         return SoundEvents.TRIDENT_HIT_GROUND;
     }
 
-    /** The stack the client should render as the flying weapon. */
+    /** The stack the client should render as the flying weapon (synced from the server). */
     public ItemStack getRenderStack() {
-        return getWeaponItem();
+        ItemStack synced = this.entityData.get(DATA_ITEM_STACK);
+        return synced.isEmpty() ? getWeaponItem() : synced;
+    }
+
+    /** True once the weapon has landed/stuck, so the renderer can stop any motion. */
+    public boolean isStuck() {
+        return this.inGround;
     }
 
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         this.dealtDamage = tag.getBoolean("DealtDamage");
+        this.entityData.set(DATA_ITEM_STACK, this.getPickupItemStackOrigin());
     }
 
     @Override
