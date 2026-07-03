@@ -30,10 +30,11 @@ public class ThrownWeaponRenderer extends EntityRenderer<ThrownWeaponEntity> {
         ItemStack stack = entity.getRenderStack();
         if (!stack.isEmpty()) {
             poseStack.pushPose();
-            // Orient the weapon along its flight path (point-first), like a trident. No endless spin.
+            // Orient the weapon so it flies (and sticks) tip-first along its flight path, like a
+            // trident. The item sprite's point is its top-right corner, so after aiming down the
+            // travel direction we roll it -45° to bring that corner to the front.
             poseStack.mulPose(Axis.YP.rotationDegrees(Mth.lerp(partialTick, entity.yRotO, entity.getYRot()) - 90.0f));
-            poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, entity.xRotO, entity.getXRot()) + 90.0f));
-            poseStack.mulPose(Axis.XP.rotationDegrees(180.0f));
+            poseStack.mulPose(Axis.ZP.rotationDegrees(Mth.lerp(partialTick, entity.xRotO, entity.getXRot()) - 45.0f));
             // Larger weapons use 32px "handheld" textures; scale them up so the flying model matches
             // the in-hand size instead of rendering tiny at the base (NONE) scale.
             if (stack.getItem() instanceof WeaponItem weapon && weapon.type().separateModel) {

@@ -7,6 +7,7 @@ import io.github.diegovehdz.requiemarmory.registry.ModItems;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.slf4j.Logger;
 
 /**
@@ -28,7 +29,12 @@ public class RequiemArmory {
         ModItems.ITEMS.register(modBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modBus);
         ModEntities.ENTITY_TYPES.register(modBus);
+        modBus.addListener(this::commonSetup);
 
         LOGGER.info("[{}] Loading Requiem Armory", MOD_ID);
+    }
+
+    private void commonSetup(FMLCommonSetupEvent event) {
+        event.enqueueWork(ModItems::linkTwoHandedForms);
     }
 }

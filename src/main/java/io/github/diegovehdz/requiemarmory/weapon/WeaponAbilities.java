@@ -28,6 +28,9 @@ public final class WeaponAbilities {
     public final float twoHandedMajDamage;
     public final float twoHandedMinSpeed;
     public final float twoHandedMajSpeed;
+    /** If true (and Better Combat is present), the weapon swaps to a two-handed moveset variant
+     *  when the off-hand is empty, and back to the one-handed form when it is occupied. */
+    public final boolean twoHandedSwitch;
 
     /** Damage dealt by the thrown projectile; 0 means the weapon cannot be thrown. */
     public final float throwDamage;
@@ -54,6 +57,7 @@ public final class WeaponAbilities {
         this.throwDamage = b.throwDamage;
         this.throwPower = b.throwPower;
         this.throwChargeTicks = b.throwChargeTicks;
+        this.twoHandedSwitch = b.twoHandedSwitch;
     }
 
     public boolean isTwoHanded() { return twoHandedLevel > 0; }
@@ -89,6 +93,7 @@ public final class WeaponAbilities {
         private float throwDamage = 0.0f;
         private float throwPower = 0.0f;
         private int throwChargeTicks = 10;
+        private boolean twoHandedSwitch = false;
 
         /** Extra armour-ignoring damage on a fully-charged hit (always applies). */
         public Builder pierce(float amount) { this.armorPierceAmount = amount; return this; }
@@ -138,6 +143,9 @@ public final class WeaponAbilities {
             this.twoHandedMajSpeed = majSpeed;
             return this;
         }
+
+        /** Swaps between a one-handed and a two-handed Better Combat moveset based on the off-hand. */
+        public Builder twoHandedSwitch() { this.twoHandedSwitch = true; return this; }
 
         /** Makes the weapon throwable like a trident (single, recoverable projectile). */
         public Builder throwable(float damage, float power, int chargeTicks) {

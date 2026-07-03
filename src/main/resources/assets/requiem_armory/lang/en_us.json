@@ -130,5 +130,11 @@
   "tooltip.requiem_armory.throwable": "Throwable",
   "tooltip.requiem_armory.throwable.desc.damage": "Throw Damage: %s",
   "tooltip.requiem_armory.throwable.desc.force": "Force: %s",
-  "tooltip.requiem_armory.throwable.desc.charge": "Charge: %ss"
+  "tooltip.requiem_armory.throwable.desc.charge": "Charge: %ss",
+  "item.requiem_armory.wooden_katana_two_handed": "Wooden Katana",
+  "item.requiem_armory.stone_katana_two_handed": "Stone Katana",
+  "item.requiem_armory.iron_katana_two_handed": "Iron Katana",
+  "item.requiem_armory.golden_katana_two_handed": "Golden Katana",
+  "item.requiem_armory.diamond_katana_two_handed": "Diamond Katana",
+  "item.requiem_armory.netherite_katana_two_handed": "Netherite Katana"
 }
