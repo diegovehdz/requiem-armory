@@ -1,17 +1,17 @@
 # Requiem Armory
 
-A NeoForge **1.21.1** weapons mod that expands the medieval arsenal with a wide selection of
-vanilla-styled weapons — daggers, longswords, katanas, spears, glaives, warhammers, throwables and
-more — each with its own stats, reach and abilities so that no single weapon is best in every
+A NeoForge **1.21.1** weapons mod that expands the arsenal with a wide selection of
+vanilla-styled weapons such as daggers, longswords, katanas, spears, glaives, warhammers, throwables and
+more. Each with its own stats, reach and abilities so that no single weapon is best in every
 situation.
 
-Inspired by, and a from-scratch reconstruction of, **Dixta's Armory** (originally Forge 1.20.1).
+Inspired by, and a from-scratch reconstruction of, **[Dixta's Armory](https://modrinth.com/mod/dixtas-armory)** (originally for Forge 1.20.1).
 Built to work **standalone**, with **optional [Better Combat](https://modrinth.com/mod/better-combat)**
 integration for movesets, reach and attack animations.
 
 ## Status
 
-✅ **Playable.** All weapons, abilities, crafting and combat are implemented and building against
+✅ **Playable!** All weapons, abilities, crafting and combat are implemented and building against
 NeoForge 21.1.234. Development is currently focused on **final artwork** (the in-game textures are
 temporary development placeholders) and a few remaining systems.
 
@@ -57,7 +57,7 @@ variants are **smithing-table upgrades** from the diamond version, like vanilla 
 
 ### Better Combat integration (optional)
 
-If Better Combat is installed, every weapon gains a fitting moveset via `weapon_attributes` — native
+If Better Combat is installed, every weapon gains a fitting moveset via `weapon_attributes`. Native
 Better Combat presets for most types, plus faithful ports of Dixta's custom movesets for the
 greatsword, twinblade, glaive, katana and battle axe. When Better Combat is absent, the mod handles
 reach itself and everything still works.
@@ -75,7 +75,7 @@ reach itself and everything still works.
 - [x] DPS balancing pass
 - [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (189 sprites)
 - [ ] Two-handed moveset switching (1H ↔ 2H) with Better Combat
-- [ ] Ranged category (reinforced bow & crossbow)
+- [ ] Ranged category (reinforced bows & crossbows variants / rework)
 - [ ] Optional Loyalty for throwables
 - [ ] Data generation (recipes, tags, models, lang)
 
@@ -84,7 +84,7 @@ reach itself and everything still works.
 
 ## Building
 
-Requires a **JDK 21** build environment (Minecraft 1.21.1 targets Java 21).
+Requires a **JDK 21** build environment.
 
 ```bash
 ./gradlew build          # produces build/libs/requiem_armory-<version>.jar
