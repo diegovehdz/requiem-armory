@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "requiem_armory:wooden_dagger",
+    "requiem_armory:stone_dagger",
+    "requiem_armory:iron_dagger",
+    "requiem_armory:golden_dagger",
+    "requiem_armory:diamond_dagger",
+    "requiem_armory:netherite_dagger",
+    "requiem_armory:wooden_hatchet",
+    "requiem_armory:stone_hatchet",
+    "requiem_armory:iron_hatchet",
+    "requiem_armory:golden_hatchet",
+    "requiem_armory:diamond_hatchet",
+    "requiem_armory:netherite_hatchet",
+    "requiem_armory:wooden_javelin",
+    "requiem_armory:stone_javelin",
+    "requiem_armory:iron_javelin",
+    "requiem_armory:golden_javelin",
+    "requiem_armory:diamond_javelin",
+    "requiem_armory:netherite_javelin"
+  ]
+}
