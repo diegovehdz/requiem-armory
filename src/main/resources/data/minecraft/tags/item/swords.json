@@ -96,12 +96,6 @@
     "requiem_armory:iron_javelin",
     "requiem_armory:golden_javelin",
     "requiem_armory:diamond_javelin",
-    "requiem_armory:netherite_javelin",
-    "requiem_armory:wooden_katana_two_handed",
-    "requiem_armory:stone_katana_two_handed",
-    "requiem_armory:iron_katana_two_handed",
-    "requiem_armory:golden_katana_two_handed",
-    "requiem_armory:diamond_katana_two_handed",
-    "requiem_armory:netherite_katana_two_handed"
+    "requiem_armory:netherite_javelin"
   ]
 }

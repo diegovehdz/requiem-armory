@@ -24,9 +24,6 @@ public final class ModItems {
     /** Every weapon shown in-game, keyed by "&lt;material&gt;_&lt;type&gt;", in registration (and tab) order. */
     public static final Map<String, DeferredItem<WeaponItem>> WEAPONS = new LinkedHashMap<>();
 
-    /** Hidden two-handed-moveset copies for switchable weapons, keyed by the base name. */
-    public static final Map<String, DeferredItem<WeaponItem>> TWO_HANDED_COPIES = new LinkedHashMap<>();
-
     /** Short grip used to craft most weapons. */
     public static final DeferredItem<Item> HANDLE = ITEMS.registerSimpleItem("handle");
 
@@ -45,26 +42,8 @@ public final class ModItems {
                             : new WeaponItem(type, material, p);
                 });
                 WEAPONS.put(name, weapon);
-
-                // Switchable weapons also register a hidden two-handed-moveset copy.
-                if (type.abilities.twoHandedSwitch) {
-                    DeferredItem<WeaponItem> copy = ITEMS.registerItem(name + "_two_handed", props ->
-                            new WeaponItem(type, material,
-                                    material.decorate(props).attributes(WeaponItem.buildAttributes(type, material)), true));
-                    TWO_HANDED_COPIES.put(name, copy);
-                }
             }
         }
-    }
-
-    /** Links each switchable weapon to its two-handed copy (call during common setup). */
-    public static void linkTwoHandedForms() {
-        TWO_HANDED_COPIES.forEach((baseName, copyHolder) -> {
-            WeaponItem base = WEAPONS.get(baseName).get();
-            WeaponItem copy = copyHolder.get();
-            base.setSwitchForms(base, copy);
-            copy.setSwitchForms(base, copy);
-        });
     }
 
     /** Convenience accessor used e.g. for the creative-tab icon. */

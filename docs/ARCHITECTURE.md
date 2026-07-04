@@ -31,7 +31,7 @@ Everything is driven from two enums + one item class in `weapon/`:
     `neoforge:separate_transforms` loader; false = one 16px texture.
 - **`WeaponAbilities`** (+ fluent `Builder`) — per-type combat traits: `pierce`, `unarmored`,
   `invincibility` (quick/slow strike), `sweep`, `breach`, `versatile`, `twoHanded(dmg,spd)`,
-  `twoHandedSwitch`, `throwable(damage,power,charge)`.
+  `throwable(damage,power,charge)`.
 - **`WeaponItem extends SwordItem`** — the runtime item. Builds attribute modifiers
   (`buildAttributes`), applies abilities in `hurtEnemy`, custom sweep in `getSweepHitBox`, axe/sweep
   actions in `canPerformAction`, shield-disable in `canDisableShield`, tooltips in `appendHoverText`.
@@ -41,7 +41,7 @@ Everything is driven from two enums + one item class in `weapon/`:
 ### Registration
 `registry/ModItems` builds the cross-product `WeaponType × WeaponMaterial` (96 weapons) into the
 `WEAPONS` map. Item class is chosen by `type.abilities.isThrowable()` → `ThrowableWeaponItem`, else
-`WeaponItem`. Switchable types also register a hidden `<name>_two_handed` copy (see below).
+`WeaponItem`.
 `ModCreativeTabs` builds the "Armory" tab; `ModEntities` registers the `thrown_weapon` entity;
 `ModDamageTypes` holds the `armor_piercing` key. `ModEvents` (game bus) nerfs vanilla axes −1 attack.
 
@@ -49,12 +49,6 @@ Everything is driven from two enums + one item class in `weapon/`:
 Any `twoHanded(dmg,spd)` weapon takes a flat damage/speed penalty while the off-hand is occupied
 (`WeaponItem.inventoryTick` swaps the cached `ATTRIBUTE_MODIFIERS` component). With Better Combat the
 off-hand is disabled for two-handed weapons, so the penalty only matters standalone.
-
-### Two-handed moveset switch (katana)
-`abilities.twoHandedSwitch` weapons register a hidden two-handed copy item. `inventoryTick`
-`transmuteCopy`s between base (off-hand occupied → one-handed moveset) and copy (off-hand empty →
-two-handed moveset). Linked in `RequiemArmory#commonSetup` via `ModItems.linkTwoHandedForms()`.
-Only meaningful with Better Combat (the movesets differ via `weapon_attributes`).
 
 ### Throwables (trident-style)
 `ThrowableWeaponItem` (charge with `use`, launch in `releaseUsing`) spawns `ThrownWeaponEntity

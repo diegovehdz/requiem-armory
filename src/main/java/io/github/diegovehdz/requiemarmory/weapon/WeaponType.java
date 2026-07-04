@@ -31,7 +31,7 @@ public enum WeaponType {
     DAGGER        ("dagger",           0,  2.3f,  1.8f,  false, Category.SWORD,   ab().invincibility(15).throwable(4.0f, 1.5f, 8)),
     RAPIER        ("rapier",           1,  1.9f,  3.0f,  true,  Category.SWORD,   ab().unarmored(3.0f).sweep()),
     SABER         ("saber",            2,  1.8f,  2.75f, true,  Category.SWORD,   ab().sweep(1.0f)),
-    KATANA        ("katana",           3,  1.5f,  3.25f, true,  Category.SWORD,   ab().sweep(1.25f, 2.0f).twoHanded(3.0f, 0.4f).twoHandedSwitch()),
+    KATANA        ("katana",           3,  1.5f,  3.25f, true,  Category.SWORD,   ab().sweep(1.25f, 2.0f).twoHanded(3.0f, 0.4f)),
     GREATSWORD    ("greatsword",       5,  1.1f,  3.5f,  true,  Category.SWORD,   ab().sweep(1.5f, 5.0f).twoHanded(4.0f, 0.3f)),
     LONGSWORD     ("longsword",        4,  1.35f, 3.5f,  true,  Category.SWORD,   ab().sweep(2.0f).twoHanded(3.0f, 0.35f)),
     TWINBLADE     ("twinblade",        3,  1.5f,  3.5f,  true,  Category.SWORD,   ab().sweep().twoHanded(3.0f, 0.35f)),

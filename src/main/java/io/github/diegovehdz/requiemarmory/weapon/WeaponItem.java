@@ -10,7 +10,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
@@ -51,26 +50,15 @@ public class WeaponItem extends SwordItem {
     private final WeaponMaterial material;
     private final WeaponAbilities abilities;
 
-    /** True for the generated two-handed-moveset copy of a switchable weapon (see the two-handed switch). */
-    private final boolean twoHandedVariant;
-    /** Switch partners for the two-handed moveset swap (set during common setup, null otherwise). */
-    private Item oneHandedForm;
-    private Item twoHandedForm;
-
     // Cached attribute variants for the two-handed penalty (null for one-handed weapons).
     private final ItemAttributeModifiers fullAttributes;
     private final ItemAttributeModifiers penalizedAttributes;
 
     public WeaponItem(WeaponType type, WeaponMaterial material, Item.Properties properties) {
-        this(type, material, properties, false);
-    }
-
-    public WeaponItem(WeaponType type, WeaponMaterial material, Item.Properties properties, boolean twoHandedVariant) {
         super(material.tier, properties, toolFor(type, material));
         this.type = type;
         this.material = material;
         this.abilities = type.abilities;
-        this.twoHandedVariant = twoHandedVariant;
 
         if (abilities.isTwoHanded()) {
             this.fullAttributes = buildAttributes(type, material);
@@ -97,13 +85,6 @@ public class WeaponItem extends SwordItem {
     public WeaponType type() { return this.type; }
     public WeaponMaterial material() { return this.material; }
     public WeaponAbilities abilities() { return this.abilities; }
-    public boolean isTwoHandedVariant() { return this.twoHandedVariant; }
-
-    /** Links a switchable weapon to its one-handed and two-handed forms (called during setup). */
-    public void setSwitchForms(Item oneHandedForm, Item twoHandedForm) {
-        this.oneHandedForm = oneHandedForm;
-        this.twoHandedForm = twoHandedForm;
-    }
 
     // ------------------------------------------------------------------ attributes
 
@@ -143,21 +124,6 @@ public class WeaponItem extends SwordItem {
         super.inventoryTick(stack, level, entity, slotId, isSelected);
         if (!abilities.isTwoHanded() || level.isClientSide || !(entity instanceof Player player)) {
             return;
-        }
-
-        // Two-handed moveset switch: swap to the two-handed form when the off-hand frees up, and back
-        // to the one-handed form when it is occupied. Only meaningful with Better Combat's movesets.
-        if (abilities.twoHandedSwitch && oneHandedForm != null && twoHandedForm != null
-                && player.getMainHandItem() == stack && ModList.get().isLoaded("bettercombat")) {
-            boolean offHandEmpty = player.getOffhandItem().isEmpty();
-            if (!twoHandedVariant && offHandEmpty) {
-                player.setItemInHand(InteractionHand.MAIN_HAND, stack.transmuteCopy(twoHandedForm));
-                return;
-            }
-            if (twoHandedVariant && !offHandEmpty) {
-                player.setItemInHand(InteractionHand.MAIN_HAND, stack.transmuteCopy(oneHandedForm));
-                return;
-            }
         }
 
         boolean inMainHand = player.getMainHandItem() == stack;
