@@ -3,6 +3,10 @@ loaderVersion="${loader_version_range}"
 license="${mod_license}"
 issueTrackerURL="https://github.com/diegovehdz/requiem-armory/issues"
 
+# Mixins: the wooden ranged tier is applied onto the vanilla bow (and later crossbow) here.
+[[mixins]]
+config="requiem_armory.mixins.json"
+
 [[mods]]
 modId="${mod_id}"
 version="${mod_version}"

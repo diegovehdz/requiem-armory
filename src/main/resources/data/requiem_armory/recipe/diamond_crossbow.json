@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": { "item": "minecraft:diamond" },
+    "S": { "item": "minecraft:string" },
+    "K": { "item": "minecraft:stick" },
+    "T": { "item": "minecraft:tripwire_hook" }
+  },
+  "pattern": [
+    "MSM",
+    "KTK",
+    " K "
+  ],
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:diamond_crossbow"
+  }
+}

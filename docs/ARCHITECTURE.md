@@ -60,6 +60,77 @@ with material** (`base + tier bonus`). Supports vanilla **Loyalty** (return-to-o
 `ThrownWeaponRenderer` orients the item tip-first (`YP(yaw-90) + ZP(pitch-45)`, scale 2× for
 `separateModel` weapons). The javelin has a `throwing` model predicate (charge pose).
 
+## Ranged weapons (bows & crossbows)
+A **parallel** system to the melee one — ranged weapons are a different vanilla item family
+(`BowItem`/`CrossbowItem`, both `ProjectileWeaponItem`), so they get their own package `ranged/`
+instead of joining `WeaponType`. Uses **5 tiers** (wooden, iron, golden, diamond, netherite — *no
+stone*), with **iron pinned to the vanilla reference** ("vanilla = iron").
+
+- **`RangedType`** — the shape (bow, crossbow; later longbow/heavy crossbow) with type-level base
+  profile: `family (BOW/CROSSBOW)`, `vanillaWooden` (whether the wooden tier is the vanilla item),
+  `baseDrawTicks` (charge ticks for crossbows), `baseVelocity`, `durabilityFactor`,
+  `supportsFireworks`, `range`.
+- **`RangedTier`** — the material progression and its per-material scaling (`drawMult`, `velocityMult`,
+  `durability`, `moveModifier`, `enchantValue`, `variance`). **Single place to balance.** Gold is the
+  fast/fragile/high-enchant outlier (no harder-hitting than iron); diamond/netherite are slower,
+  sturdier and hit harder.
+- **Damage = range.** Arrow damage is vanilla's `impactSpeed × baseDamage(2.0)`, so **`velocityMult`
+  drives both range and damage** — deliberately kept on one lever so tiers step ~`+1` like vanilla
+  melee (wooden 5 · iron 6 · gold 6 · diamond 7 · netherite 8 at full-charge point-blank) instead of
+  compounding. No per-arrow *base-damage* code (an earlier version multiplied velocity × base ×
+  consistency and hit ~16 — don't reintroduce that).
+- **Consistency (`variance`).** A separate lever: `mixin/AbstractArrowMixin` (`@Redirect` on the
+  `RandomSource.nextInt` inside `AbstractArrow#onHitEntity`) squeezes a full-charge shot's random crit
+  bonus toward its *mean* by the firing weapon's variance (read via the `RangedWeapon` interface from
+  `arrow.getWeaponItem()`), so higher tiers hit more consistently without changing average damage
+  (wooden 1.0 = vanilla … netherite 0.35 = tightest). Non-ranged/vanilla weapons → 1.0, untouched.
+- **`RangedStats`** — the resolved numbers for one `RangedType × RangedTier` (computed once per item).
+- **`RangedMechanics`** — the tier-scaled charge curve (`powerForCharge`, a generalised
+  `BowItem#getPowerForTime`). That's it — no damage manipulation.
+- **`BowWeaponItem extends BowItem`** — the iron+ bows. Overrides only `releaseUsing` (custom draw
+  curve + `velocity`), `getDefaultProjectileRange`, `getEnchantmentValue`. **Reuses vanilla
+  `draw`/`shoot`** so ammo/infinity/multishot just work.
+- **`CrossbowWeaponItem extends CrossbowItem`** — the iron+ crossbows. A crossbow's velocity is fixed
+  per shot (loaded or not), so the "draw" lever is **charge time** (`chargeDurationTicks`, respecting
+  Quick Charge) and range/damage is the **fixed arrow velocity retuned in `shootProjectile`**
+  (fireworks keep vanilla speed). `releaseUsing` reimplements loading against the tier charge time;
+  firing keeps vanilla's `CHARGED_PROJECTILES`/`use()`/`performShooting` path untouched (so the
+  private sound-timing fields are left alone). `getSupportedHeldProjectiles` gates fireworks by
+  `type.supportsFireworks` (for the future heavy crossbow). Crossbow shots are always crit, so the
+  consistency mechanic applies to them too.
+
+### Vanilla override = wooden tier (mixins)
+The **wooden tier is the vanilla item**, retuned in place (the user's chosen "replace vanilla"):
+- `mixin/BowItemMixin` injects `BowItem#releaseUsing` (HEAD, cancellable) and re-fires with wooden
+  stats. Guarded by `stack.is(Items.BOW)` so modded bows — and our own tiers, which override
+  `releaseUsing` — are untouched. Extends `ProjectileWeaponItem` only to reach inherited
+  `draw`/`shoot` (its ctor is never called). Wooden's lower velocity carries both its shorter range
+  and lower (~5) damage.
+- Mixins are wired via `requiem_armory.mixins.json` + `[[mixins]]` in `neoforge.mods.toml`. No refmap
+  (NeoForge dev/prod are Mojang-named). **`@Shadow` of a *superclass* method fails to resolve without
+  a refmap — `extends` the declaring class instead.** This is the mod's first mixin.
+- `mixin/CrossbowItemMixin` does the same for `minecraft:crossbow`: `@Inject` on the static
+  `getChargeDuration` (guarded by `Items.CROSSBOW`) → faster wooden charge, and `@Inject` (HEAD,
+  cancellable) on `performShooting` → reduced wooden arrow velocity (fireworks untouched). Because
+  `getChargeDuration` is the one static every caller (use/animation/`getUseDuration`) shares,
+  retuning it there keeps the client charge animation in sync **with no client-side re-registration**.
+- `ranged/RangedVanillaTweaks` (mod-bus `ModifyDefaultComponentsEvent`, registered in `RequiemArmory`)
+  lowers `minecraft:bow` and `minecraft:crossbow` `MAX_DAMAGE` to their wooden durability.
+- Client (`RequiemArmoryClient`): registers `pulling`/`pull` predicates for every `BowWeaponItem`
+  (scaled to its `drawTicks`) and `pulling`/`pull`/`charged`/`firework` for every `CrossbowWeaponItem`,
+  and **re-registers `pull`/`pulling` for `Items.BOW`** so the vanilla bow's draw animation matches
+  wooden's faster draw (the vanilla crossbow needs none — see the mixin note above).
+
+### Registration & assets (ranged)
+`ModItems` runs a second cross-product `RangedType × RangedTier` into the `RANGED` map, skipping the
+wooden tier of vanilla-backed types (chosen by `type.family` → `BowWeaponItem`/`CrossbowWeaponItem`).
+Models follow the Archeries 1.21.1 format (`item/generated` + overrides): bows use `pulling`/`pull`
+→ `_pulling_0/1/2`; crossbows add `charged` → `_arrow`, `charged`+`firework` → `_firework`, and a
+`_standby` base texture. Textures are **Archeries placeholders** (crossbow `iron` reuses Archeries'
+`copper` art). Bows/crossbows go in `#requiem_armory:bows`/`crossbows` →
+`#minecraft:enchantable/bow`|`crossbow` + `/durability`. Recipes: craft iron/gold/diamond (ingots +
+string, plus stick/tripwire_hook for crossbows), netherite via `smithing_transform`.
+
 ## Data & assets
 - **Models** (`assets/requiem_armory/models/item/`): split weapons use a `separate_transforms`
   wrapper → `_gui` (item/generated, 16px) + `_handheld` (points to a shared base model:

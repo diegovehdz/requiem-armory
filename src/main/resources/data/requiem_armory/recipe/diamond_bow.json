@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": { "item": "minecraft:diamond" },
+    "S": { "item": "minecraft:string" }
+  },
+  "pattern": [
+    " MS",
+    "M S",
+    " MS"
+  ],
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:diamond_bow"
+  }
+}

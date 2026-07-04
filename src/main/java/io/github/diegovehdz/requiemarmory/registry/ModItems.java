@@ -4,6 +4,11 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
+import io.github.diegovehdz.requiemarmory.ranged.BowWeaponItem;
+import io.github.diegovehdz.requiemarmory.ranged.CrossbowWeaponItem;
+import io.github.diegovehdz.requiemarmory.ranged.RangedStats;
+import io.github.diegovehdz.requiemarmory.ranged.RangedTier;
+import io.github.diegovehdz.requiemarmory.ranged.RangedType;
 import io.github.diegovehdz.requiemarmory.weapon.ThrowableWeaponItem;
 import io.github.diegovehdz.requiemarmory.weapon.WeaponItem;
 import io.github.diegovehdz.requiemarmory.weapon.WeaponMaterial;
@@ -24,6 +29,10 @@ public final class ModItems {
     /** Every weapon shown in-game, keyed by "&lt;material&gt;_&lt;type&gt;", in registration (and tab) order. */
     public static final Map<String, DeferredItem<WeaponItem>> WEAPONS = new LinkedHashMap<>();
 
+    /** Every tiered ranged weapon (bows/crossbows), keyed by "&lt;material&gt;_&lt;type&gt;". The wooden
+     *  tier of vanilla-backed types is omitted here — it is the vanilla item, adjusted via mixin. */
+    public static final Map<String, DeferredItem<Item>> RANGED = new LinkedHashMap<>();
+
     /** Short grip used to craft most weapons. */
     public static final DeferredItem<Item> HANDLE = ITEMS.registerSimpleItem("handle");
 
@@ -42,6 +51,28 @@ public final class ModItems {
                             : new WeaponItem(type, material, p);
                 });
                 WEAPONS.put(name, weapon);
+            }
+        }
+    }
+
+    static {
+        for (RangedType type : RangedType.values()) {
+            for (RangedTier tier : RangedTier.values()) {
+                // Vanilla-backed types (bow/crossbow) get their wooden tier from the vanilla item.
+                if (tier == RangedTier.WOODEN && type.vanillaWooden) {
+                    continue;
+                }
+                String name = tier.material.id + "_" + type.id;
+                RangedStats stats = RangedStats.of(type, tier);
+                DeferredItem<Item> item = ITEMS.registerItem(name, props -> {
+                    Item.Properties p = tier.material.decorate(props.durability(stats.durability()));
+                    Item created = switch (type.family) {
+                        case BOW -> new BowWeaponItem(type, tier, p);
+                        case CROSSBOW -> new CrossbowWeaponItem(type, tier, p);
+                    };
+                    return created;
+                });
+                RANGED.put(name, item);
             }
         }
     }

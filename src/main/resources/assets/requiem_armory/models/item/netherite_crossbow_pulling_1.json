@@ -1,0 +1,4 @@
+{
+  "parent": "requiem_armory:item/netherite_crossbow",
+  "textures": { "layer0": "requiem_armory:item/netherite_crossbow_pulling_1" }
+}

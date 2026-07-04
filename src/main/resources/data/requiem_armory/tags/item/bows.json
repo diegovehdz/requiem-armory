@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "requiem_armory:iron_bow",
+    "requiem_armory:golden_bow",
+    "requiem_armory:diamond_bow",
+    "requiem_armory:netherite_bow"
+  ]
+}

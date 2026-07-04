@@ -2,6 +2,7 @@ package io.github.diegovehdz.requiemarmory;
 
 import com.mojang.logging.LogUtils;
 import io.github.diegovehdz.requiemarmory.entity.ModEntities;
+import io.github.diegovehdz.requiemarmory.ranged.RangedVanillaTweaks;
 import io.github.diegovehdz.requiemarmory.registry.ModCreativeTabs;
 import io.github.diegovehdz.requiemarmory.registry.ModItems;
 import net.neoforged.bus.api.IEventBus;
@@ -28,6 +29,9 @@ public class RequiemArmory {
         ModItems.ITEMS.register(modBus);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modBus);
         ModEntities.ENTITY_TYPES.register(modBus);
+
+        // Retune the vanilla ranged items into this mod's wooden tier (mod-bus event).
+        modBus.addListener(RangedVanillaTweaks::modifyDefaultComponents);
 
         LOGGER.info("[{}] Loading Requiem Armory", MOD_ID);
     }

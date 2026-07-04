@@ -4,6 +4,7 @@ import io.github.diegovehdz.requiemarmory.RequiemArmory;
 import io.github.diegovehdz.requiemarmory.weapon.WeaponItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
@@ -29,6 +30,9 @@ public final class ModCreativeTabs {
                         output.accept(ModItems.POLE.get());
                         for (DeferredItem<WeaponItem> weapon : ModItems.WEAPONS.values()) {
                             output.accept(weapon.get());
+                        }
+                        for (DeferredItem<Item> ranged : ModItems.RANGED.values()) {
+                            output.accept(ranged.get());
                         }
                     })
                     .build());
