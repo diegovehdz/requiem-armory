@@ -26,7 +26,8 @@ public final class RangedTooltip {
         boolean crossbow = type.family == RangedType.Family.CROSSBOW;
         tooltip.add(desc(crossbow ? "ranged.charge" : "ranged.draw", seconds(stats.drawTicks())));
         tooltip.add(desc("ranged.range", Math.round(stats.velocity() / type.baseVelocity * 100.0f)));
-        tooltip.add(desc("ranged.damage", Math.round(stats.velocity() * 2.0f)));
+        // Vanilla computes arrow damage as ceil(impactSpeed × baseDamage), so mirror ceil, not round.
+        tooltip.add(desc("ranged.damage", (int) Math.ceil(stats.velocity() * 2.0)));
 
         int consistency = Math.round((1.0f - stats.variance()) * 100.0f);
         if (consistency > 0) {
