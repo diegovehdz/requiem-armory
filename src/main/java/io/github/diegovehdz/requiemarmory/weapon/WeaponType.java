@@ -27,7 +27,8 @@ public enum WeaponType {
     // Balanced around the vanilla sword (the "middleground": iron sword = 6 dmg, 1.6 speed, 9.6 DPS)
     // and the vanilla axe (heavier: more damage, slower). No weapon exceeds the same-tier sword's DPS.
     // --- Swords ---
-    DAGGER        ("dagger",           1,  2.0f,  1.8f,  false, Category.SWORD,   ab().invincibility(15).sweep(0.25f)),
+    // Dagger: fast, low melee damage, no sweep — but throwable and hits harder when thrown.
+    DAGGER        ("dagger",           0,  2.3f,  1.8f,  false, Category.SWORD,   ab().invincibility(15).throwable(7.0f, 1.5f, 8)),
     RAPIER        ("rapier",           1,  1.9f,  3.0f,  true,  Category.SWORD,   ab().unarmored(3.0f).sweep()),
     SABER         ("saber",            2,  1.8f,  2.75f, true,  Category.SWORD,   ab().sweep(1.0f)),
     KATANA        ("katana",           3,  1.5f,  3.25f, true,  Category.SWORD,   ab().sweep(1.25f, 2.0f).twoHandedI(1.0f, 3.0f, 0.1f, 0.4f).twoHandedSwitch()),
@@ -47,7 +48,6 @@ public enum WeaponType {
     PIKE          ("pike",             4,  0.9f,  5.0f,  true,  Category.POLEARM, ab().pierce(2.0f).twoHandedII(3.0f, 0.3f)),
 
     // --- Throwables: usable in melee and thrown like a trident (single, recoverable) ---
-    THROWING_KNIFE("throwing_knife",   0,  1.7f,  1.8f,  false, Category.THROWN,  ab().invincibility(15).throwable(7.0f, 1.5f, 8)),
     HATCHET       ("hatchet",          3,  1.1f,  3.0f,  false, Category.THROWN,  ab().versatile().throwable(8.0f, 2.0f, 10)),
     JAVELIN       ("javelin",          1,  1.2f,  4.0f,  true,  Category.THROWN,  ab().pierce(1.0f).throwable(11.0f, 3.0f, 15));
 

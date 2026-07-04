@@ -1,7 +1,0 @@
-{
-  "parent": "bettercombat:soul_knife",
-  "attributes": {
-    "two_handed": false,
-    "pose": ""
-  }
-}

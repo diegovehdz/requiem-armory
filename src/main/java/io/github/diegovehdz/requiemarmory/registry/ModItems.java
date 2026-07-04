@@ -40,7 +40,7 @@ public final class ModItems {
                 DeferredItem<WeaponItem> weapon = ITEMS.registerItem(name, props -> {
                     Item.Properties p = material.decorate(props)
                             .attributes(WeaponItem.buildAttributes(type, material));
-                    return type.isThrown()
+                    return type.abilities.isThrowable()
                             ? new ThrowableWeaponItem(type, material, p)
                             : new WeaponItem(type, material, p);
                 });

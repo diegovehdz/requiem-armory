@@ -17,7 +17,7 @@ temporary development placeholders) and a few remaining systems.
 
 ## Content
 
-**17 weapon types × 6 vanilla materials** (wood, stone, iron, gold, diamond, netherite) = **102 weapons.**
+**16 weapon types × 6 vanilla materials** (wood, stone, iron, gold, diamond, netherite) = **96 weapons.**
 
 | Category | Weapons |
 |---|---|
@@ -25,7 +25,7 @@ temporary development placeholders) and a few remaining systems.
 | **Bludgeons** | warhammer · mace |
 | **Polearms** | glaive · spear · halberd · pike |
 | **Axes** | battle axe · hatchet |
-| **Throwables** | throwing knife · javelin · hatchet |
+| **Throwables** | dagger · javelin · hatchet |
 
 Each weapon has hand-tuned damage, attack speed and reach, balanced so DPS stays in a fair band
 while trade-offs (reach, speed, two-handedness) give every weapon a distinct role.

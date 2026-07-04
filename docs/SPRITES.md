@@ -4,15 +4,15 @@ All item textures the mod needs. **6 materials** each: `wooden, stone, iron, gol
 
 **Legend**
 - **GUI** = flat inventory icon, always **16×16** (`<material>_<type>_gui.png`).
-- **HAND** = in-hand / flying model texture (`<material>_<type>_handheld.png`), recommended size noted per type.
-- **SINGLE** = one texture used for both inventory and in-hand (small weapons), **16×16** (`<material>_<type>.png`).
-- Resolutions are the *current* recommendation (match the in-hand scale); higher res is fine, the model adapts.
+- **HAND** = in-hand / flying model texture (`<material>_<type>_handheld.png`).
+- **SINGLE** = one texture for both inventory and in-hand (small weapons), **16×16** (`<material>_<type>.png`).
 
-> The two-handed throw/charge poses (javelin) reuse the **handheld** texture — no extra sprite needed.
+> **Throwable weapons:** the dagger, hatchet and javelin are all throwable (they reuse their own
+> textures when flying — no extra sprite). The dagger and hatchet stay in Swords/Axes visually.
 
 ## Swords
 
-| Weapon | Textures per material | Size | Files (×6 materials) |
+| Weapon | Textures per material | Size | Files (×6) |
 |---|---|---|---|
 | dagger | `<mat>_dagger.png` (SINGLE) | 16×16 | 6 |
 | rapier | `<mat>_rapier_gui.png` + `<mat>_rapier_handheld.png` | GUI 16×16 · HAND 32×32 | 12 |
@@ -24,14 +24,14 @@ All item textures the mod needs. **6 materials** each: `wooden, stone, iron, gol
 
 ## Bludgeons
 
-| Weapon | Textures per material | Size | Files (×6 materials) |
+| Weapon | Textures per material | Size | Files (×6) |
 |---|---|---|---|
 | warhammer | `<mat>_warhammer_gui.png` + `<mat>_warhammer_handheld.png` | GUI 16×16 · HAND 32×32 | 12 |
 | mace | `<mat>_mace_gui.png` + `<mat>_mace_handheld.png` | GUI 16×16 · HAND 32×32 | 12 |
 
 ## Polearms
 
-| Weapon | Textures per material | Size | Files (×6 materials) |
+| Weapon | Textures per material | Size | Files (×6) |
 |---|---|---|---|
 | glaive | `<mat>_glaive_gui.png` + `<mat>_glaive_handheld.png` | GUI 16×16 · HAND 32×32 | 12 |
 | spear | `<mat>_spear_gui.png` + `<mat>_spear_handheld.png` | GUI 16×16 · HAND 32×32 | 12 |
@@ -40,16 +40,15 @@ All item textures the mod needs. **6 materials** each: `wooden, stone, iron, gol
 
 ## Axes
 
-| Weapon | Textures per material | Size | Files (×6 materials) |
+| Weapon | Textures per material | Size | Files (×6) |
 |---|---|---|---|
 | battle_axe | `<mat>_battle_axe_gui.png` + `<mat>_battle_axe_handheld.png` | GUI 16×16 · HAND 32×32 | 12 |
 | hatchet | `<mat>_hatchet.png` (SINGLE) | 16×16 | 6 |
 
 ## Throwable
 
-| Weapon | Textures per material | Size | Files (×6 materials) |
+| Weapon | Textures per material | Size | Files (×6) |
 |---|---|---|---|
-| throwing_knife | `<mat>_throwing_knife.png` (SINGLE) | 16×16 | 6 |
 | javelin | `<mat>_javelin_gui.png` + `<mat>_javelin_handheld.png` | GUI 16×16 · HAND 32×32 | 12 |
 
 ## Components / other
@@ -59,10 +58,10 @@ All item textures the mod needs. **6 materials** each: `wooden, stone, iron, gol
 | pole (pole handle) | `pole_gui.png` + `pole_handheld.png` | 16×16 · 32×32 |
 | handle | `handle.png` | 16×16 |
 
-## Not yet in the mod (future categories from the reference sheet)
+## Not yet in the mod (future)
 
-- **Ranged**: reinforced bow, reinforced crossbow (planned — vanilla items with more durability).
-- **Shields**: not in the roster yet (the reference sheet includes them; decide later).
+- **Ranged**: reinforced bow, reinforced crossbow (planned).
+- **Shields**: not in the roster yet.
 
 ---
 
@@ -245,12 +244,6 @@ All item textures the mod needs. **6 materials** each: `wooden, stone, iron, gol
 - [ ] `netherite_hatchet.png` (16×16)
 
 ### Throwable
-- [ ] `wooden_throwing_knife.png` (16×16)
-- [ ] `stone_throwing_knife.png` (16×16)
-- [ ] `iron_throwing_knife.png` (16×16)
-- [ ] `golden_throwing_knife.png` (16×16)
-- [ ] `diamond_throwing_knife.png` (16×16)
-- [ ] `netherite_throwing_knife.png` (16×16)
 - [ ] `wooden_javelin_gui.png` (16×16)
 - [ ] `wooden_javelin_handheld.png` (32×32)
 - [ ] `stone_javelin_gui.png` (16×16)
@@ -269,6 +262,6 @@ All item textures the mod needs. **6 materials** each: `wooden, stone, iron, gol
 - [ ] `pole_handheld.png` (32×32)
 - [ ] `handle.png` (16×16)
 
-**Total sprite files: 189**
+**Total sprite files: 183**
 
 All textures go in `src/main/resources/assets/requiem_armory/textures/item/`.
