@@ -23,11 +23,11 @@ import io.github.diegovehdz.requiemarmory.weapon.WeaponMaterial;
  */
 public enum RangedTier {
     //           material                 draw×  vel×   durability  move+    ench  variance
-    WOODEN   (WeaponMaterial.WOODEN,      0.85f, 0.834f, 240,       0.03f,   1,    1.00f),  // ~vel 2.5 -> 5 dmg
+    WOODEN   (WeaponMaterial.WOODEN,      0.85f, 0.834f, 240,       0.15f,   1,    1.00f),  // ~vel 2.5 -> 5 dmg
     IRON     (WeaponMaterial.IRON,        1.00f, 1.000f, 384,       0.00f,   14,   0.90f),  // ~vel 3.0 -> 6 dmg (vanilla)
-    GOLDEN   (WeaponMaterial.GOLDEN,      0.80f, 1.000f, 150,       0.04f,   22,   0.75f),  // ~vel 3.0 -> 6 dmg (side-grade)
-    DIAMOND  (WeaponMaterial.DIAMOND,     1.15f, 1.167f, 660,      -0.02f,   10,   0.55f),  // ~vel 3.5 -> 7 dmg
-    NETHERITE(WeaponMaterial.NETHERITE,   1.30f, 1.334f, 900,      -0.04f,   15,   0.35f);  // ~vel 4.0 -> 8 dmg, tightest
+    GOLDEN   (WeaponMaterial.GOLDEN,      0.80f, 1.000f, 150,       0.20f,   22,   0.75f),  // ~vel 3.0 -> 6 dmg (side-grade)
+    DIAMOND  (WeaponMaterial.DIAMOND,     1.15f, 1.167f, 660,      -0.10f,   10,   0.55f),  // ~vel 3.5 -> 7 dmg
+    NETHERITE(WeaponMaterial.NETHERITE,   1.30f, 1.334f, 900,      -0.20f,   15,   0.35f);  // ~vel 4.0 -> 8 dmg, tightest
 
     public final WeaponMaterial material;
     /** Multiplier on the type's base draw time; {@code < 1} draws faster than the iron reference. */
@@ -36,7 +36,8 @@ public enum RangedTier {
     public final float velocityMult;
     /** Item durability (bows; scaled by {@link RangedType#durabilityFactor} for other shapes). */
     public final int durability;
-    /** Walk-speed modifier applied while the weapon is drawn (positive = faster). Used in a later phase. */
+    /** Walk-speed multiplier applied while the weapon is drawn (positive = faster, on top of the
+     *  vanilla ~20% draw slow). See {@code RangedMovement}. */
     public final float moveModifier;
     /** Enchantability value (higher = better table enchantments). */
     public final int enchantValue;

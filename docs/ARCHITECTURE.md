@@ -84,6 +84,14 @@ stone*), with **iron pinned to the vanilla reference** ("vanilla = iron").
   bonus toward its *mean* by the firing weapon's variance (read via the `RangedWeapon` interface from
   `arrow.getWeaponItem()`), so higher tiers hit more consistently without changing average damage
   (wooden 1.0 = vanilla … netherite 0.35 = tightest). Non-ranged/vanilla weapons → 1.0, untouched.
+- **Movement while drawing (`moveModifier`).** `ranged/RangedMovement` (game-bus `PlayerTickEvent.Post`)
+  adds/removes a transient `MOVEMENT_SPEED` modifier (`ADD_MULTIPLIED_TOTAL`, id `ranged_draw_speed`)
+  while the player is *using* a ranged weapon — on top of vanilla's ~20% draw slow. Lower tiers keep
+  more speed (wooden +15%, gold +20%), higher tiers less (netherite −20%). Crossbows only slow you
+  while charging (a loaded one held ready does not). Vanilla bow/crossbow resolve to the wooden value.
+- **Tooltips.** `ranged/RangedTooltip` (called from each item's `appendHoverText`, Shift-gated like the
+  melee weapons) shows draw/charge time, range (% of the iron reference), ~damage and the consistency
+  bonus. The crossbow calls `super` afterwards so vanilla's charged-projectile line still shows.
 - **`RangedStats`** — the resolved numbers for one `RangedType × RangedTier` (computed once per item).
 - **`RangedMechanics`** — the tier-scaled charge curve (`powerForCharge`, a generalised
   `BowItem#getPowerForTime`). That's it — no damage manipulation.

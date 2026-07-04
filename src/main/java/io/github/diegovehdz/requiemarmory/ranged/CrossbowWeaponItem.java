@@ -3,6 +3,7 @@ package io.github.diegovehdz.requiemarmory.ranged;
 import java.util.List;
 import java.util.function.Predicate;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.CrossbowItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ChargedProjectiles;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
@@ -107,5 +109,11 @@ public class CrossbowWeaponItem extends CrossbowItem implements RangedWeapon {
     @Override
     public int getEnchantmentValue() {
         return stats.enchantValue();
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        RangedTooltip.append(tooltip, stats, type);
+        super.appendHoverText(stack, context, tooltip, flag);
     }
 }
