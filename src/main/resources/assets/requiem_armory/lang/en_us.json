@@ -2,8 +2,6 @@
   "itemGroup.requiem_armory.armory": "Armory",
   "item.requiem_armory.handle": "Handle",
   "item.requiem_armory.pole": "Pole",
-  "tooltip.requiem_armory.two_handed_1": "Two-Handed I",
-  "tooltip.requiem_armory.two_handed_2": "Two-Handed II",
   "tooltip.requiem_armory.versatile": "Versatile",
   "tooltip.requiem_armory.breach": "Breach",
   "tooltip.requiem_armory.armor_piercing": "Armor Piercing",
@@ -110,8 +108,6 @@
   "item.requiem_armory.diamond_mace": "Diamond Mace",
   "item.requiem_armory.netherite_mace": "Netherite Mace",
   "tooltip.requiem_armory.hold_shift": "Hold Shift for details",
-  "tooltip.requiem_armory.two_handed_1.desc": "Minorly reduced damage & speed with a light off-hand item; majorly reduced with a heavy one.",
-  "tooltip.requiem_armory.two_handed_2.desc": "Majorly reduced damage & speed while the off-hand is occupied.",
   "tooltip.requiem_armory.versatile.desc": "Can be used as an axe and a weapon.",
   "tooltip.requiem_armory.breach.desc": "Disables opponents' shields on hit.",
   "tooltip.requiem_armory.armor_piercing.desc": "Deals %s extra armor-ignoring damage on a fully charged hit.",
@@ -130,5 +126,7 @@
   "item.requiem_armory.iron_katana_two_handed": "Iron Katana",
   "item.requiem_armory.golden_katana_two_handed": "Golden Katana",
   "item.requiem_armory.diamond_katana_two_handed": "Diamond Katana",
-  "item.requiem_armory.netherite_katana_two_handed": "Netherite Katana"
+  "item.requiem_armory.netherite_katana_two_handed": "Netherite Katana",
+  "tooltip.requiem_armory.two_handed": "Two-Handed",
+  "tooltip.requiem_armory.two_handed.desc": "Reduced damage & speed while the off-hand is occupied."
 }

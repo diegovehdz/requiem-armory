@@ -32,8 +32,9 @@ while trade-offs (reach, speed, two-handedness) give every weapon a distinct rol
 
 ### Weapon abilities
 
-- **Two-Handed I / II** — reduced damage & speed while the off-hand is occupied (I: only a minor
-  penalty with a light off-hand item; II: always a major penalty). Stats update live in the tooltip.
+- **Two-Handed** — reduced damage & speed while the off-hand is occupied (with Better Combat the
+  off-hand is disabled for these, so it never triggers). Stats update live in the tooltip. The katana
+  additionally swaps between one- and two-handed movesets based on the off-hand.
 - **Armor Piercing** — bonus armor-ignoring damage on a fully charged hit (some weapons chance-based).
 - **Unarmored Bonus** — bonus damage against foes wearing no armor.
 - **Quick / Slow Strike** — shortens or lengthens the target's post-hit invulnerability.

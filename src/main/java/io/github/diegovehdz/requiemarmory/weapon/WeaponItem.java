@@ -20,13 +20,15 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.ShieldItem;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.Tool;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.common.ItemAbilities;
@@ -57,15 +59,14 @@ public class WeaponItem extends SwordItem {
 
     // Cached attribute variants for the two-handed penalty (null for one-handed weapons).
     private final ItemAttributeModifiers fullAttributes;
-    private final ItemAttributeModifiers minorAttributes;
-    private final ItemAttributeModifiers majorAttributes;
+    private final ItemAttributeModifiers penalizedAttributes;
 
     public WeaponItem(WeaponType type, WeaponMaterial material, Item.Properties properties) {
         this(type, material, properties, false);
     }
 
     public WeaponItem(WeaponType type, WeaponMaterial material, Item.Properties properties, boolean twoHandedVariant) {
-        super(material.tier, properties);
+        super(material.tier, properties, toolFor(type, material));
         this.type = type;
         this.material = material;
         this.abilities = type.abilities;
@@ -73,13 +74,24 @@ public class WeaponItem extends SwordItem {
 
         if (abilities.isTwoHanded()) {
             this.fullAttributes = buildAttributes(type, material);
-            this.minorAttributes = buildAttributes(type, material, abilities.twoHandedMinDamage, abilities.twoHandedMinSpeed);
-            this.majorAttributes = buildAttributes(type, material, abilities.twoHandedMajDamage, abilities.twoHandedMajSpeed);
+            this.penalizedAttributes = buildAttributes(type, material,
+                    abilities.twoHandedDamagePenalty, abilities.twoHandedSpeedPenalty);
         } else {
             this.fullAttributes = null;
-            this.minorAttributes = null;
-            this.majorAttributes = null;
+            this.penalizedAttributes = null;
         }
+    }
+
+    /** Versatile weapons get an axe-like tool (so they mine wood etc.); others keep the sword tool. */
+    private static Tool toolFor(WeaponType type, WeaponMaterial material) {
+        if (!type.abilities.versatile) {
+            return SwordItem.createToolProperties();
+        }
+        return new Tool(List.of(
+                Tool.Rule.minesAndDrops(List.of(Blocks.COBWEB), 15.0F),
+                Tool.Rule.minesAndDrops(BlockTags.MINEABLE_WITH_AXE, material.tier.getSpeed()),
+                Tool.Rule.overrideSpeed(BlockTags.SWORD_EFFICIENT, 1.5F)),
+                1.0F, 2);
     }
 
     public WeaponType type() { return this.type; }
@@ -151,26 +163,18 @@ public class WeaponItem extends SwordItem {
         boolean inMainHand = player.getMainHandItem() == stack;
         boolean inOffHand = player.getOffhandItem() == stack;
 
+        // Unified two-handed penalty: reduced damage/speed whenever the other hand is occupied.
         ItemAttributeModifiers desired = fullAttributes;
         if (inMainHand || inOffHand) {
             ItemStack other = inMainHand ? player.getOffhandItem() : player.getMainHandItem();
             if (!other.isEmpty()) {
-                boolean major = abilities.twoHandedLevel == 2 || isHeavy(other);
-                desired = major ? majorAttributes : minorAttributes;
+                desired = penalizedAttributes;
             }
         }
 
         if (!desired.equals(stack.get(DataComponents.ATTRIBUTE_MODIFIERS))) {
             stack.set(DataComponents.ATTRIBUTE_MODIFIERS, desired);
         }
-    }
-
-    /** A "heavy" off-hand item makes a Two-Handed I weapon take the major penalty. */
-    private static boolean isHeavy(ItemStack stack) {
-        if (stack.getItem() instanceof WeaponItem weapon && weapon.abilities.isTwoHanded()) {
-            return true;
-        }
-        return stack.getItem() instanceof ShieldItem;
     }
 
     // ------------------------------------------------------------------ combat
@@ -259,13 +263,9 @@ public class WeaponItem extends SwordItem {
         boolean shift = Screen.hasShiftDown();
         boolean any = false;
 
-        if (abilities.twoHandedLevel == 1) {
-            tooltip.add(abilityName("two_handed_1"));
-            if (shift) tooltip.add(abilityDesc("two_handed_1.desc"));
-            any = true;
-        } else if (abilities.twoHandedLevel == 2) {
-            tooltip.add(abilityName("two_handed_2"));
-            if (shift) tooltip.add(abilityDesc("two_handed_2.desc"));
+        if (abilities.isTwoHanded()) {
+            tooltip.add(abilityName("two_handed"));
+            if (shift) tooltip.add(abilityDesc("two_handed.desc"));
             any = true;
         }
         if (abilities.versatile) {

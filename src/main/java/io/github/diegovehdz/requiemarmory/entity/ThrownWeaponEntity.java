@@ -65,8 +65,9 @@ public class ThrownWeaponEntity extends AbstractArrow {
     }
 
     private float throwDamage() {
+        // Throw damage scales with the material tier, like melee damage does.
         return getWeaponItem().getItem() instanceof WeaponItem weapon
-                ? weapon.abilities().throwDamage
+                ? weapon.abilities().throwDamage + weapon.material().tier.getAttackDamageBonus()
                 : 5.0f;
     }
 

@@ -28,28 +28,28 @@ public enum WeaponType {
     // and the vanilla axe (heavier: more damage, slower). No weapon exceeds the same-tier sword's DPS.
     // --- Swords ---
     // Dagger: fast, low melee damage, no sweep — but throwable and hits harder when thrown.
-    DAGGER        ("dagger",           0,  2.3f,  1.8f,  false, Category.SWORD,   ab().invincibility(15).throwable(7.0f, 1.5f, 8)),
+    DAGGER        ("dagger",           0,  2.3f,  1.8f,  false, Category.SWORD,   ab().invincibility(15).throwable(4.0f, 1.5f, 8)),
     RAPIER        ("rapier",           1,  1.9f,  3.0f,  true,  Category.SWORD,   ab().unarmored(3.0f).sweep()),
     SABER         ("saber",            2,  1.8f,  2.75f, true,  Category.SWORD,   ab().sweep(1.0f)),
-    KATANA        ("katana",           3,  1.5f,  3.25f, true,  Category.SWORD,   ab().sweep(1.25f, 2.0f).twoHandedI(1.0f, 3.0f, 0.1f, 0.4f).twoHandedSwitch()),
-    GREATSWORD    ("greatsword",       5,  1.1f,  3.5f,  true,  Category.SWORD,   ab().sweep(1.5f, 5.0f).twoHandedII(4.0f, 0.3f)),
-    LONGSWORD     ("longsword",        4,  1.35f, 3.5f,  true,  Category.SWORD,   ab().sweep(2.0f).twoHandedII(3.0f, 0.35f)),
-    TWINBLADE     ("twinblade",        3,  1.5f,  3.5f,  true,  Category.SWORD,   ab().sweep().twoHandedII(3.0f, 0.35f)),
-    BATTLE_AXE    ("battle_axe",       6,  0.9f,  3.25f, true,  Category.SWORD,   ab().versatile().twoHandedI(1.0f, 3.0f, 0.1f, 0.3f)),
+    KATANA        ("katana",           3,  1.5f,  3.25f, true,  Category.SWORD,   ab().sweep(1.25f, 2.0f).twoHanded(3.0f, 0.4f).twoHandedSwitch()),
+    GREATSWORD    ("greatsword",       5,  1.1f,  3.5f,  true,  Category.SWORD,   ab().sweep(1.5f, 5.0f).twoHanded(4.0f, 0.3f)),
+    LONGSWORD     ("longsword",        4,  1.35f, 3.5f,  true,  Category.SWORD,   ab().sweep(2.0f).twoHanded(3.0f, 0.35f)),
+    TWINBLADE     ("twinblade",        3,  1.5f,  3.5f,  true,  Category.SWORD,   ab().sweep().twoHanded(3.0f, 0.35f)),
+    BATTLE_AXE    ("battle_axe",       6,  0.9f,  3.25f, true,  Category.SWORD,   ab().versatile().twoHanded(3.0f, 0.3f)),
 
     // --- Bludgeons (new; not in Dixta, designed in the same style) ---
-    WARHAMMER     ("warhammer",        7,  0.8f,  3.25f, true,  Category.BLUDGEON, ab().pierce(3.0f).twoHandedII(4.0f, 0.3f)),
+    WARHAMMER     ("warhammer",        7,  0.8f,  3.25f, true,  Category.BLUDGEON, ab().pierce(3.0f).twoHanded(4.0f, 0.3f)),
     MACE          ("mace",             3,  1.3f,  3.0f,  true,  Category.BLUDGEON, ab().pierce(1.5f)),
 
     // --- Polearms ---
-    GLAIVE        ("glaive",           4,  1.0f,  4.0f,  true,  Category.POLEARM, ab().sweep().twoHandedII(3.0f, 0.3f)),
-    SPEAR         ("spear",            2,  1.3f,  4.2f,  true,  Category.POLEARM, ab().pierce(2.0f).twoHandedI(0.0f, 2.0f, 0.1f, 0.35f)),
-    HALBERD       ("halberd",          5,  0.85f, 4.5f,  true,  Category.POLEARM, ab().pierce(4.0f, 0.5f).breach().twoHandedII(3.0f, 0.25f)),
-    PIKE          ("pike",             4,  0.9f,  5.0f,  true,  Category.POLEARM, ab().pierce(2.0f).twoHandedII(3.0f, 0.3f)),
+    GLAIVE        ("glaive",           4,  1.0f,  4.0f,  true,  Category.POLEARM, ab().sweep().twoHanded(3.0f, 0.3f)),
+    SPEAR         ("spear",            2,  1.3f,  4.2f,  true,  Category.POLEARM, ab().pierce(2.0f)),
+    HALBERD       ("halberd",          5,  0.85f, 4.5f,  true,  Category.POLEARM, ab().pierce(4.0f, 0.5f).breach().twoHanded(3.0f, 0.25f)),
+    PIKE          ("pike",             4,  0.9f,  5.0f,  true,  Category.POLEARM, ab().pierce(2.0f).twoHanded(3.0f, 0.3f)),
 
     // --- Throwables: usable in melee and thrown like a trident (single, recoverable) ---
-    HATCHET       ("hatchet",          3,  1.1f,  3.0f,  false, Category.THROWN,  ab().versatile().throwable(8.0f, 2.0f, 10)),
-    JAVELIN       ("javelin",          1,  1.2f,  4.0f,  true,  Category.THROWN,  ab().pierce(1.0f).throwable(11.0f, 3.0f, 15));
+    HATCHET       ("hatchet",          3,  1.1f,  3.0f,  false, Category.THROWN,  ab().versatile().throwable(5.0f, 2.0f, 10)),
+    JAVELIN       ("javelin",          1,  1.2f,  4.0f,  true,  Category.THROWN,  ab().pierce(1.0f).throwable(8.0f, 3.0f, 15));
 
     /** Broad family, used for grouping/tab order and (later) shared ability defaults. */
     public enum Category { SWORD, BLUDGEON, POLEARM, THROWN }

@@ -87,7 +87,8 @@ public class ThrowableWeaponItem extends WeaponItem {
         WeaponAbilities a = abilities();
         tooltip.add(Component.translatable("tooltip." + RequiemArmory.MOD_ID + ".throwable").withStyle(ChatFormatting.GOLD));
         if (Screen.hasShiftDown()) {
-            tooltip.add(abilityDesc("throwable.desc.damage", fmt(a.throwDamage)));
+            float effectiveThrow = a.throwDamage + material().tier.getAttackDamageBonus();
+            tooltip.add(abilityDesc("throwable.desc.damage", fmt(effectiveThrow)));
             tooltip.add(abilityDesc("throwable.desc.force", fmt(a.throwPower)));
             tooltip.add(abilityDesc("throwable.desc.charge", fmt(a.throwChargeTicks / 20.0f)));
         }

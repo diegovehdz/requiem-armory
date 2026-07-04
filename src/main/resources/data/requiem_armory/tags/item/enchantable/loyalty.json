@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
+    "minecraft:trident",
     "requiem_armory:wooden_dagger",
     "requiem_armory:stone_dagger",
     "requiem_armory:iron_dagger",
