@@ -4,6 +4,11 @@
     "requiem_armory:iron_bow",
     "requiem_armory:golden_bow",
     "requiem_armory:diamond_bow",
-    "requiem_armory:netherite_bow"
+    "requiem_armory:netherite_bow",
+    "requiem_armory:wooden_longbow",
+    "requiem_armory:iron_longbow",
+    "requiem_armory:golden_longbow",
+    "requiem_armory:diamond_longbow",
+    "requiem_armory:netherite_longbow"
   ]
 }

@@ -4,6 +4,11 @@
     "requiem_armory:iron_crossbow",
     "requiem_armory:golden_crossbow",
     "requiem_armory:diamond_crossbow",
-    "requiem_armory:netherite_crossbow"
+    "requiem_armory:netherite_crossbow",
+    "requiem_armory:wooden_heavy_crossbow",
+    "requiem_armory:iron_heavy_crossbow",
+    "requiem_armory:golden_heavy_crossbow",
+    "requiem_armory:diamond_heavy_crossbow",
+    "requiem_armory:netherite_heavy_crossbow"
   ]
 }

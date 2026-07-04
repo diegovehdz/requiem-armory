@@ -15,10 +15,15 @@ package io.github.diegovehdz.requiemarmory.ranged;
  * {@code 20}-tick draw, for ~6 damage.</p>
  */
 public enum RangedType {
-    //          id          family            vanillaWooden  drawTicks  velocity  duraFactor  fireworks  range
-    BOW        ("bow",      Family.BOW,       true,          20,        3.0f,     1.0f,       false,     15),
+    //             id                 family            vanillaWooden  drawTicks  velocity  duraFactor  fireworks  range
+    BOW           ("bow",             Family.BOW,       true,          20,        3.0f,     1.0f,       false,     15),
     // Crossbow: charge time is the "draw", velocity is fixed per shot (3.15 vanilla) not charge-scaled.
-    CROSSBOW   ("crossbow", Family.CROSSBOW,  true,          25,        3.15f,    1.2f,       true,      8);
+    CROSSBOW      ("crossbow",        Family.CROSSBOW,  true,          25,        3.15f,    1.2f,       true,      8),
+    // Longbow: a bow that reaches (and hits) further but draws slower. New item at every tier (no
+    // vanilla longbow to back the wooden tier).
+    LONGBOW       ("longbow",         Family.BOW,       false,         30,        3.4f,     1.1f,       false,     24),
+    // Heavy crossbow: higher velocity/range and sturdier, but a much longer charge — and no fireworks.
+    HEAVY_CROSSBOW("heavy_crossbow",  Family.CROSSBOW,  false,         40,        4.0f,     1.4f,       false,     14);
 
     /** Broad family: which vanilla item class backs this type and how it fires. */
     public enum Family { BOW, CROSSBOW }

@@ -1,0 +1,4 @@
+{
+  "parent": "requiem_armory:item/diamond_longbow",
+  "textures": { "layer0": "requiem_armory:item/diamond_bow_pulling_0" }
+}

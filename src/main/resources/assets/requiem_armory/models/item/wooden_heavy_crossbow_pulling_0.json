@@ -1,0 +1,4 @@
+{
+  "parent": "requiem_armory:item/wooden_heavy_crossbow",
+  "textures": { "layer0": "minecraft:item/crossbow_pulling_0" }
+}

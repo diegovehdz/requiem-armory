@@ -66,10 +66,15 @@ A **parallel** system to the melee one — ranged weapons are a different vanill
 instead of joining `WeaponType`. Uses **5 tiers** (wooden, iron, golden, diamond, netherite — *no
 stone*), with **iron pinned to the vanilla reference** ("vanilla = iron").
 
-- **`RangedType`** — the shape (bow, crossbow; later longbow/heavy crossbow) with type-level base
-  profile: `family (BOW/CROSSBOW)`, `vanillaWooden` (whether the wooden tier is the vanilla item),
+- **`RangedType`** — the shape (bow, crossbow, longbow, heavy crossbow) with type-level base profile:
+  `family (BOW/CROSSBOW)`, `vanillaWooden` (whether the wooden tier is the vanilla item),
   `baseDrawTicks` (charge ticks for crossbows), `baseVelocity`, `durabilityFactor`,
-  `supportsFireworks`, `range`.
+  `supportsFireworks`, `range`. **Longbow** (BOW family) and **heavy crossbow** (CROSSBOW family) reuse
+  `BowWeaponItem`/`CrossbowWeaponItem` unchanged — they're just new rows with `vanillaWooden=false`, so
+  all 5 tiers register as real items (no vanilla to back wooden). Longbow = slower draw, more
+  velocity/range; heavy crossbow = longer charge, more velocity/range, sturdier, `supportsFireworks=false`
+  (→ `ARROW_ONLY`). Adding a ranged weapon is one enum row + assets; the item classes, client
+  predicates, movement and tooltips all generalise by `family`.
 - **`RangedTier`** — the material progression and its per-material scaling (`drawMult`, `velocityMult`,
   `durability`, `moveModifier`, `enchantValue`, `variance`). **Single place to balance.** Gold is the
   fast/fragile/high-enchant outlier (no harder-hitting than iron); diamond/netherite are slower,

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": { "item": "minecraft:iron_ingot" },
+    "K": { "item": "minecraft:stick" },
+    "T": { "item": "minecraft:tripwire_hook" }
+  },
+  "pattern": [
+    "MMM",
+    "KTK",
+    " M "
+  ],
+  "result": { "count": 1, "id": "requiem_armory:iron_heavy_crossbow" }
+}
