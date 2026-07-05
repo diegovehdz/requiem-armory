@@ -58,9 +58,32 @@ All item textures the mod needs. **6 materials** each: `wooden, stone, iron, gol
 | pole (pole handle) | `pole_gui.png` + `pole_handheld.png` | 16×16 · 32×32 |
 | handle | `handle.png` | 16×16 |
 
+## Ranged (in-game, **placeholder art**)
+
+All ranged sprites are **16×16 single textures** and are currently **Archeries placeholders** (to be
+replaced with original art). The wooden **bow** and **crossbow** reuse the vanilla item textures (they
+*are* the vanilla item), so they need no sprite. The wooden **longbow**/**heavy crossbow** are real
+new items but currently reuse the vanilla bow/crossbow art — they need their own sprites eventually.
+
+| Weapon | Textures per tier | Tiers needing art | Files |
+|---|---|---|---|
+| bow | `<mat>_bow` + `_bow_pulling_0/1/2` | iron, golden, diamond, netherite | 16 |
+| crossbow | `<mat>_crossbow_standby` + `_pulling_0/1/2` + `_arrow` + `_firework` | iron, golden, diamond, netherite | 24 |
+| longbow | `<mat>_longbow` + `_longbow_pulling_0/1/2` | wooden, iron, golden, diamond, netherite | 20 |
+| heavy_crossbow | `<mat>_heavy_crossbow_standby` + `_pulling_0/1/2` + `_arrow` (no firework) | wooden, iron, golden, diamond, netherite | 25 |
+
+**Total ranged sprites: 85.** Distinct shapes wanted so longbow ≠ bow and heavy crossbow ≠ crossbow
+(they currently share art as placeholders).
+
+### Arrow-pull overlays (compat feature)
+Overlay sprites layered onto a bow's pull sprite to show the nocked arrow, by convention
+`<namespace>:textures/arrow_pull/<arrow>_pulling.png` (mirrors Archery Expansion so other mods opt in
+by shipping their own). Ours to provide: `minecraft:arrow_pull/arrow_pulling`,
+`spectral_arrow_pulling`, and `tipped_arrow_shaft_pulling` + `tipped_arrow_tip_pulling` (tip tinted by
+potion colour). ~4 base overlays.
+
 ## Not yet in the mod (future)
 
-- **Ranged**: reinforced bow, reinforced crossbow (planned).
 - **Shields**: not in the roster yet.
 
 ---
