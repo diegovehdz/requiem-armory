@@ -75,13 +75,6 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 **Total ranged sprites: 85.** Distinct shapes wanted so longbow ≠ bow and heavy crossbow ≠ crossbow
 (they currently share art as placeholders).
 
-### Arrow-pull overlays (compat feature)
-Overlay sprites layered onto a bow's pull sprite to show the nocked arrow, by convention
-`<namespace>:textures/arrow_pull/<arrow>_pulling.png` (mirrors Archery Expansion so other mods opt in
-by shipping their own). Ours to provide: `minecraft:arrow_pull/arrow_pulling`,
-`spectral_arrow_pulling`, and `tipped_arrow_shaft_pulling` + `tipped_arrow_tip_pulling` (tip tinted by
-potion colour). ~4 base overlays.
-
 ## Not yet in the mod (future)
 
 - **Shields**: not in the roster yet.

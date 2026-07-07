@@ -144,27 +144,6 @@ Models follow the Archeries 1.21.1 format (`item/generated` + overrides): bows u
 `#minecraft:enchantable/bow`|`crossbow` + `/durability`. Recipes: craft iron/gold/diamond (ingots +
 string, plus stick/tripwire_hook for crossbows), netherite via `smithing_transform`.
 
-### Arrow-pull overlay (compat) — `client/ArrowPullOverlay`
-While a bow is drawn, the nocked arrow is drawn on top of the pull sprite. **Compat contract** (no code
-dep, no API — inspired by Archery Expansion's per-arrow convention, original implementation): a mod
-ships a model at `<ns>:models/item/arrow_pull/<arrow_path>.json` (`item/generated` → its own overlay
-texture) and it shows automatically. We ship overlays for `minecraft:arrow`/`spectral_arrow`/
-`tipped_arrow`; unknown arrows fall back to the generic arrow overlay.
-- `ModelEvent.RegisterAdditional` enumerates `models/item/arrow_pull/*.json` across all namespaces and
-  registers each (so they bake); a map arrow-item-id → overlay `ModelResourceLocation` is built.
-- `ModelEvent.ModifyBakingResult` wraps every bow's **base** baked model (`Items.BOW` + each
-  `BowWeaponItem`) in `BowBaseModel`, whose `BowOverrides.resolve` runs the normal pull resolution then,
-  if the player is drawing, composites the nocked arrow's overlay quads onto the picked pull model
-  (`CompositeModel`, cached). Crossbows are excluded (they already show the loaded projectile).
-- **Chosen model-file convention over Archery Expansion's texture-only** (`textures/arrow_pull/*`): the
-  texture-only path needs runtime atlas-stitching + baking of arbitrary sprites, which risks the block
-  atlas and can't be verified headlessly — the model-file convention reuses vanilla baking (reliable)
-  for a trivial extra (a 5-line JSON per arrow).
-- **Content caveat:** for a clean look the bow `_pulling` sprites must be *arrow-less*; the Archeries
-  placeholders include an arrow, so the overlay double-ups until arrow-less pull art exists. The
-  pipeline is correct; only the placeholder art is the mismatch. Rendering needs in-game QA (can't be
-  verified from datagen).
-
 ## Data & assets
 - **Models** (`assets/requiem_armory/models/item/`): split weapons use a `separate_transforms`
   wrapper → `_gui` (item/generated, 16px) + `_handheld` (points to a shared base model:
