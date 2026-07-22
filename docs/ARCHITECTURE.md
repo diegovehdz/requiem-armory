@@ -40,8 +40,19 @@ Everything is driven from two enums + one item class in `weapon/`:
   stats. **16 types** across categories `SWORD, BLUDGEON, POLEARM, THROWN`. The header comment carries
   the balance chart (iron-tier DPS per weapon) the numbers were derived from — keep it in sync when
   retuning.
-  - `attackDamageModifier` (int): total melee damage = `1 + attackDamageModifier + tier bonus`
-    (scales with material like a vanilla sword).
+  - `attackDamageModifier` (int) + `materialScaling` (float): total melee damage =
+    `1 + attackDamageModifier + tierBonus × materialScaling`. The multiplier is **how hard a shape leans
+    on its metal** — light shapes 1.0, heavy shapes 1.5, warhammer 2.0 — so upgrading a warhammer to
+    netherite is worth far more than upgrading a dagger (wooden warhammer 6 dmg → netherite 14, while
+    the dagger goes 1 → 5). Borrowed from Spartan Weaponry; see docs/WEAPON_REFERENCE.md.
+    - **Iron is the pivot.** The flat modifiers were re-derived so every iron weapon kept the exact
+      value it had before the lever existed, which is why heavy shapes' modifiers look low relative to
+      their damage. Changing a `materialScaling` means re-deriving its `attackDamageModifier` as
+      `old + 2 - 2×scaling`.
+    - Only **0.5 / 1.0 / 1.5 / 2.0** keep iron damage a whole number (iron's tier bonus is 2). Other
+      values work but give fractional damage at every tier.
+    - Throw damage deliberately does **not** scale — it is capped against the vanilla trident's flat 8,
+      and scaling would blow through that cap.
   - `attackSpeedStat` (float): **attacks per second** (DPS = damage × attackSpeedStat). Converted to
     the vanilla attribute via `stat - 4.0`.
   - `reachStat` (float): desired reach; modifier is `reachStat - 3.0`. **Skipped when Better Combat

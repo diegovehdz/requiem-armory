@@ -41,7 +41,13 @@ public enum WeaponType {
     // SOFT RULE: ~2.4 attacks/second is the visual ceiling. Past that the swing animation cannot keep
     // up and the weapon reads as goofy in hand, whatever the numbers say. Nothing sits above it.
     //
-    // Iron-tier chart (dmg = 3 + modifier; "eff" folds in the armour-piercing hit):
+    // MATERIAL SCALING: damage = 1 + attackDamageModifier + tierBonus × materialScaling. The multiplier
+    // is how hard a shape leans on its metal — heavy shapes at 1.5-2.0, everything light at 1.0. Iron is
+    // the pivot: the flat modifiers were re-derived so every iron weapon kept the value it had before
+    // the lever existed, which is why the heavy shapes' modifiers look low. Only 0.5/1.0/1.5/2.0 keep
+    // iron damage a whole number (tierBonus at iron is 2), so stick to those.
+    //
+    // Iron-tier chart (dmg = 1 + modifier + 2×scaling; "eff" folds in the armour-piercing hit):
     //   katana 6×1.7=10.2 · saber 5×1.9=9.5 · longsword 7×1.35=9.45 · greatsword 8×1.15=9.2
     //   rapier 4×2.1=8.4 (12.6 vs unarmoured) · battle axe 9×0.85=7.65 · hatchet 6×1.2=7.2
     //   dagger 3×2.4=7.2
@@ -51,50 +57,54 @@ public enum WeaponType {
     // --- Swords ---
     // Dagger: the fastest thing here and the weakest per hit. Its low DPS is deliberate — the speed,
     // the reach penalty, the cheap recipe and being throwable are the point, not damage output.
-    DAGGER        ("dagger",           0,  2.4f,  1.8f,  false, Category.SWORD,   ab().invincibility(15).throwable(2.0f, 1.4f, 8)),
+    DAGGER        ("dagger",      0, 1.0f, 2.4f,  1.8f,  false, Category.SWORD,    ab().invincibility(15).throwable(2.0f, 1.4f, 8)),
     // Rapier: rapid thrusts, so it needs its own quick strike to spend a speed above 2.0.
-    RAPIER        ("rapier",           1,  2.1f,  3.0f,  true,  Category.SWORD,   ab().invincibility(14).unarmored(2.0f).sweep()),
-    SABER         ("saber",            2,  1.9f,  2.75f, true,  Category.SWORD,   ab().sweep(1.0f)),
-    KATANA        ("katana",           3,  1.7f,  3.25f, true,  Category.SWORD,   ab().sweep(1.25f, 2.0f).twoHanded(3.0f, 0.4f)),
-    GREATSWORD    ("greatsword",       5,  1.15f, 3.5f,  true,  Category.SWORD,   ab().sweep(1.5f, 5.0f).twoHanded(4.0f, 0.3f)),
-    LONGSWORD     ("longsword",        4,  1.35f, 3.5f,  true,  Category.SWORD,   ab().sweep(2.0f).twoHanded(3.0f, 0.35f)),
-    BATTLE_AXE    ("battle_axe",       6,  0.85f, 3.25f, true,  Category.SWORD,   ab().versatile().breach().twoHanded(3.0f, 0.3f)),
+    RAPIER        ("rapier",      1, 1.0f, 2.1f,  3.0f,  true,  Category.SWORD,    ab().invincibility(14).unarmored(2.0f).sweep()),
+    SABER         ("saber",       2, 1.0f, 1.9f,  2.75f, true,  Category.SWORD,    ab().sweep(1.0f)),
+    KATANA        ("katana",      3, 1.0f, 1.7f,  3.25f, true,  Category.SWORD,    ab().sweep(1.25f, 2.0f).twoHanded(3.0f, 0.4f)),
+    GREATSWORD    ("greatsword",  4, 1.5f, 1.15f, 3.5f,  true,  Category.SWORD,    ab().sweep(1.5f, 5.0f).twoHanded(4.0f, 0.3f)),
+    LONGSWORD     ("longsword",   4, 1.0f, 1.35f, 3.5f,  true,  Category.SWORD,    ab().sweep(2.0f).twoHanded(3.0f, 0.35f)),
+    BATTLE_AXE    ("battle_axe",  5, 1.5f, 0.85f, 3.25f, true,  Category.SWORD,    ab().versatile().breach().twoHanded(3.0f, 0.3f)),
 
     // --- Bludgeons (new; not in Dixta, designed in the same style) ---
-    // Warhammer: the heaviest swing in the mod, so it pays for it in speed. Its armour piercing is a
-    // modest top-up rather than a second weapon's worth of damage.
-    WARHAMMER     ("warhammer",        7,  0.7f,  3.25f, true,  Category.BLUDGEON, ab().pierce(2.0f).breach().twoHanded(4.0f, 0.3f)),
-    MACE          ("mace",             3,  1.15f, 3.0f,  true,  Category.BLUDGEON, ab().pierce(1.5f).breach()),
+    // Warhammer: the heaviest swing in the mod, so it pays for it in speed, and the shape that leans
+    // hardest on its material — a netherite one is a genuine step up, a wooden one is a bad joke.
+    WARHAMMER     ("warhammer",   5, 2.0f, 0.7f,  3.25f, true,  Category.BLUDGEON, ab().pierce(2.0f).breach().twoHanded(4.0f, 0.3f)),
+    MACE          ("mace",        3, 1.0f, 1.15f, 3.0f,  true,  Category.BLUDGEON, ab().pierce(1.5f).breach()),
 
     // --- Polearms ---
-    GLAIVE        ("glaive",           4,  0.95f, 4.0f,  true,  Category.POLEARM, ab().sweep().twoHanded(3.0f, 0.3f)),
-    SPEAR         ("spear",            2,  1.2f,  4.2f,  true,  Category.POLEARM, ab().pierce(2.0f)),
-    HALBERD       ("halberd",          5,  0.8f,  4.5f,  true,  Category.POLEARM, ab().pierce(4.0f, 0.5f).breach().twoHanded(3.0f, 0.25f)),
-    PIKE          ("pike",             4,  0.85f, 5.0f,  true,  Category.POLEARM, ab().pierce(2.0f).twoHanded(3.0f, 0.3f)),
+    GLAIVE        ("glaive",      3, 1.5f, 0.95f, 4.0f,  true,  Category.POLEARM,  ab().sweep().twoHanded(3.0f, 0.3f)),
+    SPEAR         ("spear",       2, 1.0f, 1.2f,  4.2f,  true,  Category.POLEARM,  ab().pierce(2.0f)),
+    HALBERD       ("halberd",     4, 1.5f, 0.8f,  4.5f,  true,  Category.POLEARM,  ab().pierce(4.0f, 0.5f).breach().twoHanded(3.0f, 0.25f)),
+    PIKE          ("pike",        3, 1.5f, 0.85f, 5.0f,  true,  Category.POLEARM,  ab().pierce(2.0f).twoHanded(3.0f, 0.3f)),
     // Scythe: unremarkable against one target, brutal against a crowd — the sweep is the whole point.
-    SCYTHE        ("scythe",           4,  1.0f,  3.75f, true,  Category.POLEARM, ab().sweep(2.0f, 2.0f).twoHanded(3.0f, 0.3f)),
+    SCYTHE        ("scythe",      3, 1.5f, 1.0f,  3.75f, true,  Category.POLEARM,  ab().sweep(2.0f, 2.0f).twoHanded(3.0f, 0.3f)),
 
     // --- Throwables: usable in melee and thrown like a trident (single, recoverable) ---
-    // Throw damage is `base + tier bonus`, kept under the vanilla trident's flat 8 so the trident stays
-    // the best thrower: javelin tops out at diamond 7 / netherite 8, hatchet 6/7, dagger 5/6.
-    HATCHET       ("hatchet",          3,  1.2f,  3.0f,  false, Category.THROWN,  ab().versatile().throwable(3.0f, 1.8f, 10)),
-    JAVELIN       ("javelin",          1,  1.1f,  4.0f,  true,  Category.THROWN,  ab().pierce(1.0f).throwable(4.0f, 2.5f, 15));
+    // Throw damage is `base + raw tier bonus` — deliberately NOT scaled by materialScaling, because it
+    // is capped against the vanilla trident's flat 8 and scaling would blow through that cap:
+    // javelin tops out at diamond 7 / netherite 8, hatchet 6/7, dagger 5/6.
+    HATCHET       ("hatchet",     3, 1.0f, 1.2f,  3.0f,  false, Category.THROWN,   ab().versatile().throwable(3.0f, 1.8f, 10)),
+    JAVELIN       ("javelin",     1, 1.0f, 1.1f,  4.0f,  true,  Category.THROWN,   ab().pierce(1.0f).throwable(4.0f, 2.5f, 15));
 
     /** Broad family, used for grouping/tab order and (later) shared ability defaults. */
     public enum Category { SWORD, BLUDGEON, POLEARM, THROWN }
 
     public final String id;
     public final int attackDamageModifier;
+    /** How hard this shape leans on its material — see {@link #materialBonus}. */
+    public final float materialScaling;
     public final float attackSpeedStat;
     public final float reachStat;
     public final boolean separateModel;
     public final Category category;
     public final WeaponAbilities abilities;
 
-    WeaponType(String id, int attackDamageModifier, float attackSpeedStat, float reachStat,
-               boolean separateModel, Category category, WeaponAbilities.Builder abilities) {
+    WeaponType(String id, int attackDamageModifier, float materialScaling, float attackSpeedStat,
+               float reachStat, boolean separateModel, Category category, WeaponAbilities.Builder abilities) {
         this.id = id;
         this.attackDamageModifier = attackDamageModifier;
+        this.materialScaling = materialScaling;
         this.attackSpeedStat = attackSpeedStat;
         this.reachStat = reachStat;
         this.separateModel = separateModel;
@@ -110,6 +120,15 @@ public enum WeaponType {
     /** True for weapons meant to be thrown (behaviour arrives in a later phase). */
     public boolean isThrown() {
         return category == Category.THROWN;
+    }
+
+    /**
+     * The damage this shape gains from its material: the tier's own bonus multiplied by
+     * {@link #materialScaling}. Heavy shapes scale hard, so upgrading a warhammer to netherite is worth
+     * far more than upgrading a dagger — which is the point of the lever.
+     */
+    public float materialBonus(WeaponMaterial material) {
+        return material.tier.getAttackDamageBonus() * materialScaling;
     }
 
     /** Attack-speed attribute value (vanilla scale; negative is slower than bare fists). */

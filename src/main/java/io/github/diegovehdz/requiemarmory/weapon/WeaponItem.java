@@ -93,7 +93,7 @@ public class WeaponItem extends SwordItem {
     /** Attack damage + speed (as a sword) plus reach, with an optional two-handed penalty subtracted. */
     public static ItemAttributeModifiers buildAttributes(WeaponType type, WeaponMaterial material,
                                                          float damagePenalty, float speedPenalty) {
-        double damage = type.attackDamageModifier + material.tier.getAttackDamageBonus() - damagePenalty;
+        double damage = type.attackDamageModifier + type.materialBonus(material) - damagePenalty;
         double speed = type.attackSpeedModifier() - speedPenalty;
 
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder()

@@ -58,6 +58,11 @@ held under one ceiling:
 | Heavy | up to 8.8 | slow swings, 9–10 damage per hit |
 | Polearm | ~8.4 | lower damage in exchange for reach |
 
+**Materials matter more to heavy weapons.** Each shape has a scaling factor on top of its flat damage,
+so the metal you make it from counts for more the heavier the weapon: a wooden warhammer is a bad joke
+at 6 damage while a netherite one hits for 14, whereas a dagger only climbs from 1 to 5 across the same
+span. Light weapons are about speed, heavy ones are about what they're forged from.
+
 Vanilla's iron sword (9.6) and its retuned axe (8.8) are the reference points. Light weapons may pass
 the sword — that's their identity, and it costs them per-hit damage, which is what actually matters
 against armour and knockback. Heavy weapons never pass the axe. A hard rule keeps the fast end honest:
