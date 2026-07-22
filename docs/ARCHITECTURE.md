@@ -11,7 +11,10 @@ see the [README](../README.md); for the art to-do see [SPRITES.md](SPRITES.md).
   ./gradlew build       # build the jar (build/libs/requiem_armory-<version>.jar)
   ```
 - modid `requiem_armory`, base package `io.github.diegovehdz.requiemarmory`.
-- Optional runtime dep: **Better Combat** (2.3.2+1.21.1). The mod works standalone too.
+- Optional runtime dep: **Better Combat** (dev-tested against 2.4.0+1.21.1; 2.3.2+1.21.1 also has every
+  preset/animation we reference). The mod works standalone too. The test profile's jars live in
+  `%APPDATA%\ModrinthApp\profiles\dev-testing\mods\` — unzip the Better Combat jar to check preset,
+  animation, pose and sound ids against the build actually being played.
 
 ## How weapons are defined (the core system)
 Everything is driven from two enums + one item class in `weapon/`:
@@ -51,6 +54,35 @@ Everything is driven from two enums + one item class in `weapon/`:
 `ModDamageTypes` holds the `armor_piercing` key. `ModEvents` (game bus) retunes vanilla axes:
 **−1 attack damage, +0.2 attack speed**, so the axe stays the DPS ceiling for heavy weapons without
 being clunky (iron: 8 × 1.1 = 8.8 DPS, under the sword's 9.6).
+
+### Config
+`config/RequiemArmoryConfig` — two `ModConfigSpec`s registered from the mod constructor:
+- **client** (`requiem_armory-client.toml`): `showAbilityTooltips`, `showVanillaTooltips`,
+  `showRangedTooltips`. Read by `WeaponTooltip`, `VanillaTooltips` and `RangedTooltip`.
+- **common** (`requiem_armory-common.toml`): the vanilla-axe retune (on/off + both numbers, read by
+  `ModEvents`) and `weapons.disabled`.
+
+Every read is guarded by `SPEC.isLoaded()` — `ConfigValue#get()` throws before the file is read, and
+the CLIENT spec never loads on a dedicated server. Failure direction is deliberately "everything on".
+
+`client/ClientConfigScreen` registers NeoForge's built-in `ConfigurationScreen` as the
+`IConfigScreenFactory` extension point, so the Mods-list config button works with **no Cloth Config
+or other dependency**. It is a separate client-only class called behind an `FMLEnvironment.dist`
+check. Note `registerExtensionPoint`'s two overloads are ambiguous for a bare lambda — assign the
+factory to a typed local first. Screen labels come from `requiem_armory.configuration.<leafKey>` lang
+keys; without them the GUI shows raw key strings.
+
+**Disabling a weapon** cannot deregister the item (that breaks saves), so it means: dropped from the
+creative tab (`ModCreativeTabs` filters on `isWeaponEnabled`) and stripped of its recipes. Recipes are
+gated by `config/WeaponEnabledCondition`, an `ICondition` registered through `registry/ModConditions`
+into `NeoForgeRegistries.Keys.CONDITION_CODECS`; all **108** weapon recipes carry
+`"neoforge:conditions": [{"type": "requiem_armory:weapon_enabled", "weapon": "<item id>"}]`
+(`handle`/`pole` are components and stay ungated). Conditions are evaluated at datapack load, so a
+config change needs `/reload` or a rejoin before recipes follow.
+
+Entries match either the full item name (`netherite_warhammer`) or the shape with its material prefix
+**stripped exactly** (`warhammer`) — not by suffix, so `axe` does not silently disable every
+`battle_axe`, and `bow` does not disable `longbow`.
 
 ### Vanilla tooltips
 `client/VanillaTooltips` (`ItemTooltipEvent`, client-only) gives the vanilla weapons the mod's own
@@ -184,7 +216,14 @@ string, plus stick/tripwire_hook for crossbows), netherite via `smithing_transfo
   - `attacks` entries merge with the parent's **by index**, so an override can name only the fields it
     changes (that is how `bettercombat:trident` turns the two-handed spear into a one-handed stab).
     `requiem_armory:presets/spear` does the same for our spear: `two_handed: false`, `pose: ""` and the
-    one-handed animation, while keeping the spear preset's reach.
+    one-handed animation, while keeping the spear preset's reach. **Corollary:** a preset that changes
+    the *number* of attacks must be standalone (no `parent`) and spell every field out, or index 0
+    silently inherits the parent's hitbox/angle — which is why `presets/warhammer` and
+    `presets/longsword` are written in full rather than parented to `hammer`/`claymore`.
+  - Custom combos live in `weapon_attributes/presets/`: `greatsword`, `glaive`, `spear`, plus
+    `warhammer` (left slash → right slash → slam) and `longsword` (left slash → right slash → stab).
+    Keep each combo's `damage_multiplier` **averaging 1.0** so a moveset change is not a stealth
+    balance change.
   - **Ranged weapons get poses too**: `bettercombat:bow_two_handed_light` (bows, incl. `minecraft:bow`),
     `bow_two_handed_heavy` (longbows), `crossbow_two_handed_light` (crossbows, incl.
     `minecraft:crossbow`), `crossbow_two_handed_heavy` (heavy crossbows).
