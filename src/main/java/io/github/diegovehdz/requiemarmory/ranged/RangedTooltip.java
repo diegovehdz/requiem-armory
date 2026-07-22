@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
+import io.github.diegovehdz.requiemarmory.config.RequiemArmoryConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -17,6 +18,9 @@ public final class RangedTooltip {
     private RangedTooltip() {}
 
     public static void append(List<Component> tooltip, RangedStats stats, RangedType type) {
+        if (!RequiemArmoryConfig.CLIENT_SPEC.isLoaded() || !RequiemArmoryConfig.CLIENT.showRangedTooltips.get()) {
+            return;
+        }
         if (!Screen.hasShiftDown()) {
             tooltip.add(Component.translatable("tooltip." + RequiemArmory.MOD_ID + ".hold_shift")
                     .withStyle(ChatFormatting.DARK_GRAY));

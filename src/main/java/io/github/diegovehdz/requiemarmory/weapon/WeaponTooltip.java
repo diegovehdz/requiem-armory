@@ -3,6 +3,7 @@ package io.github.diegovehdz.requiemarmory.weapon;
 import java.util.List;
 
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
+import io.github.diegovehdz.requiemarmory.config.RequiemArmoryConfig;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -26,6 +27,9 @@ public final class WeaponTooltip {
      *                         trident, whose 8 damage is flat.
      */
     public static void append(List<Component> tooltip, WeaponAbilities abilities, float throwDamageBonus) {
+        if (!RequiemArmoryConfig.CLIENT_SPEC.isLoaded() || !RequiemArmoryConfig.CLIENT.showAbilityTooltips.get()) {
+            return;
+        }
         boolean shift = Screen.hasShiftDown();
         boolean any = false;
 

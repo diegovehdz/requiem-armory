@@ -1,15 +1,13 @@
 package io.github.diegovehdz.requiemarmory.registry;
 
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
-import io.github.diegovehdz.requiemarmory.weapon.WeaponItem;
+import io.github.diegovehdz.requiemarmory.config.RequiemArmoryConfig;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.registries.DeferredHolder;
-import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 /** The "Armory" creative tab holding every weapon. */
@@ -28,12 +26,14 @@ public final class ModCreativeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.HANDLE.get());
                         output.accept(ModItems.POLE.get());
-                        for (DeferredItem<WeaponItem> weapon : ModItems.WEAPONS.values()) {
-                            output.accept(weapon.get());
-                        }
-                        for (DeferredItem<Item> ranged : ModItems.RANGED.values()) {
-                            output.accept(ranged.get());
-                        }
+                        // Config-disabled weapons stay registered (removing them would break saves)
+                        // but drop out of the tab, alongside losing their recipes.
+                        ModItems.WEAPONS.forEach((name, weapon) -> {
+                            if (RequiemArmoryConfig.isWeaponEnabled(name)) output.accept(weapon.get());
+                        });
+                        ModItems.RANGED.forEach((name, ranged) -> {
+                            if (RequiemArmoryConfig.isWeaponEnabled(name)) output.accept(ranged.get());
+                        });
                     })
                     .build());
 }

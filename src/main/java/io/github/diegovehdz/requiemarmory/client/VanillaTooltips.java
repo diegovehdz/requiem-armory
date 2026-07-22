@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
+import io.github.diegovehdz.requiemarmory.config.RequiemArmoryConfig;
 import io.github.diegovehdz.requiemarmory.ranged.RangedStats;
 import io.github.diegovehdz.requiemarmory.ranged.RangedTier;
 import io.github.diegovehdz.requiemarmory.ranged.RangedTooltip;
@@ -48,6 +49,9 @@ public final class VanillaTooltips {
 
     @SubscribeEvent
     static void onItemTooltip(ItemTooltipEvent event) {
+        if (!RequiemArmoryConfig.CLIENT_SPEC.isLoaded() || !RequiemArmoryConfig.CLIENT.showVanillaTooltips.get()) {
+            return;
+        }
         ItemStack stack = event.getItemStack();
         Item item = stack.getItem();
         // Our own weapons already print these lines themselves; only annotate minecraft: items.

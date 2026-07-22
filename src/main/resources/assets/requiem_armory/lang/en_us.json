@@ -142,5 +142,16 @@
   "tooltip.requiem_armory.throwable.desc.force": "Force: %s",
   "tooltip.requiem_armory.throwable.desc.charge": "Charge: %ss",
   "tooltip.requiem_armory.two_handed": "Two-Handed",
-  "tooltip.requiem_armory.two_handed.desc": "Reduced damage & speed while the off-hand is occupied."
+  "tooltip.requiem_armory.two_handed.desc": "Reduced damage & speed while the off-hand is occupied.",
+  "requiem_armory.configuration.title": "%s Configuration",
+  "requiem_armory.configuration.tooltips": "Tooltips",
+  "requiem_armory.configuration.showAbilityTooltips": "Ability tooltips",
+  "requiem_armory.configuration.showVanillaTooltips": "Vanilla weapon tooltips",
+  "requiem_armory.configuration.showRangedTooltips": "Ranged weapon stats",
+  "requiem_armory.configuration.vanillaBalance": "Vanilla balance",
+  "requiem_armory.configuration.retuneVanillaAxes": "Retune vanilla axes",
+  "requiem_armory.configuration.damagePenalty": "Axe damage penalty",
+  "requiem_armory.configuration.speedBonus": "Axe attack speed bonus",
+  "requiem_armory.configuration.weapons": "Weapons",
+  "requiem_armory.configuration.disabled": "Disabled weapons"
 }
