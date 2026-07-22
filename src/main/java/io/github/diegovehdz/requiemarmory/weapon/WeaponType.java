@@ -38,19 +38,24 @@ public enum WeaponType {
     // 20 ticks of i-frames but only the first 10 block damage outright, so speed above 2.0 is simply
     // discarded against a single target unless `invincibility(<15)` opens the window back up.
     //
+    // SOFT RULE: ~2.4 attacks/second is the visual ceiling. Past that the swing animation cannot keep
+    // up and the weapon reads as goofy in hand, whatever the numbers say. Nothing sits above it.
+    //
     // Iron-tier chart (dmg = 3 + modifier; "eff" folds in the armour-piercing hit):
-    //   saber 5×2.0=10.0 · katana 6×1.75=10.5 · rapier 4×2.4=9.6 · longsword 7×1.35=9.45
-    //   greatsword 8×1.15=9.2 · dagger 3×3.0=9.0 · battle axe 9×0.85=7.65 · hatchet 6×1.2=7.2
+    //   katana 6×1.7=10.2 · saber 5×1.9=9.5 · longsword 7×1.35=9.45 · greatsword 8×1.15=9.2
+    //   rapier 4×2.1=8.4 (12.6 vs unarmoured) · battle axe 9×0.85=7.65 · hatchet 6×1.2=7.2
+    //   dagger 3×2.4=7.2
     //   warhammer 10×0.7=7.0 (eff 8.4) · scythe 7×1.0=7.0 (plus 2 to everything in a 2× sweep)
     //   mace 6×1.15=6.9 (eff 8.6) · glaive 7×0.95=6.65 · halberd 8×0.8=6.4 (eff 8.0)
     //   spear 5×1.2=6.0 (eff 8.4) · pike 7×0.85=5.95 (eff 7.65) · javelin 4×1.1=4.4 (eff 5.5)
     // --- Swords ---
-    // Dagger: the fastest thing here and the weakest per hit. Quick strike is what makes 3.0 land.
-    DAGGER        ("dagger",           0,  3.0f,  1.8f,  false, Category.SWORD,   ab().invincibility(15).throwable(2.0f, 1.4f, 8)),
+    // Dagger: the fastest thing here and the weakest per hit. Its low DPS is deliberate — the speed,
+    // the reach penalty, the cheap recipe and being throwable are the point, not damage output.
+    DAGGER        ("dagger",           0,  2.4f,  1.8f,  false, Category.SWORD,   ab().invincibility(15).throwable(2.0f, 1.4f, 8)),
     // Rapier: rapid thrusts, so it needs its own quick strike to spend a speed above 2.0.
-    RAPIER        ("rapier",           1,  2.4f,  3.0f,  true,  Category.SWORD,   ab().invincibility(14).unarmored(2.0f).sweep()),
-    SABER         ("saber",            2,  2.0f,  2.75f, true,  Category.SWORD,   ab().sweep(1.0f)),
-    KATANA        ("katana",           3,  1.75f, 3.25f, true,  Category.SWORD,   ab().sweep(1.25f, 2.0f).twoHanded(3.0f, 0.4f)),
+    RAPIER        ("rapier",           1,  2.1f,  3.0f,  true,  Category.SWORD,   ab().invincibility(14).unarmored(2.0f).sweep()),
+    SABER         ("saber",            2,  1.9f,  2.75f, true,  Category.SWORD,   ab().sweep(1.0f)),
+    KATANA        ("katana",           3,  1.7f,  3.25f, true,  Category.SWORD,   ab().sweep(1.25f, 2.0f).twoHanded(3.0f, 0.4f)),
     GREATSWORD    ("greatsword",       5,  1.15f, 3.5f,  true,  Category.SWORD,   ab().sweep(1.5f, 5.0f).twoHanded(4.0f, 0.3f)),
     LONGSWORD     ("longsword",        4,  1.35f, 3.5f,  true,  Category.SWORD,   ab().sweep(2.0f).twoHanded(3.0f, 0.35f)),
     BATTLE_AXE    ("battle_axe",       6,  0.85f, 3.25f, true,  Category.SWORD,   ab().versatile().breach().twoHanded(3.0f, 0.3f)),
