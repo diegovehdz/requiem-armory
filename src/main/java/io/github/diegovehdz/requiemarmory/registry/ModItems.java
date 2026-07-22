@@ -2,6 +2,7 @@ package io.github.diegovehdz.requiemarmory.registry;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
 import io.github.diegovehdz.requiemarmory.ranged.BowWeaponItem;
@@ -80,5 +81,19 @@ public final class ModItems {
     /** Convenience accessor used e.g. for the creative-tab icon. */
     public static WeaponItem weapon(String key) {
         return WEAPONS.get(key).get();
+    }
+
+    /**
+     * Looks up any weapon of this mod — melee or ranged — by registry path, e.g.
+     * {@code "iron_warhammer"} or {@code "diamond_longbow"}. Empty when the combination was never
+     * registered (there is no stone bow, and the wooden bow/crossbow are the vanilla items).
+     */
+    public static Optional<Item> find(String path) {
+        DeferredItem<WeaponItem> melee = WEAPONS.get(path);
+        if (melee != null) {
+            return Optional.of(melee.get());
+        }
+        DeferredItem<Item> ranged = RANGED.get(path);
+        return ranged == null ? Optional.empty() : Optional.of(ranged.get());
     }
 }
