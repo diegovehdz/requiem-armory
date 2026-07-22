@@ -4,8 +4,6 @@ import java.util.List;
 
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
 import io.github.diegovehdz.requiemarmory.registry.ModDamageTypes;
-import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -226,81 +224,9 @@ public class WeaponItem extends SwordItem {
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        boolean shift = Screen.hasShiftDown();
-        boolean any = false;
-
-        if (abilities.isTwoHanded()) {
-            tooltip.add(abilityName("two_handed"));
-            if (shift) tooltip.add(abilityDesc("two_handed.desc"));
-            any = true;
-        }
-        if (abilities.versatile) {
-            tooltip.add(abilityName("versatile"));
-            if (shift) tooltip.add(abilityDesc("versatile.desc"));
-            any = true;
-        }
-        if (abilities.breach) {
-            tooltip.add(abilityName("breach"));
-            if (shift) tooltip.add(abilityDesc("breach.desc"));
-            any = true;
-        }
-        if (abilities.hasArmorPierce()) {
-            tooltip.add(abilityName("armor_piercing"));
-            if (shift) {
-                if (abilities.armorPierceChance >= 1.0f) {
-                    tooltip.add(abilityDesc("armor_piercing.desc", fmt(abilities.armorPierceAmount)));
-                } else {
-                    tooltip.add(abilityDesc("armor_piercing.desc.chance",
-                            Math.round(abilities.armorPierceChance * 100) + "%", fmt(abilities.armorPierceAmount)));
-                }
-            }
-            any = true;
-        }
-        if (abilities.hasUnarmoredBonus()) {
-            tooltip.add(abilityName("unarmored_bonus"));
-            if (shift) tooltip.add(abilityDesc("unarmored_bonus.desc", fmt(abilities.unarmoredBonus)));
-            any = true;
-        }
-        if (abilities.hasQuickStrike()) {
-            tooltip.add(abilityName("quick_strike"));
-            if (shift) tooltip.add(abilityDesc("quick_strike.desc", fmt((abilities.invincibilityTicks - 10) / 20.0f)));
-            any = true;
-        }
-        if (abilities.hasSlowStrike()) {
-            tooltip.add(abilityName("slow_strike"));
-            if (shift) tooltip.add(abilityDesc("slow_strike.desc", fmt((abilities.invincibilityTicks - 10) / 20.0f)));
-            any = true;
-        }
-        if (abilities.showsSweep()) {
-            tooltip.add(abilityName("sweeping"));
-            if (shift) {
-                if (abilities.sweepDamage > 0.0f) tooltip.add(abilityDesc("sweeping.desc.damage", fmt(abilities.sweepDamage)));
-                if (abilities.sweepRadius != 1.0f) tooltip.add(abilityDesc("sweeping.desc.radius", fmt(abilities.sweepRadius)));
-            }
-            any = true;
-        }
-
-        if (any && !shift) {
-            tooltip.add(Component.translatable("tooltip." + RequiemArmory.MOD_ID + ".hold_shift")
-                    .withStyle(ChatFormatting.DARK_GRAY));
-        }
+        // Throw damage scales with the material, so hand the tier bonus to the shared renderer.
+        WeaponTooltip.append(tooltip, abilities, material.tier.getAttackDamageBonus());
         super.appendHoverText(stack, context, tooltip, flag);
-    }
-
-    /** Gold ability name line. */
-    protected static Component abilityName(String key) {
-        return Component.translatable("tooltip." + RequiemArmory.MOD_ID + "." + key).withStyle(ChatFormatting.GOLD);
-    }
-
-    /** Gray, plain-text description line shown when Shift is held. */
-    protected static Component abilityDesc(String key, Object... args) {
-        return Component.translatable("tooltip." + RequiemArmory.MOD_ID + "." + key, args)
-                .withStyle(ChatFormatting.GRAY);
-    }
-
-    /** Formats a float, dropping a trailing ".0" for whole numbers. */
-    protected static String fmt(float value) {
-        return value == Math.rint(value) ? String.valueOf((int) value) : String.valueOf(value);
     }
 
     // ------------------------------------------------------------------ helpers

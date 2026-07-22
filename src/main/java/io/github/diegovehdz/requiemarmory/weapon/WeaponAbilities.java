@@ -61,9 +61,6 @@ public final class WeaponAbilities {
     public boolean hasQuickStrike() { return invincibilityTicks < DEFAULT_INVINCIBILITY; }
     public boolean hasSlowStrike() { return invincibilityTicks > DEFAULT_INVINCIBILITY; }
 
-    /** Whether the sweep is noteworthy enough to advertise in the tooltip. */
-    public boolean showsSweep() { return canSweep && (sweepRadius != 1.0f || sweepDamage > 0.0f); }
-
     public static Builder builder() { return new Builder(); }
     public static WeaponAbilities none() { return builder().build(); }
 
