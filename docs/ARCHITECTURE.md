@@ -60,7 +60,8 @@ being clunky (iron: 8 × 1.1 = 8.8 DPS, under the sword's 9.6).
 - **client** (`requiem_armory-client.toml`): `showAbilityTooltips`, `showVanillaTooltips`,
   `showRangedTooltips`. Read by `WeaponTooltip`, `VanillaTooltips` and `RangedTooltip`.
 - **common** (`requiem_armory-common.toml`): the vanilla-axe retune (on/off + both numbers, read by
-  `ModEvents`) and `weapons.disabled`.
+  `ModEvents`), the `world` switches (mob arming, chest loot, villager trades) and the per-weapon
+  `weapons.*` toggles.
 
 Every read is guarded by `SPEC.isLoaded()` — `ConfigValue#get()` throws before the file is read, and
 the CLIENT spec never loads on a dedicated server. Failure direction is deliberately "everything on".
@@ -80,9 +81,35 @@ into `NeoForgeRegistries.Keys.CONDITION_CODECS`; all **108** weapon recipes carr
 (`handle`/`pole` are components and stay ungated). Conditions are evaluated at datapack load, so a
 config change needs `/reload` or a rejoin before recipes follow.
 
-Entries match either the full item name (`netherite_warhammer`) or the shape with its material prefix
-**stripped exactly** (`warhammer`) — not by suffix, so `axe` does not silently disable every
-`battle_axe`, and `bow` does not disable `longbow`.
+The switches are **one boolean per weapon**, laid out as `weapons.<shape>.enabled` plus
+`weapons.<shape>.<material>`, built by looping `WeaponType` and `RangedType` in `Common`. Booleans are
+what makes the built-in config screen render toggle buttons — nothing has to be typed. `isWeaponEnabled`
+is a map lookup returning `shape && material`; unknown paths (`handle`, `pole`) answer true. Shapes only
+declare the materials that were actually registered, so no dead `bow.stone` entry appears.
+
+### World integration
+Three systems hand these weapons out at runtime, all sharing `world/WeaponPools` (a `materials × shapes`
+cross product filtered to registered **and** config-enabled items, resolved per call so config edits
+apply live):
+
+- **`world/MobEquipment`** (`FinalizeSpawnEvent`) arms a difficulty-scaled share of new mobs.
+  **`FinalizeSpawnEvent` fires *before* `Mob#finalizeSpawn`**, which is where vanilla rolls its own
+  equipment — so the swap is queued with `server.execute(...)` and runs after. The `instanceof` chain in
+  `loadoutFor` is order-sensitive: `ZombifiedPiglin` and `Drowned` are both `Zombie`s, and
+  `WitherSkeleton` is an `AbstractSkeleton`. Ranged AI works unmodified — NeoForge patches
+  `AbstractSkeleton#reassessWeaponGoal` to test `instanceof BowItem`, and `RangedCrossbowAttackGoal` was
+  always `instanceof CrossbowItem`. (`canFireProjectileWeapon` is still `== Items.BOW`/`CROSSBOW`, but
+  that only governs picking a *dropped* ranged weapon up.)
+- **`world/WeaponSwapModifier`** — a global loot modifier (registered via `registry/ModLootModifiers`
+  into `GLOBAL_LOOT_MODIFIER_SERIALIZERS`, declared in `data/neoforge/loot_modifiers/global_loot_modifiers.json`
+  + `data/requiem_armory/loot_modifiers/weapon_swap.json`). It **swaps** rather than adds, so chest
+  contents keep their size, and carries enchantments over with `transmuteCopy`. Guarded to loot table
+  ids under `chests/` — without that it would run on every block, mob, fishing and bartering roll.
+- **`world/VillagerWeaponTrades`** (`VillagerTradesEvent`) adds listings at the same career level as the
+  vanilla weapon they stand in for (weaponsmith 3/4, toolsmith 3/4, fletcher 2/4 — all five levels exist
+  for every profession, so `getTrades().get(level)` is safe). Villagers roll a subset of the listings, so
+  adding to the pool means a smith sells *either* the vanilla weapon or one of ours. The listing returns
+  `null` when every candidate is disabled, which makes the villager roll a different trade instead.
 
 ### Vanilla tooltips
 `client/VanillaTooltips` (`ItemTooltipEvent`, client-only) gives the vanilla weapons the mod's own

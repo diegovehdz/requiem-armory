@@ -12,9 +12,9 @@ integration for movesets, reach and attack animations.
 
 ## Status
 
-✅ **Playable!** All weapons, ranged weapons, abilities, crafting and combat are implemented and
-building against NeoForge 21.1.234. Development is currently focused on **final artwork** (the in-game
-textures are temporary development placeholders) and the world-integration features below.
+✅ **Playable!** Weapons, ranged weapons, abilities, crafting, combat, world integration and the config
+are all implemented and building against NeoForge 21.1.234. What's left is mainly **final artwork** —
+the in-game textures are still temporary development placeholders — and a crafting-cost pass.
 
 ## Content
 
@@ -82,6 +82,21 @@ The mod treats vanilla's weapons as part of its own roster rather than leaving t
 - **Tooltips carry over**: axes read as *Versatile* + *Breach*, swords as *Sweeping*, the trident as
   *Throwable*, and the bow/crossbow show draw time, range and damage — same format as this mod's own.
 
+### Out in the world
+
+The arsenal isn't craft-only — it turns up the way vanilla gear does:
+
+- **Chest loot** — a vanilla weapon rolled by a chest table may arrive as one of ours at the same
+  material instead: an iron sword as an iron katana, a diamond axe as a diamond battle axe, a bow as a
+  longbow. Enchantments carry over, and the chest yields the same amount of loot either way.
+- **Villager trades** — weaponsmiths and toolsmiths deal in these at journeyman and expert level,
+  fletchers in longbows and heavy crossbows. Since a villager only rolls a couple of trades per level,
+  a given smith sells either the vanilla weapon or one of ours.
+- **Armed mobs** — a small share of mobs spawn carrying one, scaling with difficulty like vanilla's own
+  armed zombies: zombies and vindicators with stone/iron gear, skeletons with bows, pillagers with
+  crossbows, wither skeletons with stone polearms, piglins with gold, and brutes with heavy gold
+  weapons. All of it is off-switchable in the config.
+
 ### Crafting
 
 Weapons are crafted from their material plus two shaft components:
@@ -109,18 +124,25 @@ or other dependency needed), or by hand in `config/`:
 | File | Options |
 |---|---|
 | `requiem_armory-client.toml` | Turn off the ability tooltips, the ones added to vanilla weapons, or the ranged stat lines. |
-| `requiem_armory-common.toml` | Turn the vanilla-axe retune off or tune its two numbers; disable individual weapons. |
+| `requiem_armory-common.toml` | The vanilla-axe retune; armed mobs, chest loot and villager trades; per-weapon toggles. |
 
-Disabling a weapon hides it from the creative tab and removes its recipes. Entries may name a whole
-shape (`warhammer`, `heavy_crossbow`) or a single item (`netherite_warhammer`):
+Every weapon has its own **toggle** — one per shape to switch off all six materials at once, plus one
+per material under it. No typing, no lists:
 
 ```toml
-[weapons]
-    disabled = ["warhammer", "golden_dagger"]
+[weapons.warhammer]
+    enabled = true      # false disables all six warhammers
+    wooden = true
+    stone = true
+    iron = true
+    golden = false      # ...or just this one
+    diamond = true
+    netherite = true
 ```
 
-Items can't be removed from the registry without breaking saves, so anything already crafted keeps
-working. Recipe changes apply on the next `/reload` or world rejoin.
+Disabling a weapon hides it from the creative tab and removes its recipes. Items can't be removed from
+the registry without breaking saves, so anything already crafted keeps working. Recipe changes apply on
+the next `/reload` or world rejoin.
 
 ## Roadmap
 
@@ -137,15 +159,10 @@ working. Recipe changes apply on the next `/reload` or world rejoin.
 - [x] Ranged category — bows, longbows, crossbows & heavy crossbows across 5 tiers
 - [x] DPS balancing pass (vanilla weapons included)
 - [x] Config file — tooltip switches, per-weapon disabling, vanilla-axe retune knobs
+- [x] World integration — armed mobs, chest loot and villager trades
 
 **Planned**
 
-- [ ] **World generation & trades** — every weapon has a chance to appear in loot chests and villager
-      trades in place of the vanilla item of the same tier and category
-- [ ] **Armed mobs** — a small, difficulty-scaled chance for mobs to spawn wielding these weapons:
-      zombies (stone/iron basics), skeletons (bows), pillagers (crossbows), vindicators (axes),
-      wither skeletons (stone polearms alongside their swords), piglins and their zombified variants
-      (gold), piglin brutes (heavy weapons — battle axe, mace, warhammer)
 - [ ] **Crafting rebalance** — recipe costs need another pass
 - [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (256 sprites)
 - [ ] Data generation (recipes, tags, models, lang)
