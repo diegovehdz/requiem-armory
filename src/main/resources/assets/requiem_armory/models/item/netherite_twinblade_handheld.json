@@ -1,4 +1,0 @@
-{
-  "parent": "requiem_armory:item/twinblade",
-  "textures": { "layer0": "requiem_armory:item/netherite_twinblade_handheld" }
-}
