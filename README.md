@@ -20,13 +20,13 @@ the in-game textures are still temporary development placeholders — and a craf
 
 ### Melee & throwables
 
-**15 weapon types × 6 vanilla materials** (wood, stone, iron, gold, diamond, netherite) = **90 weapons.**
+**16 weapon types × 6 vanilla materials** (wood, stone, iron, gold, diamond, netherite) = **96 weapons.**
 
 | Category | Weapons |
 |---|---|
 | **Swords** | dagger · rapier · saber · katana · greatsword · longsword |
 | **Bludgeons** | warhammer · mace |
-| **Polearms** | glaive · spear · halberd · pike |
+| **Polearms** | glaive · spear · halberd · pike · scythe |
 | **Axes** | battle axe · hatchet |
 | **Throwables** | dagger · javelin · hatchet |
 
@@ -48,10 +48,21 @@ and land their shots **more consistently** (less random spread around the same a
 
 ### Balance
 
-Every weapon has hand-tuned damage, attack speed and reach, balanced against two anchors: **no weapon
-out-DPSes the same-tier vanilla sword**, and the heavy weapons cap out at the **vanilla axe**. Vanilla
-axes are themselves retuned (−1 damage, +0.2 attack speed) so they stay that ceiling while being far
-less clunky to swing. Combat overall is paced a notch slower than vanilla so hits read as weighty.
+Every weapon has hand-tuned damage, attack speed and reach, banded by **weight** rather than all being
+held under one ceiling:
+
+| Class | DPS at iron | Paid for with |
+|---|---|---|
+| Light & fast | up to ~10.5 | 3–6 damage per hit, short reach |
+| Mid | ~9.5 | balance |
+| Heavy | up to 8.8 | slow swings, 9–10 damage per hit |
+| Polearm | ~8.4 | lower damage in exchange for reach |
+
+Vanilla's iron sword (9.6) and its retuned axe (8.8) are the reference points. Light weapons may pass
+the sword — that's their identity, and it costs them per-hit damage, which is what actually matters
+against armour and knockback. Heavy weapons never pass the axe. A hard rule keeps the fast end honest:
+**no weapon swings above 2.0/second unless it also shortens invulnerability frames**, because anything
+past that is discarded by the game.
 
 The full per-weapon chart lives in the header comment of
 [`WeaponType.java`](src/main/java/io/github/diegovehdz/requiemarmory/weapon/WeaponType.java).
@@ -149,7 +160,7 @@ the next `/reload` or world rejoin.
 **Done**
 
 - [x] Project skeleton (NeoForge 1.21.1, ModDevGradle), registries, creative tab
-- [x] 15 weapon types × 6 materials with per-weapon stats
+- [x] 16 weapon types × 6 materials with per-weapon stats
 - [x] Abilities: two-handed, armor piercing, unarmored bonus, quick/slow strike, sweeping, breach, versatile
 - [x] Two-handed dynamic damage/speed penalty
 - [x] Trident-style throwable weapons (throw + recover, no ammo) + Loyalty support
@@ -164,7 +175,7 @@ the next `/reload` or world rejoin.
 **Planned**
 
 - [ ] **Crafting rebalance** — recipe costs need another pass
-- [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (256 sprites)
+- [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (268 sprites)
 - [ ] Data generation (recipes, tags, models, lang)
 
 **Scrapped**

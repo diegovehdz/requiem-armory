@@ -1,0 +1,22 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "requiem_armory:weapon_enabled",
+      "weapon": "requiem_armory:netherite_scythe"
+    }
+  ],
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  },
+  "base": {
+    "item": "requiem_armory:diamond_scythe"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:netherite_scythe"
+  }
+}

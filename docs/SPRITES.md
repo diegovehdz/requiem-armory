@@ -36,6 +36,7 @@ All item textures the mod needs. **6 materials** each: `wooden, stone, iron, gol
 | spear | `<mat>_spear_icon.png` + `<mat>_spear_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
 | halberd | `<mat>_halberd_icon.png` + `<mat>_halberd_handheld.png` | ICON 16×16 · HAND 64×64 | 12 |
 | pike | `<mat>_pike_icon.png` + `<mat>_pike_handheld.png` | ICON 16×16 · HAND 64×64 | 12 |
+| scythe | `<mat>_scythe_icon.png` + `<mat>_scythe_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
 
 ## Axes
 
@@ -225,6 +226,18 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `diamond_pike_handheld.png` (64×64)
 - [ ] `netherite_pike_icon.png` (16×16)
 - [ ] `netherite_pike_handheld.png` (64×64)
+- [ ] `wooden_scythe_icon.png` (16×16)
+- [ ] `wooden_scythe_handheld.png` (32×32)
+- [ ] `stone_scythe_icon.png` (16×16)
+- [ ] `stone_scythe_handheld.png` (32×32)
+- [ ] `iron_scythe_icon.png` (16×16)
+- [ ] `iron_scythe_handheld.png` (32×32)
+- [ ] `golden_scythe_icon.png` (16×16)
+- [ ] `golden_scythe_handheld.png` (32×32)
+- [ ] `diamond_scythe_icon.png` (16×16)
+- [ ] `diamond_scythe_handheld.png` (32×32)
+- [ ] `netherite_scythe_icon.png` (16×16)
+- [ ] `netherite_scythe_handheld.png` (32×32)
 
 ### Axes
 - [ ] `wooden_battle_axe_icon.png` (16×16)
@@ -265,6 +278,6 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `pole_handheld.png` (32×32)
 - [ ] `handle.png` (16×16)
 
-**Total melee/component sprite files: 171** (plus the 85 ranged sprites above = **256**).
+**Total melee/component sprite files: 183** (plus the 85 ranged sprites above = **268**).
 
 All textures go in `src/main/resources/assets/requiem_armory/textures/item/`.

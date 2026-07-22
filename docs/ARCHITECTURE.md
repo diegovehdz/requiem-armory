@@ -23,7 +23,7 @@ Everything is driven from two enums + one item class in `weapon/`:
   base attack-damage bonus come from the wrapped vanilla `Tier`.
 - **`WeaponType`** — the "book of weapons": one row per weapon shape with `id, attackDamageModifier,
   attackSpeedStat, reachStat, separateModel, category, abilities`. This is the single place to tune
-  stats. **15 types** across categories `SWORD, BLUDGEON, POLEARM, THROWN`. The header comment carries
+  stats. **16 types** across categories `SWORD, BLUDGEON, POLEARM, THROWN`. The header comment carries
   the balance chart (iron-tier DPS per weapon) the numbers were derived from — keep it in sync when
   retuning.
   - `attackDamageModifier` (int): total melee damage = `1 + attackDamageModifier + tier bonus`
@@ -47,7 +47,7 @@ Everything is driven from two enums + one item class in `weapon/`:
   vanilla items — see [Vanilla tooltips](#vanilla-tooltips).
 
 ### Registration
-`registry/ModItems` builds the cross-product `WeaponType × WeaponMaterial` (90 weapons) into the
+`registry/ModItems` builds the cross-product `WeaponType × WeaponMaterial` (96 weapons) into the
 `WEAPONS` map. Item class is chosen by `type.abilities.isThrowable()` → `ThrowableWeaponItem`, else
 `WeaponItem`.
 `ModCreativeTabs` builds the "Armory" tab; `ModEntities` registers the `thrown_weapon` entity;
@@ -76,7 +76,7 @@ keys; without them the GUI shows raw key strings.
 **Disabling a weapon** cannot deregister the item (that breaks saves), so it means: dropped from the
 creative tab (`ModCreativeTabs` filters on `isWeaponEnabled`) and stripped of its recipes. Recipes are
 gated by `config/WeaponEnabledCondition`, an `ICondition` registered through `registry/ModConditions`
-into `NeoForgeRegistries.Keys.CONDITION_CODECS`; all **108** weapon recipes carry
+into `NeoForgeRegistries.Keys.CONDITION_CODECS`; all **114** weapon recipes carry
 `"neoforge:conditions": [{"type": "requiem_armory:weapon_enabled", "weapon": "<item id>"}]`
 (`handle`/`pole` are components and stay ungated). Conditions are evaluated at datapack load, so a
 config change needs `/reload` or a rejoin before recipes follow.
@@ -226,7 +226,7 @@ string, plus stick/tripwire_hook for crossbows), netherite via `smithing_transfo
   These base models carry the display transforms (copied from Dixta's Armory). The inventory sprite
   and its model are named `<material>_<type>_icon` — **not** `_gui`.
 - **Textures** are current **dev placeholders derived from Dixta's Armory** — to be replaced with
-  original art (see SPRITES.md: 171 melee/component + 85 ranged).
+  original art (see SPRITES.md: 183 melee/component + 85 ranged).
 - **Recipes** (`data/requiem_armory/recipe/` — singular folder; result uses `"id"`): crafting from
   material + `handle`/`pole` components; netherite via `smithing_transform`.
 - **Enchantability**: all weapons are in `#minecraft:swords` (full weapon enchant set); throwables

@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "requiem_armory:weapon_enabled",
+      "weapon": "requiem_armory:iron_scythe"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "requiem_armory:pole"
+    }
+  },
+  "pattern": [
+    "MM",
+    "PM",
+    "P "
+  ],
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:iron_scythe"
+  }
+}

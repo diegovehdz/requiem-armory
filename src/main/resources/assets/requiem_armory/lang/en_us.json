@@ -71,6 +71,12 @@
   "item.requiem_armory.golden_halberd": "Golden Halberd",
   "item.requiem_armory.diamond_halberd": "Diamond Halberd",
   "item.requiem_armory.netherite_halberd": "Netherite Halberd",
+  "item.requiem_armory.wooden_scythe": "Wooden Scythe",
+  "item.requiem_armory.stone_scythe": "Stone Scythe",
+  "item.requiem_armory.iron_scythe": "Iron Scythe",
+  "item.requiem_armory.golden_scythe": "Golden Scythe",
+  "item.requiem_armory.diamond_scythe": "Diamond Scythe",
+  "item.requiem_armory.netherite_scythe": "Netherite Scythe",
   "item.requiem_armory.wooden_javelin": "Wooden Javelin",
   "item.requiem_armory.stone_javelin": "Stone Javelin",
   "item.requiem_armory.iron_javelin": "Iron Javelin",
@@ -184,5 +190,6 @@
   "requiem_armory.configuration.iron": "Iron",
   "requiem_armory.configuration.golden": "Golden",
   "requiem_armory.configuration.diamond": "Diamond",
-  "requiem_armory.configuration.netherite": "Netherite"
+  "requiem_armory.configuration.netherite": "Netherite",
+  "requiem_armory.configuration.scythe": "Scythe"
 }

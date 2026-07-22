@@ -1,0 +1,6 @@
+{
+  "parent": "requiem_armory:item/scythe",
+  "textures": {
+    "layer0": "requiem_armory:item/golden_scythe_handheld"
+  }
+}

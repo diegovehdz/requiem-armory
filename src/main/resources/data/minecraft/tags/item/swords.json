@@ -90,6 +90,12 @@
     "requiem_armory:iron_javelin",
     "requiem_armory:golden_javelin",
     "requiem_armory:diamond_javelin",
-    "requiem_armory:netherite_javelin"
+    "requiem_armory:netherite_javelin",
+    "requiem_armory:wooden_scythe",
+    "requiem_armory:stone_scythe",
+    "requiem_armory:iron_scythe",
+    "requiem_armory:golden_scythe",
+    "requiem_armory:diamond_scythe",
+    "requiem_armory:netherite_scythe"
   ]
 }
