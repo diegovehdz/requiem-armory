@@ -1,6 +1,3 @@
 {
-  "parent": "bettercombat:spear",
-  "attributes": {
-    "two_handed": false
-  }
+  "parent": "requiem_armory:presets/spear"
 }

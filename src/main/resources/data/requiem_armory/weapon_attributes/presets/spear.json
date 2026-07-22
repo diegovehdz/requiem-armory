@@ -1,0 +1,12 @@
+{
+  "parent": "bettercombat:spear",
+  "attributes": {
+    "two_handed": false,
+    "pose": "",
+    "attacks": [
+      {
+        "animation": "bettercombat:one_handed_stab"
+      }
+    ]
+  }
+}
