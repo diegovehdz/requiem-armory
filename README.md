@@ -17,11 +17,11 @@ temporary development placeholders) and a few remaining systems.
 
 ## Content
 
-**16 weapon types × 6 vanilla materials** (wood, stone, iron, gold, diamond, netherite) = **96 weapons.**
+**15 weapon types × 6 vanilla materials** (wood, stone, iron, gold, diamond, netherite) = **90 weapons.**
 
 | Category | Weapons |
 |---|---|
-| **Swords** | dagger · rapier · saber · katana · greatsword · longsword · twinblade |
+| **Swords** | dagger · rapier · saber · katana · greatsword · longsword |
 | **Bludgeons** | warhammer · mace |
 | **Polearms** | glaive · spear · halberd · pike |
 | **Axes** | battle axe · hatchet |
@@ -40,11 +40,13 @@ while trade-offs (reach, speed, two-handedness) give every weapon a distinct rol
 - **Quick / Slow Strike** — shortens or lengthens the target's post-hit invulnerability.
 - **Sweeping** — custom sweep radius and/or bonus sweep damage.
 - **Breach** — disables shields on hit.
-- **Versatile** — usable as an axe as well as a weapon.
+- **Versatile** — can be used to chop wood as well as a weapon.
 - **Throwable** — thrown like a trident: charge, release, and pick it back up (no ammo — one throw,
   recoverable).
 
-Hold **Shift** on any weapon to expand its abilities into detailed descriptions.
+Hold **Shift** on any weapon to expand its abilities into detailed descriptions. **Vanilla weapons get
+the same treatment** — axes read as *Versatile* + *Breach*, swords as *Sweeping*, the trident as
+*Throwable*, and the bow/crossbow show their draw time, range and damage.
 
 ### Crafting
 
@@ -60,13 +62,14 @@ variants are **smithing-table upgrades** from the diamond version, like vanilla 
 
 If Better Combat is installed, every weapon gains a fitting moveset via `weapon_attributes`. Native
 Better Combat presets for most types, plus faithful ports of Dixta's custom movesets for the
-greatsword, twinblade, glaive, katana and battle axe. When Better Combat is absent, the mod handles
-reach itself and everything still works.
+greatsword, glaive, katana and battle axe. Bows and crossbows — this mod's and vanilla's — get Better
+Combat's ranged poses too. When Better Combat is absent, the mod handles reach itself and everything
+still works.
 
 ## Roadmap
 
 - [x] Project skeleton (NeoForge 1.21.1, ModDevGradle), registries, creative tab
-- [x] 17 weapon types × 6 materials with per-weapon stats
+- [x] 15 weapon types × 6 materials with per-weapon stats
 - [x] Abilities: two-handed, armor piercing, unarmored bonus, quick/slow strike, sweeping, breach, versatile
 - [x] Two-handed dynamic damage/speed penalty
 - [x] Trident-style throwable weapons (throw + recover, no ammo)
@@ -74,7 +77,7 @@ reach itself and everything still works.
 - [x] Optional Better Combat movesets (incl. Dixta's custom presets)
 - [x] Shift-expandable tooltips
 - [x] DPS balancing pass
-- [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (189 sprites)
+- [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (256 sprites)
 - [ ] Two-handed moveset switching (1H ↔ 2H) with Better Combat
 - [ ] Ranged category (reinforced bows & crossbows variants / rework)
 - [ ] Optional Loyalty for throwables

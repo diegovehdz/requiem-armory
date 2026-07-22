@@ -20,14 +20,16 @@ Everything is driven from two enums + one item class in `weapon/`:
   base attack-damage bonus come from the wrapped vanilla `Tier`.
 - **`WeaponType`** — the "book of weapons": one row per weapon shape with `id, attackDamageModifier,
   attackSpeedStat, reachStat, separateModel, category, abilities`. This is the single place to tune
-  stats. **16 types** across categories `SWORD, BLUDGEON, POLEARM, THROWN`.
+  stats. **15 types** across categories `SWORD, BLUDGEON, POLEARM, THROWN`. The header comment carries
+  the balance chart (iron-tier DPS per weapon) the numbers were derived from — keep it in sync when
+  retuning.
   - `attackDamageModifier` (int): total melee damage = `1 + attackDamageModifier + tier bonus`
     (scales with material like a vanilla sword).
   - `attackSpeedStat` (float): **attacks per second** (DPS = damage × attackSpeedStat). Converted to
     the vanilla attribute via `stat - 4.0`.
   - `reachStat` (float): desired reach; modifier is `reachStat - 3.0`. **Skipped when Better Combat
     is loaded** (BC manages reach via `range_bonus`).
-  - `separateModel` (bool): true = distinct GUI (16px) + handheld (32/64px) textures via the
+  - `separateModel` (bool): true = distinct icon (16px) + handheld (32/64px) textures via the
     `neoforge:separate_transforms` loader; false = one 16px texture.
 - **`WeaponAbilities`** (+ fluent `Builder`) — per-type combat traits: `pierce`, `unarmored`,
   `invincibility` (quick/slow strike), `sweep`, `breach`, `versatile`, `twoHanded(dmg,spd)`,
@@ -37,13 +39,27 @@ Everything is driven from two enums + one item class in `weapon/`:
   actions in `canPerformAction`, shield-disable in `canDisableShield`, tooltips in `appendHoverText`.
   Versatile weapons get an axe `Tool` component (mine `#minecraft:mineable/axe`). Two-handed logic
   lives in `inventoryTick`.
+- **`WeaponTooltip`** — renders a `WeaponAbilities` as tooltip lines (gold name, gray Shift-expanded
+  description). Split out of `WeaponItem` so `client/VanillaTooltips` can hang the same lines on
+  vanilla items — see [Vanilla tooltips](#vanilla-tooltips).
 
 ### Registration
-`registry/ModItems` builds the cross-product `WeaponType × WeaponMaterial` (96 weapons) into the
+`registry/ModItems` builds the cross-product `WeaponType × WeaponMaterial` (90 weapons) into the
 `WEAPONS` map. Item class is chosen by `type.abilities.isThrowable()` → `ThrowableWeaponItem`, else
 `WeaponItem`.
 `ModCreativeTabs` builds the "Armory" tab; `ModEntities` registers the `thrown_weapon` entity;
-`ModDamageTypes` holds the `armor_piercing` key. `ModEvents` (game bus) nerfs vanilla axes −1 attack.
+`ModDamageTypes` holds the `armor_piercing` key. `ModEvents` (game bus) retunes vanilla axes:
+**−1 attack damage, +0.2 attack speed**, so the axe stays the DPS ceiling for heavy weapons without
+being clunky (iron: 8 × 1.1 = 8.8 DPS, under the sword's 9.6).
+
+### Vanilla tooltips
+`client/VanillaTooltips` (`ItemTooltipEvent`, client-only) gives the vanilla weapons the mod's own
+ability lines so they read in the same language: axes → *Versatile* + *Breach*, swords → *Sweeping*,
+trident → *Throwable* (flat 8 damage, no tier bonus), bow/crossbow → the `RangedTooltip` stats of the
+**wooden** tier (which is what they are). Because the event fires after the whole tooltip is built,
+the lines are spliced in at index 1 — the same place `appendHoverText` puts them for our items.
+The vanilla bow/crossbow are also **renamed** to "Wooden Bow"/"Wooden Crossbow" by overriding
+`item.minecraft.bow`/`crossbow` in our own `lang/en_us.json` (mod lang files load after vanilla's).
 
 ### Two-handed (unified)
 Any `twoHanded(dmg,spd)` weapon takes a flat damage/speed penalty while the off-hand is occupied
@@ -146,11 +162,12 @@ string, plus stick/tripwire_hook for crossbows), netherite via `smithing_transfo
 
 ## Data & assets
 - **Models** (`assets/requiem_armory/models/item/`): split weapons use a `separate_transforms`
-  wrapper → `_gui` (item/generated, 16px) + `_handheld` (points to a shared base model:
-  `handheld_2x/4x`, `handheld_pole_2x/4x`, or shape bases `greatsword/battle_axe/twinblade/spear/
-  halberd`). These base models carry the display transforms (copied from Dixta's Armory).
+  wrapper → `_icon` (item/generated, 16px) + `_handheld` (points to a shared base model:
+  `handheld_2x/4x`, `handheld_pole_2x/4x`, or shape bases `greatsword/battle_axe/spear/halberd`).
+  These base models carry the display transforms (copied from Dixta's Armory). The inventory sprite
+  and its model are named `<material>_<type>_icon` — **not** `_gui`.
 - **Textures** are current **dev placeholders derived from Dixta's Armory** — to be replaced with
-  original art (see SPRITES.md, 183 files).
+  original art (see SPRITES.md: 171 melee/component + 85 ranged).
 - **Recipes** (`data/requiem_armory/recipe/` — singular folder; result uses `"id"`): crafting from
   material + `handle`/`pole` components; netherite via `smithing_transform`.
 - **Enchantability**: all weapons are in `#minecraft:swords` (full weapon enchant set); throwables
@@ -162,8 +179,15 @@ string, plus stick/tripwire_hook for crossbows), netherite via `smithing_transfo
 - 1.21 folders are singular: `data/<ns>/recipe/`, `tags/item/`, `damage_type/`. Recipe results use
   `"id"`, not `"item"`.
 - Better Combat `weapon_attributes` use `range_bonus` (relative), not `attack_range`. Match a file to
-  an item by filename = item path. Presets referenced as `bettercombat:<preset>` or
-  `requiem_armory:presets/<type>`.
+  an item by filename = item path — including **vanilla** items, via `data/minecraft/weapon_attributes/`.
+  Presets referenced as `bettercombat:<preset>` or `requiem_armory:presets/<type>`.
+  - `attacks` entries merge with the parent's **by index**, so an override can name only the fields it
+    changes (that is how `bettercombat:trident` turns the two-handed spear into a one-handed stab).
+    `requiem_armory:presets/spear` does the same for our spear: `two_handed: false`, `pose: ""` and the
+    one-handed animation, while keeping the spear preset's reach.
+  - **Ranged weapons get poses too**: `bettercombat:bow_two_handed_light` (bows, incl. `minecraft:bow`),
+    `bow_two_handed_heavy` (longbows), `crossbow_two_handed_light` (crossbows, incl.
+    `minecraft:crossbow`), `crossbow_two_handed_heavy` (heavy crossbows).
 - After the first successful build, verified NeoForge/MC sources are at
   `build/moddev/artifacts/neoforge-21.1.234-sources.jar` (unzip to read exact 1.21.1 APIs).
 - The full turn-by-turn history lives in the assistant's project memory
