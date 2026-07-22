@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "requiem_armory:weapon_enabled",
+      "weapon": "requiem_armory:copper_katana"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:ingots/copper"
+    },
+    "H": {
+      "item": "requiem_armory:handle"
+    }
+  },
+  "pattern": [
+    "  M",
+    " M ",
+    "H  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:copper_katana"
+  }
+}

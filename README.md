@@ -20,7 +20,7 @@ the in-game textures are still temporary development placeholders — and a craf
 
 ### Melee & throwables
 
-**16 weapon types × 6 vanilla materials** (wood, stone, iron, gold, diamond, netherite) = **96 weapons.**
+**16 weapon types × 7 materials** (wood, stone, **copper**, iron, gold, diamond, netherite) = **112 weapons.**
 
 | Category | Weapons |
 |---|---|
@@ -118,6 +118,15 @@ Weapons are crafted from their material plus two shaft components:
 More powerful weapons cost more material (e.g. a warhammer needs far more than a dagger). Netherite
 variants are **smithing-table upgrades** from the diamond version, like vanilla tools.
 
+**Copper** fills the gap between stone and iron — vanilla has the ingot but no tools for it, so it
+slots in without needing anything else installed.
+
+Recipes take their metal from **common item tags** (`c:ingots/iron` and friends) rather than the
+vanilla item, so another mod's iron works too. Materials are an **open registry**: a mod can add its
+own by calling `WeaponMaterial.register(...)` from its constructor and gets the full weapon set
+automatically. A material whose ingredient tag is empty — its mod isn't installed — is uncraftable and
+hidden from the creative tab, so a compat layer for a metal-adding mod can be a pure datapack.
+
 ### Better Combat integration (optional)
 
 If Better Combat is installed, every weapon gains a fitting moveset via `weapon_attributes` — native
@@ -160,7 +169,7 @@ the next `/reload` or world rejoin.
 **Done**
 
 - [x] Project skeleton (NeoForge 1.21.1, ModDevGradle), registries, creative tab
-- [x] 16 weapon types × 6 materials with per-weapon stats
+- [x] 16 weapon types × 7 materials with per-weapon stats
 - [x] Abilities: two-handed, armor piercing, unarmored bonus, quick/slow strike, sweeping, breach, versatile
 - [x] Two-handed dynamic damage/speed penalty
 - [x] Trident-style throwable weapons (throw + recover, no ammo) + Loyalty support
@@ -175,7 +184,7 @@ the next `/reload` or world rejoin.
 **Planned**
 
 - [ ] **Crafting rebalance** — recipe costs need another pass
-- [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (268 sprites)
+- [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (298 sprites)
 - [ ] Data generation (recipes, tags, models, lang)
 
 **Scrapped**

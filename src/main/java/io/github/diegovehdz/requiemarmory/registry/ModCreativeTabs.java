@@ -2,6 +2,7 @@ package io.github.diegovehdz.requiemarmory.registry;
 
 import io.github.diegovehdz.requiemarmory.RequiemArmory;
 import io.github.diegovehdz.requiemarmory.config.RequiemArmoryConfig;
+import io.github.diegovehdz.requiemarmory.weapon.WeaponMaterial;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -26,14 +27,28 @@ public final class ModCreativeTabs {
                     .displayItems((parameters, output) -> {
                         output.accept(ModItems.HANDLE.get());
                         output.accept(ModItems.POLE.get());
-                        // Config-disabled weapons stay registered (removing them would break saves)
-                        // but drop out of the tab, alongside losing their recipes.
+                        // Two reasons a weapon is registered but not shown: the config switched it
+                        // off, or its material's ingredient tag is empty because the mod providing
+                        // that metal is absent. Tab contents are rebuilt after datapacks load, so the
+                        // tag check sees the real answer.
                         ModItems.WEAPONS.forEach((name, weapon) -> {
-                            if (RequiemArmoryConfig.isWeaponEnabled(name)) output.accept(weapon.get());
+                            if (isShown(name)) output.accept(weapon);
                         });
                         ModItems.RANGED.forEach((name, ranged) -> {
-                            if (RequiemArmoryConfig.isWeaponEnabled(name)) output.accept(ranged.get());
+                            if (isShown(name)) output.accept(ranged);
                         });
                     })
                     .build());
+
+    /** Whether a weapon should appear: enabled in the config, and its material actually obtainable. */
+    private static boolean isShown(String path) {
+        if (!RequiemArmoryConfig.isWeaponEnabled(path)) {
+            return false;
+        }
+        return WeaponMaterial.all().stream()
+                .filter(m -> path.startsWith(m.id + "_"))
+                .findFirst()
+                .map(WeaponMaterial::isAvailable)
+                .orElse(true);
+    }
 }

@@ -14,13 +14,22 @@ import io.github.diegovehdz.requiemarmory.weapon.ThrowableWeaponItem;
 import io.github.diegovehdz.requiemarmory.weapon.WeaponItem;
 import io.github.diegovehdz.requiemarmory.weapon.WeaponMaterial;
 import io.github.diegovehdz.requiemarmory.weapon.WeaponType;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.registries.RegisterEvent;
 
 /**
  * Registers every item. Weapons are produced from the cross product of {@link WeaponType} ×
- * {@link WeaponMaterial}, so adding a weapon is a one-line change in those enums.
+ * {@link WeaponMaterial}, so adding a weapon — or a material — is a one-line change.
+ *
+ * <p>The cross product is built from a {@link RegisterEvent} listener rather than a static
+ * initialiser. That is deliberate: {@code WeaponMaterial} is an open registry, and an add-on that
+ * depends on this mod has its constructor run <em>after</em> ours. Registry events fire after every
+ * mod constructor, so waiting until then is what lets an add-on's materials get a full weapon set.
+ * Static components (handle, pole) have no such constraint and stay on a {@link DeferredRegister}.</p>
  */
 public final class ModItems {
     private ModItems() {}
@@ -28,11 +37,11 @@ public final class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(RequiemArmory.MOD_ID);
 
     /** Every weapon shown in-game, keyed by "&lt;material&gt;_&lt;type&gt;", in registration (and tab) order. */
-    public static final Map<String, DeferredItem<WeaponItem>> WEAPONS = new LinkedHashMap<>();
+    public static final Map<String, Item> WEAPONS = new LinkedHashMap<>();
 
     /** Every tiered ranged weapon (bows/crossbows), keyed by "&lt;material&gt;_&lt;type&gt;". The wooden
      *  tier of vanilla-backed types is omitted here — it is the vanilla item, adjusted via mixin. */
-    public static final Map<String, DeferredItem<Item>> RANGED = new LinkedHashMap<>();
+    public static final Map<String, Item> RANGED = new LinkedHashMap<>();
 
     /** Short grip used to craft most weapons. */
     public static final DeferredItem<Item> HANDLE = ITEMS.registerSimpleItem("handle");
@@ -40,47 +49,56 @@ public final class ModItems {
     /** Long "pole handle" (shaft) used to craft polearms. */
     public static final DeferredItem<Item> POLE = ITEMS.registerSimpleItem("pole");
 
-    static {
-        for (WeaponType type : WeaponType.values()) {
-            for (WeaponMaterial material : WeaponMaterial.values()) {
-                String name = material.id + "_" + type.id;
-                DeferredItem<WeaponItem> weapon = ITEMS.registerItem(name, props -> {
-                    Item.Properties p = material.decorate(props)
+    /** Builds and registers every weapon. Bound to the mod bus from the main mod class. */
+    public static void onRegister(RegisterEvent event) {
+        event.register(Registries.ITEM, helper -> {
+            // From here on a new material would never get weapons, so refuse to add one.
+            WeaponMaterial.lock();
+
+            for (WeaponType type : WeaponType.values()) {
+                for (WeaponMaterial material : WeaponMaterial.all()) {
+                    String name = material.id + "_" + type.id;
+                    Item.Properties props = material.decorate(new Item.Properties())
                             .attributes(WeaponItem.buildAttributes(type, material));
-                    return type.abilities.isThrowable()
-                            ? new ThrowableWeaponItem(type, material, p)
-                            : new WeaponItem(type, material, p);
-                });
-                WEAPONS.put(name, weapon);
+                    Item weapon = type.abilities.isThrowable()
+                            ? new ThrowableWeaponItem(type, material, props)
+                            : new WeaponItem(type, material, props);
+                    helper.register(id(name), weapon);
+                    WEAPONS.put(name, weapon);
+                }
             }
-        }
+
+            for (RangedType type : RangedType.values()) {
+                for (RangedTier tier : RangedTier.values()) {
+                    // Vanilla-backed types (bow/crossbow) get their wooden tier from the vanilla item.
+                    if (tier == RangedTier.WOODEN && type.vanillaWooden) {
+                        continue;
+                    }
+                    String name = tier.material.id + "_" + type.id;
+                    RangedStats stats = RangedStats.of(type, tier);
+                    Item.Properties props = tier.material.decorate(
+                            new Item.Properties().durability(stats.durability()));
+                    Item ranged = switch (type.family) {
+                        case BOW -> new BowWeaponItem(type, tier, props);
+                        case CROSSBOW -> new CrossbowWeaponItem(type, tier, props);
+                    };
+                    helper.register(id(name), ranged);
+                    RANGED.put(name, ranged);
+                }
+            }
+
+            RequiemArmory.LOGGER.info("[{}] Registered {} melee and {} ranged weapons across {} materials",
+                    RequiemArmory.MOD_ID, WEAPONS.size(), RANGED.size(), WeaponMaterial.all().size());
+        });
     }
 
-    static {
-        for (RangedType type : RangedType.values()) {
-            for (RangedTier tier : RangedTier.values()) {
-                // Vanilla-backed types (bow/crossbow) get their wooden tier from the vanilla item.
-                if (tier == RangedTier.WOODEN && type.vanillaWooden) {
-                    continue;
-                }
-                String name = tier.material.id + "_" + type.id;
-                RangedStats stats = RangedStats.of(type, tier);
-                DeferredItem<Item> item = ITEMS.registerItem(name, props -> {
-                    Item.Properties p = tier.material.decorate(props.durability(stats.durability()));
-                    Item created = switch (type.family) {
-                        case BOW -> new BowWeaponItem(type, tier, p);
-                        case CROSSBOW -> new CrossbowWeaponItem(type, tier, p);
-                    };
-                    return created;
-                });
-                RANGED.put(name, item);
-            }
-        }
+    private static ResourceLocation id(String path) {
+        return ResourceLocation.fromNamespaceAndPath(RequiemArmory.MOD_ID, path);
     }
 
     /** Convenience accessor used e.g. for the creative-tab icon. */
     public static WeaponItem weapon(String key) {
-        return WEAPONS.get(key).get();
+        return (WeaponItem) WEAPONS.get(key);
     }
 
     /**
@@ -89,11 +107,7 @@ public final class ModItems {
      * registered (there is no stone bow, and the wooden bow/crossbow are the vanilla items).
      */
     public static Optional<Item> find(String path) {
-        DeferredItem<WeaponItem> melee = WEAPONS.get(path);
-        if (melee != null) {
-            return Optional.of(melee.get());
-        }
-        DeferredItem<Item> ranged = RANGED.get(path);
-        return ranged == null ? Optional.empty() : Optional.of(ranged.get());
+        Item melee = WEAPONS.get(path);
+        return Optional.ofNullable(melee != null ? melee : RANGED.get(path));
     }
 }

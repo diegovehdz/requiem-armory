@@ -9,7 +9,7 @@
   "category": "equipment",
   "key": {
     "M": {
-      "item": "minecraft:gold_ingot"
+      "tag": "c:ingots/gold"
     },
     "K": {
       "item": "minecraft:stick"

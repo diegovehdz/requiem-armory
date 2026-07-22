@@ -13,7 +13,7 @@
     "item": "requiem_armory:diamond_saber"
   },
   "addition": {
-    "item": "minecraft:netherite_ingot"
+    "tag": "c:ingots/netherite"
   },
   "result": {
     "count": 1,

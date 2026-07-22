@@ -136,8 +136,8 @@ public final class RequiemArmoryConfig {
                             "working. Recipes follow on the next /reload or world rejoin.")
                     .push("weapons");
             for (WeaponType type : WeaponType.values()) {
-                defineShape(builder, type.id, WeaponMaterial.values().length,
-                        Arrays.stream(WeaponMaterial.values()).map(m -> m.id).toList());
+                defineShape(builder, type.id, WeaponMaterial.all().size(),
+                        WeaponMaterial.all().stream().map(m -> m.id).toList());
             }
             for (RangedType type : RangedType.values()) {
                 // The wooden tier of a vanilla-backed shape IS the vanilla item — nothing of ours to disable.

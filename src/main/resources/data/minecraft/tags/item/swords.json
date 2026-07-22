@@ -96,6 +96,22 @@
     "requiem_armory:iron_scythe",
     "requiem_armory:golden_scythe",
     "requiem_armory:diamond_scythe",
-    "requiem_armory:netherite_scythe"
+    "requiem_armory:netherite_scythe",
+    "requiem_armory:copper_dagger",
+    "requiem_armory:copper_rapier",
+    "requiem_armory:copper_saber",
+    "requiem_armory:copper_katana",
+    "requiem_armory:copper_greatsword",
+    "requiem_armory:copper_longsword",
+    "requiem_armory:copper_battle_axe",
+    "requiem_armory:copper_warhammer",
+    "requiem_armory:copper_mace",
+    "requiem_armory:copper_glaive",
+    "requiem_armory:copper_spear",
+    "requiem_armory:copper_halberd",
+    "requiem_armory:copper_pike",
+    "requiem_armory:copper_scythe",
+    "requiem_armory:copper_hatchet",
+    "requiem_armory:copper_javelin"
   ]
 }

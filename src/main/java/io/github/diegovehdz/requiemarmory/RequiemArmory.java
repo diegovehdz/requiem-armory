@@ -33,6 +33,8 @@ public class RequiemArmory {
     public RequiemArmory(IEventBus modBus, ModContainer modContainer) {
         // Bind deferred registers to the mod event bus so the game registers their contents.
         ModItems.ITEMS.register(modBus);
+        // Weapons themselves are built later, once every mod has had a chance to add materials.
+        modBus.addListener(ModItems::onRegister);
         ModCreativeTabs.CREATIVE_MODE_TABS.register(modBus);
         ModEntities.ENTITY_TYPES.register(modBus);
         ModConditions.CONDITION_CODECS.register(modBus);

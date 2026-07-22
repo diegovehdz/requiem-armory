@@ -37,8 +37,8 @@ public final class RequiemArmoryClient {
         ResourceLocation pulling = ResourceLocation.withDefaultNamespace("pulling");
         ResourceLocation pull = ResourceLocation.withDefaultNamespace("pull");
         event.enqueueWork(() -> {
-            ModItems.WEAPONS.values().forEach(holder -> {
-                if (holder.get() instanceof ThrowableWeaponItem item) {
+            ModItems.WEAPONS.values().forEach(entry -> {
+                if (entry instanceof ThrowableWeaponItem item) {
                     // 1.0 while the player is charging a throw, so the model can switch to a throwing pose.
                     ItemProperties.register(item, throwing, (stack, level, entity, seed) ->
                             entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0f : 0.0f);
@@ -46,12 +46,12 @@ public final class RequiemArmoryClient {
             });
             ResourceLocation charged = ResourceLocation.withDefaultNamespace("charged");
             ResourceLocation firework = ResourceLocation.withDefaultNamespace("firework");
-            ModItems.RANGED.values().forEach(holder -> {
-                if (holder.get() instanceof BowWeaponItem bow) {
+            ModItems.RANGED.values().forEach(entry -> {
+                if (entry instanceof BowWeaponItem bow) {
                     // Same predicates the vanilla bow uses, but the pull fraction is scaled to this
                     // tier's draw speed so the animation finishes exactly when the shot is full.
                     registerBowPull(bow, pulling, pull, bow.stats().drawTicks());
-                } else if (holder.get() instanceof CrossbowWeaponItem crossbow) {
+                } else if (entry instanceof CrossbowWeaponItem crossbow) {
                     registerCrossbowPredicates(crossbow, pulling, pull, charged, firework);
                 }
             });

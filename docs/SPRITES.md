@@ -1,6 +1,7 @@
 # Requiem Armory — Sprite Checklist
 
-All item textures the mod needs. **6 materials** each: `wooden, stone, iron, golden, diamond, netherite`.
+All item textures the mod needs. **7 materials** each: `wooden, stone, copper, iron, golden, diamond, netherite`.
+(Copper currently reuses the iron art as a placeholder and needs its own pass.)
 
 **Legend**
 - **ICON** = flat inventory icon, always **16×16** (`<material>_<type>_icon.png`).
@@ -12,44 +13,44 @@ All item textures the mod needs. **6 materials** each: `wooden, stone, iron, gol
 
 ## Swords
 
-| Weapon | Textures per material | Size | Files (×6) |
+| Weapon | Textures per material | Size | Files (×7) |
 |---|---|---|---|
-| dagger | `<mat>_dagger.png` (SINGLE) | 16×16 | 6 |
-| rapier | `<mat>_rapier_icon.png` + `<mat>_rapier_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
-| saber | `<mat>_saber_icon.png` + `<mat>_saber_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
-| katana | `<mat>_katana_icon.png` + `<mat>_katana_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
-| greatsword | `<mat>_greatsword_icon.png` + `<mat>_greatsword_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
-| longsword | `<mat>_longsword_icon.png` + `<mat>_longsword_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
+| dagger | `<mat>_dagger.png` (SINGLE) | 16×16 | 7 |
+| rapier | `<mat>_rapier_icon.png` + `<mat>_rapier_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
+| saber | `<mat>_saber_icon.png` + `<mat>_saber_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
+| katana | `<mat>_katana_icon.png` + `<mat>_katana_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
+| greatsword | `<mat>_greatsword_icon.png` + `<mat>_greatsword_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
+| longsword | `<mat>_longsword_icon.png` + `<mat>_longsword_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
 
 ## Bludgeons
 
-| Weapon | Textures per material | Size | Files (×6) |
+| Weapon | Textures per material | Size | Files (×7) |
 |---|---|---|---|
-| warhammer | `<mat>_warhammer_icon.png` + `<mat>_warhammer_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
-| mace | `<mat>_mace_icon.png` + `<mat>_mace_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
+| warhammer | `<mat>_warhammer_icon.png` + `<mat>_warhammer_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
+| mace | `<mat>_mace_icon.png` + `<mat>_mace_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
 
 ## Polearms
 
-| Weapon | Textures per material | Size | Files (×6) |
+| Weapon | Textures per material | Size | Files (×7) |
 |---|---|---|---|
-| glaive | `<mat>_glaive_icon.png` + `<mat>_glaive_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
-| spear | `<mat>_spear_icon.png` + `<mat>_spear_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
-| halberd | `<mat>_halberd_icon.png` + `<mat>_halberd_handheld.png` | ICON 16×16 · HAND 64×64 | 12 |
-| pike | `<mat>_pike_icon.png` + `<mat>_pike_handheld.png` | ICON 16×16 · HAND 64×64 | 12 |
-| scythe | `<mat>_scythe_icon.png` + `<mat>_scythe_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
+| glaive | `<mat>_glaive_icon.png` + `<mat>_glaive_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
+| spear | `<mat>_spear_icon.png` + `<mat>_spear_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
+| halberd | `<mat>_halberd_icon.png` + `<mat>_halberd_handheld.png` | ICON 16×16 · HAND 64×64 | 14 |
+| pike | `<mat>_pike_icon.png` + `<mat>_pike_handheld.png` | ICON 16×16 · HAND 64×64 | 14 |
+| scythe | `<mat>_scythe_icon.png` + `<mat>_scythe_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
 
 ## Axes
 
-| Weapon | Textures per material | Size | Files (×6) |
+| Weapon | Textures per material | Size | Files (×7) |
 |---|---|---|---|
-| battle_axe | `<mat>_battle_axe_icon.png` + `<mat>_battle_axe_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
-| hatchet | `<mat>_hatchet.png` (SINGLE) | 16×16 | 6 |
+| battle_axe | `<mat>_battle_axe_icon.png` + `<mat>_battle_axe_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
+| hatchet | `<mat>_hatchet.png` (SINGLE) | 16×16 | 7 |
 
 ## Throwable
 
-| Weapon | Textures per material | Size | Files (×6) |
+| Weapon | Textures per material | Size | Files (×7) |
 |---|---|---|---|
-| javelin | `<mat>_javelin_icon.png` + `<mat>_javelin_handheld.png` | ICON 16×16 · HAND 32×32 | 12 |
+| javelin | `<mat>_javelin_icon.png` + `<mat>_javelin_handheld.png` | ICON 16×16 · HAND 32×32 | 14 |
 
 ## Components / other
 
@@ -87,6 +88,7 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `wooden_dagger.png` (16×16)
 - [ ] `stone_dagger.png` (16×16)
 - [ ] `iron_dagger.png` (16×16)
+- [ ] `copper_dagger.png` (16×16)
 - [ ] `golden_dagger.png` (16×16)
 - [ ] `diamond_dagger.png` (16×16)
 - [ ] `netherite_dagger.png` (16×16)
@@ -95,7 +97,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_rapier_icon.png` (16×16)
 - [ ] `stone_rapier_handheld.png` (32×32)
 - [ ] `iron_rapier_icon.png` (16×16)
+- [ ] `copper_rapier_icon.png` (16×16)
 - [ ] `iron_rapier_handheld.png` (32×32)
+- [ ] `copper_rapier_handheld.png` (32×32)
 - [ ] `golden_rapier_icon.png` (16×16)
 - [ ] `golden_rapier_handheld.png` (32×32)
 - [ ] `diamond_rapier_icon.png` (16×16)
@@ -107,7 +111,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_saber_icon.png` (16×16)
 - [ ] `stone_saber_handheld.png` (32×32)
 - [ ] `iron_saber_icon.png` (16×16)
+- [ ] `copper_saber_icon.png` (16×16)
 - [ ] `iron_saber_handheld.png` (32×32)
+- [ ] `copper_saber_handheld.png` (32×32)
 - [ ] `golden_saber_icon.png` (16×16)
 - [ ] `golden_saber_handheld.png` (32×32)
 - [ ] `diamond_saber_icon.png` (16×16)
@@ -119,7 +125,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_katana_icon.png` (16×16)
 - [ ] `stone_katana_handheld.png` (32×32)
 - [ ] `iron_katana_icon.png` (16×16)
+- [ ] `copper_katana_icon.png` (16×16)
 - [ ] `iron_katana_handheld.png` (32×32)
+- [ ] `copper_katana_handheld.png` (32×32)
 - [ ] `golden_katana_icon.png` (16×16)
 - [ ] `golden_katana_handheld.png` (32×32)
 - [ ] `diamond_katana_icon.png` (16×16)
@@ -131,7 +139,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_greatsword_icon.png` (16×16)
 - [ ] `stone_greatsword_handheld.png` (32×32)
 - [ ] `iron_greatsword_icon.png` (16×16)
+- [ ] `copper_greatsword_icon.png` (16×16)
 - [ ] `iron_greatsword_handheld.png` (32×32)
+- [ ] `copper_greatsword_handheld.png` (32×32)
 - [ ] `golden_greatsword_icon.png` (16×16)
 - [ ] `golden_greatsword_handheld.png` (32×32)
 - [ ] `diamond_greatsword_icon.png` (16×16)
@@ -143,7 +153,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_longsword_icon.png` (16×16)
 - [ ] `stone_longsword_handheld.png` (32×32)
 - [ ] `iron_longsword_icon.png` (16×16)
+- [ ] `copper_longsword_icon.png` (16×16)
 - [ ] `iron_longsword_handheld.png` (32×32)
+- [ ] `copper_longsword_handheld.png` (32×32)
 - [ ] `golden_longsword_icon.png` (16×16)
 - [ ] `golden_longsword_handheld.png` (32×32)
 - [ ] `diamond_longsword_icon.png` (16×16)
@@ -157,7 +169,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_warhammer_icon.png` (16×16)
 - [ ] `stone_warhammer_handheld.png` (32×32)
 - [ ] `iron_warhammer_icon.png` (16×16)
+- [ ] `copper_warhammer_icon.png` (16×16)
 - [ ] `iron_warhammer_handheld.png` (32×32)
+- [ ] `copper_warhammer_handheld.png` (32×32)
 - [ ] `golden_warhammer_icon.png` (16×16)
 - [ ] `golden_warhammer_handheld.png` (32×32)
 - [ ] `diamond_warhammer_icon.png` (16×16)
@@ -169,7 +183,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_mace_icon.png` (16×16)
 - [ ] `stone_mace_handheld.png` (32×32)
 - [ ] `iron_mace_icon.png` (16×16)
+- [ ] `copper_mace_icon.png` (16×16)
 - [ ] `iron_mace_handheld.png` (32×32)
+- [ ] `copper_mace_handheld.png` (32×32)
 - [ ] `golden_mace_icon.png` (16×16)
 - [ ] `golden_mace_handheld.png` (32×32)
 - [ ] `diamond_mace_icon.png` (16×16)
@@ -183,7 +199,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_glaive_icon.png` (16×16)
 - [ ] `stone_glaive_handheld.png` (32×32)
 - [ ] `iron_glaive_icon.png` (16×16)
+- [ ] `copper_glaive_icon.png` (16×16)
 - [ ] `iron_glaive_handheld.png` (32×32)
+- [ ] `copper_glaive_handheld.png` (32×32)
 - [ ] `golden_glaive_icon.png` (16×16)
 - [ ] `golden_glaive_handheld.png` (32×32)
 - [ ] `diamond_glaive_icon.png` (16×16)
@@ -195,7 +213,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_spear_icon.png` (16×16)
 - [ ] `stone_spear_handheld.png` (32×32)
 - [ ] `iron_spear_icon.png` (16×16)
+- [ ] `copper_spear_icon.png` (16×16)
 - [ ] `iron_spear_handheld.png` (32×32)
+- [ ] `copper_spear_handheld.png` (32×32)
 - [ ] `golden_spear_icon.png` (16×16)
 - [ ] `golden_spear_handheld.png` (32×32)
 - [ ] `diamond_spear_icon.png` (16×16)
@@ -207,7 +227,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_halberd_icon.png` (16×16)
 - [ ] `stone_halberd_handheld.png` (64×64)
 - [ ] `iron_halberd_icon.png` (16×16)
+- [ ] `copper_halberd_icon.png` (16×16)
 - [ ] `iron_halberd_handheld.png` (64×64)
+- [ ] `copper_halberd_handheld.png` (64×64)
 - [ ] `golden_halberd_icon.png` (16×16)
 - [ ] `golden_halberd_handheld.png` (64×64)
 - [ ] `diamond_halberd_icon.png` (16×16)
@@ -219,7 +241,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_pike_icon.png` (16×16)
 - [ ] `stone_pike_handheld.png` (64×64)
 - [ ] `iron_pike_icon.png` (16×16)
+- [ ] `copper_pike_icon.png` (16×16)
 - [ ] `iron_pike_handheld.png` (64×64)
+- [ ] `copper_pike_handheld.png` (64×64)
 - [ ] `golden_pike_icon.png` (16×16)
 - [ ] `golden_pike_handheld.png` (64×64)
 - [ ] `diamond_pike_icon.png` (16×16)
@@ -231,7 +255,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_scythe_icon.png` (16×16)
 - [ ] `stone_scythe_handheld.png` (32×32)
 - [ ] `iron_scythe_icon.png` (16×16)
+- [ ] `copper_scythe_icon.png` (16×16)
 - [ ] `iron_scythe_handheld.png` (32×32)
+- [ ] `copper_scythe_handheld.png` (32×32)
 - [ ] `golden_scythe_icon.png` (16×16)
 - [ ] `golden_scythe_handheld.png` (32×32)
 - [ ] `diamond_scythe_icon.png` (16×16)
@@ -245,7 +271,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_battle_axe_icon.png` (16×16)
 - [ ] `stone_battle_axe_handheld.png` (32×32)
 - [ ] `iron_battle_axe_icon.png` (16×16)
+- [ ] `copper_battle_axe_icon.png` (16×16)
 - [ ] `iron_battle_axe_handheld.png` (32×32)
+- [ ] `copper_battle_axe_handheld.png` (32×32)
 - [ ] `golden_battle_axe_icon.png` (16×16)
 - [ ] `golden_battle_axe_handheld.png` (32×32)
 - [ ] `diamond_battle_axe_icon.png` (16×16)
@@ -255,6 +283,7 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `wooden_hatchet.png` (16×16)
 - [ ] `stone_hatchet.png` (16×16)
 - [ ] `iron_hatchet.png` (16×16)
+- [ ] `copper_hatchet.png` (16×16)
 - [ ] `golden_hatchet.png` (16×16)
 - [ ] `diamond_hatchet.png` (16×16)
 - [ ] `netherite_hatchet.png` (16×16)
@@ -265,7 +294,9 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `stone_javelin_icon.png` (16×16)
 - [ ] `stone_javelin_handheld.png` (32×32)
 - [ ] `iron_javelin_icon.png` (16×16)
+- [ ] `copper_javelin_icon.png` (16×16)
 - [ ] `iron_javelin_handheld.png` (32×32)
+- [ ] `copper_javelin_handheld.png` (32×32)
 - [ ] `golden_javelin_icon.png` (16×16)
 - [ ] `golden_javelin_handheld.png` (32×32)
 - [ ] `diamond_javelin_icon.png` (16×16)
@@ -278,6 +309,6 @@ new items but currently reuse the vanilla bow/crossbow art — they need their o
 - [ ] `pole_handheld.png` (32×32)
 - [ ] `handle.png` (16×16)
 
-**Total melee/component sprite files: 183** (plus the 85 ranged sprites above = **268**).
+**Total melee/component sprite files: 213** (plus the 85 ranged sprites above = **298**).
 
 All textures go in `src/main/resources/assets/requiem_armory/textures/item/`.

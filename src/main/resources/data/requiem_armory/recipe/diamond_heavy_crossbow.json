@@ -9,7 +9,7 @@
   "category": "equipment",
   "key": {
     "M": {
-      "item": "minecraft:diamond"
+      "tag": "c:gems/diamond"
     },
     "K": {
       "item": "minecraft:stick"

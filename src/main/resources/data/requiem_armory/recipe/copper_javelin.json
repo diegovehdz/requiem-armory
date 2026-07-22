@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "requiem_armory:weapon_enabled",
+      "weapon": "requiem_armory:copper_javelin"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "c:ingots/copper"
+    },
+    "H": {
+      "item": "requiem_armory:handle"
+    },
+    "P": {
+      "item": "requiem_armory:pole"
+    }
+  },
+  "pattern": [
+    "  M",
+    " H ",
+    "P  "
+  ],
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:copper_javelin"
+  }
+}

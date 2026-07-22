@@ -1,0 +1,4 @@
+{
+  "parent": "requiem_armory:item/halberd",
+  "textures": { "layer0": "requiem_armory:item/copper_halberd_handheld" }
+}

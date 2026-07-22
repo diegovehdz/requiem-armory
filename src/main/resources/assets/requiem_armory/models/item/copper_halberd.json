@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "neoforge:separate_transforms",
+  "textures": { "layer0": "requiem_armory:item/copper_halberd_icon" },
+  "base": { "parent": "requiem_armory:item/copper_halberd_icon" },
+  "perspectives": {
+    "thirdperson_righthand": { "parent": "requiem_armory:item/copper_halberd_handheld" },
+    "thirdperson_lefthand":  { "parent": "requiem_armory:item/copper_halberd_handheld" },
+    "firstperson_righthand": { "parent": "requiem_armory:item/copper_halberd_handheld" },
+    "firstperson_lefthand":  { "parent": "requiem_armory:item/copper_halberd_handheld" }
+  }
+}

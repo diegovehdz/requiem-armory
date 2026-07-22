@@ -9,7 +9,7 @@
   "category": "equipment",
   "key": {
     "M": {
-      "item": "minecraft:diamond"
+      "tag": "c:gems/diamond"
     },
     "P": {
       "item": "requiem_armory:pole"

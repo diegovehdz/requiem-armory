@@ -9,7 +9,7 @@
   "category": "equipment",
   "key": {
     "M": {
-      "item": "minecraft:iron_ingot"
+      "tag": "c:ingots/iron"
     },
     "S": {
       "item": "minecraft:string"

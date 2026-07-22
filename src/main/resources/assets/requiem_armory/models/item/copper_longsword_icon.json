@@ -1,0 +1,4 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": { "layer0": "requiem_armory:item/copper_longsword_icon" }
+}
