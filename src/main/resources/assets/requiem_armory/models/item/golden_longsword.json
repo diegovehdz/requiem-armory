@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:item/handheld",
   "loader": "neoforge:separate_transforms",
-  "textures": { "layer0": "requiem_armory:item/golden_longsword_gui" },
-  "base": { "parent": "requiem_armory:item/golden_longsword_gui" },
+  "textures": { "layer0": "requiem_armory:item/golden_longsword_icon" },
+  "base": { "parent": "requiem_armory:item/golden_longsword_icon" },
   "perspectives": {
     "thirdperson_righthand": { "parent": "requiem_armory:item/golden_longsword_handheld" },
     "thirdperson_lefthand":  { "parent": "requiem_armory:item/golden_longsword_handheld" },

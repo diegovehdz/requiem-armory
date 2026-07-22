@@ -2,10 +2,10 @@
   "parent": "minecraft:item/handheld",
   "loader": "neoforge:separate_transforms",
   "textures": {
-    "layer0": "requiem_armory:item/wooden_javelin_gui"
+    "layer0": "requiem_armory:item/wooden_javelin_icon"
   },
   "base": {
-    "parent": "requiem_armory:item/wooden_javelin_gui"
+    "parent": "requiem_armory:item/wooden_javelin_icon"
   },
   "perspectives": {
     "thirdperson_righthand": {

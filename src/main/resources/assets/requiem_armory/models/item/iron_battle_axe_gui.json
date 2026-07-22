@@ -1,4 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": { "layer0": "requiem_armory:item/iron_battle_axe_gui" }
-}

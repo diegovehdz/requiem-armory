@@ -1,8 +1,8 @@
 {
   "parent": "minecraft:item/handheld",
   "loader": "neoforge:separate_transforms",
-  "textures": { "layer0": "requiem_armory:item/netherite_katana_gui" },
-  "base": { "parent": "requiem_armory:item/netherite_katana_gui" },
+  "textures": { "layer0": "requiem_armory:item/netherite_katana_icon" },
+  "base": { "parent": "requiem_armory:item/netherite_katana_icon" },
   "perspectives": {
     "thirdperson_righthand": { "parent": "requiem_armory:item/netherite_katana_handheld" },
     "thirdperson_lefthand":  { "parent": "requiem_armory:item/netherite_katana_handheld" },
