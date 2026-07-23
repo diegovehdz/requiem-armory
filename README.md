@@ -20,7 +20,7 @@ the in-game textures are still temporary development placeholders — and a craf
 
 ### Melee & throwables
 
-**16 weapon types × up to 9 materials** (wood, stone, **copper**, iron, gold, **silver**, **steel**, diamond, netherite) = **112–144 weapons.**
+**16 weapon types × up to 8 materials** (wood, stone, **copper**, iron, gold, **steel**, diamond, netherite) = **112–128 weapons.**
 
 | Category | Weapons |
 |---|---|
@@ -124,10 +124,8 @@ More powerful weapons cost more material (e.g. a warhammer needs far more than a
 variants are **smithing-table upgrades** from the diamond version, like vanilla tools.
 
 **Copper** fills the gap between stone and iron — vanilla has the ingot but no tools for it, so it
-slots in without needing anything else installed. **Silver** and **steel** appear only when a mod
-provides them: silver is a fragile sidegrade that trades base damage for armour-ignoring *magic
-damage* (à la Caverns & Chasms), and steel is a clean iron→diamond bridge tuned to match Overgeared's
-own steel.
+slots in without needing anything else installed. **Steel** appears only when a mod provides it: a
+clean iron→diamond bridge tuned to match Overgeared's own steel.
 
 Recipes take their metal from **common item tags** (`c:ingots/iron` and friends) rather than the
 vanilla item, so another mod's iron works too. Materials are an **open registry**: a mod can add its
@@ -177,7 +175,7 @@ the next `/reload` or world rejoin.
 **Done**
 
 - [x] Project skeleton (NeoForge 1.21.1, ModDevGradle), registries, creative tab
-- [x] 16 weapon types × 7 vanilla + 2 optional materials with per-weapon stats
+- [x] 16 weapon types × 7 vanilla + 1 optional material with per-weapon stats
 - [x] Abilities: two-handed, armor piercing, unarmored bonus, quick/slow strike, sweeping, breach, versatile
 - [x] Two-handed dynamic damage/speed penalty
 - [x] Trident-style throwable weapons (throw + recover, no ammo) + Loyalty support
@@ -192,7 +190,7 @@ the next `/reload` or world rejoin.
 **Planned**
 
 - [ ] **Crafting rebalance** — recipe costs need another pass
-- [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (358 sprites)
+- [ ] Final artwork — see [`docs/SPRITES.md`](docs/SPRITES.md) (328 sprites)
 - [ ] Data generation (recipes, tags, models, lang)
 
 **Scrapped**

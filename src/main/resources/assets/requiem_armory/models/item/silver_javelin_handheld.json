@@ -1,4 +1,0 @@
-{
-  "parent": "requiem_armory:item/spear",
-  "textures": { "layer0": "requiem_armory:item/silver_javelin_handheld" }
-}

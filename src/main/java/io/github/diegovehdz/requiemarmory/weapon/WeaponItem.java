@@ -168,14 +168,6 @@ public class WeaponItem extends SwordItem {
             }
         }
 
-        // The material's own trait, independent of the weapon shape: silver bites through armour.
-        if (!target.level().isClientSide && material.hasMagicDamage() && charged) {
-            float dmg = material.magicDamage * (crit ? 1.5f : 1.0f);
-            DamageSource source = attacker.damageSources().source(ModDamageTypes.ARMOR_PIERCING, attacker);
-            target.invulnerableTime = 0;
-            target.hurt(source, dmg);
-        }
-
         boolean result = super.hurtEnemy(stack, target, attacker);
 
         // Quick / slow strike: shrink or stretch the target's post-hit invulnerability window.
@@ -234,7 +226,6 @@ public class WeaponItem extends SwordItem {
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         // Throw damage scales with the material, so hand the tier bonus to the shared renderer.
         WeaponTooltip.append(tooltip, abilities, material.tier.getAttackDamageBonus());
-        WeaponTooltip.appendMaterial(tooltip, material);
         super.appendHoverText(stack, context, tooltip, flag);
     }
 

@@ -1,4 +1,0 @@
-{
-  "parent": "requiem_armory:item/handheld_pole_4x",
-  "textures": { "layer0": "requiem_armory:item/silver_pike_handheld" }
-}
