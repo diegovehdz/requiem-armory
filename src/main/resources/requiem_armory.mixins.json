@@ -6,7 +6,8 @@
   "mixins": [
     "AbstractArrowMixin",
     "BowItemMixin",
-    "CrossbowItemMixin"
+    "CrossbowItemMixin",
+    "DiggerItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

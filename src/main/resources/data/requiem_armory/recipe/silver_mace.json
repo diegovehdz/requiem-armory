@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "requiem_armory:weapon_enabled",
+      "weapon": "requiem_armory:silver_mace"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "requiem_armory:materials/silver"
+    },
+    "H": {
+      "item": "requiem_armory:handle"
+    }
+  },
+  "pattern": [
+    "MMM",
+    " H "
+  ],
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:silver_mace"
+  }
+}

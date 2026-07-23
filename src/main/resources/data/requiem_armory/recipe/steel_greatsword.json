@@ -1,0 +1,27 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "requiem_armory:weapon_enabled",
+      "weapon": "requiem_armory:steel_greatsword"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "M": {
+      "tag": "requiem_armory:materials/steel"
+    },
+    "H": {
+      "item": "requiem_armory:handle"
+    }
+  },
+  "pattern": [
+    " M ",
+    " M ",
+    "MHM"
+  ],
+  "result": {
+    "count": 1,
+    "id": "requiem_armory:steel_greatsword"
+  }
+}

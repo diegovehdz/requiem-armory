@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Supplier;
 
+import io.github.diegovehdz.requiemarmory.RequiemArmory;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -53,6 +54,14 @@ public final class WeaponMaterial {
             register("iron", Tiers.IRON, commonTag("ingots/iron"), false);
     public static final WeaponMaterial GOLDEN =
             register("golden", Tiers.GOLD, commonTag("ingots/gold"), false);
+    /** Silver: gold's sturdier cousin. Trades base damage for armour-ignoring magic damage, following
+     *  Caverns &amp; Chasms' take on the metal. Needs a mod that fills {@code #requiem_armory:materials/silver}. */
+    public static final WeaponMaterial SILVER =
+            register("silver", silverTier(), materialTag("silver"), false, 1.5f);
+    /** Steel: the iron→diamond bridge, using Overgeared's own steel numbers so a steel katana and a
+     *  steel sword from that mod agree. Needs a mod that fills {@code #requiem_armory:materials/steel}. */
+    public static final WeaponMaterial STEEL =
+            register("steel", steelTier(), materialTag("steel"), false);
     public static final WeaponMaterial DIAMOND =
             register("diamond", Tiers.DIAMOND, commonTag("gems/diamond"), false);
     public static final WeaponMaterial NETHERITE =
@@ -64,13 +73,20 @@ public final class WeaponMaterial {
     /** The tag a recipe of this material is crafted from; also the "does this material exist" probe. */
     public final TagKey<Item> ingredient;
     public final boolean fireResistant;
+    /** Extra armour-ignoring damage every weapon of this material deals on a charged hit; 0 for most.
+     *  This is the material's own trait, layered on top of whatever its {@link WeaponType} does. */
+    public final float magicDamage;
 
-    private WeaponMaterial(String id, Tier tier, TagKey<Item> ingredient, boolean fireResistant) {
+    private WeaponMaterial(String id, Tier tier, TagKey<Item> ingredient, boolean fireResistant,
+                           float magicDamage) {
         this.id = id;
         this.tier = tier;
         this.ingredient = ingredient;
         this.fireResistant = fireResistant;
+        this.magicDamage = magicDamage;
     }
+
+    public boolean hasMagicDamage() { return magicDamage > 0.0f; }
 
     /**
      * Adds a material. Call from a mod constructor — after the first registry event this throws,
@@ -81,8 +97,14 @@ public final class WeaponMaterial {
      * @param ingredient    item tag the recipes craft from; an empty tag hides the material in game
      * @param fireResistant survives fire and lava, as netherite does
      */
+    public static WeaponMaterial register(String id, Tier tier, TagKey<Item> ingredient,
+                                          boolean fireResistant) {
+        return register(id, tier, ingredient, fireResistant, 0.0f);
+    }
+
+    /** As above, plus a material trait: extra armour-ignoring damage on every charged hit. */
     public static synchronized WeaponMaterial register(String id, Tier tier, TagKey<Item> ingredient,
-                                                        boolean fireResistant) {
+                                                        boolean fireResistant, float magicDamage) {
         if (locked) {
             throw new IllegalStateException(
                     "Weapon material '" + id + "' was registered too late — weapons are built during "
@@ -92,7 +114,7 @@ public final class WeaponMaterial {
         if (existing != null) {
             throw new IllegalArgumentException("Duplicate weapon material id: " + id);
         }
-        WeaponMaterial material = new WeaponMaterial(id, tier, ingredient, fireResistant);
+        WeaponMaterial material = new WeaponMaterial(id, tier, ingredient, fireResistant, magicDamage);
         REGISTRY.put(id, material);
         return material;
     }
@@ -139,9 +161,31 @@ public final class WeaponMaterial {
         return TagKey.create(BuiltInRegistries.ITEM.key(), ResourceLocation.fromNamespaceAndPath("c", path));
     }
 
+    /** A tag of our own that folds in both naming conventions, so any silver/steel mod satisfies it. */
+    private static TagKey<Item> materialTag(String name) {
+        return TagKey.create(BuiltInRegistries.ITEM.key(),
+                ResourceLocation.fromNamespaceAndPath(RequiemArmory.MOD_ID, "materials/" + name));
+    }
+
     /** Copper sits between stone and iron: sturdier and sharper than stone, short of iron on every axis. */
     private static Tier copperTier() {
         Supplier<Ingredient> repair = () -> Ingredient.of(Items.COPPER_INGOT);
         return new SimpleTier(BlockTags.INCORRECT_FOR_STONE_TOOL, 200, 5.0F, 1.5F, 8, repair);
+    }
+
+    /**
+     * Silver: a sidegrade, not a step up. Half of iron's damage bonus and well short of its durability,
+     * bought back with armour-ignoring magic damage and near-gold enchantability. Fragile and
+     * specialised — good against something armoured, a poor choice for a long fight.
+     */
+    private static Tier silverTier() {
+        return new SimpleTier(BlockTags.INCORRECT_FOR_IRON_TOOL, 180, 6.0F, 1.0F, 20,
+                () -> Ingredient.EMPTY);   // repaired via the tag, not a fixed item
+    }
+
+    /** Steel: Overgeared's own numbers (500 uses, 7.0 speed, +3 damage, ench 12) so the two agree. */
+    private static Tier steelTier() {
+        return new SimpleTier(BlockTags.INCORRECT_FOR_IRON_TOOL, 500, 7.0F, 3.0F, 12,
+                () -> Ingredient.EMPTY);
     }
 }

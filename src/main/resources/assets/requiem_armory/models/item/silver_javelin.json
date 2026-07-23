@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:item/handheld",
+  "loader": "neoforge:separate_transforms",
+  "textures": {
+    "layer0": "requiem_armory:item/silver_javelin_icon"
+  },
+  "base": {
+    "parent": "requiem_armory:item/silver_javelin_icon"
+  },
+  "perspectives": {
+    "thirdperson_righthand": {
+      "parent": "requiem_armory:item/silver_javelin_handheld"
+    },
+    "thirdperson_lefthand": {
+      "parent": "requiem_armory:item/silver_javelin_handheld"
+    },
+    "firstperson_righthand": {
+      "parent": "requiem_armory:item/silver_javelin_handheld"
+    },
+    "firstperson_lefthand": {
+      "parent": "requiem_armory:item/silver_javelin_handheld"
+    },
+    "none": {
+      "parent": "requiem_armory:item/silver_javelin_handheld"
+    }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "throwing": 1
+      },
+      "model": "requiem_armory:item/silver_javelin_throwing"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "parent": "requiem_armory:item/handheld_2x",
+  "textures": { "layer0": "requiem_armory:item/silver_longsword_handheld" }
+}

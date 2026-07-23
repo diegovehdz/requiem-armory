@@ -30,8 +30,10 @@ Everything is driven from two enums + one item class in `weapon/`:
   - **Timing caveat:** the config spec is built in *our* constructor, which is before an add-on that
     depends on us runs. Add-on materials therefore get the shape-level toggle but no per-material one,
     and default to enabled.
-  - Every material names an **ingredient tag** (`c:ingots/copper`, `minecraft:planks`, …). That tag is
-    both what its recipes craft from and the "does this metal exist" probe: when it is empty the
+  - Every material names an **ingredient tag** — a vanilla `c:` tag for the built-ins, or our own
+    `#requiem_armory:materials/<name>` for silver/steel (which folds in both `#c:ingots/<name>` and
+    `#forge:ingots/<name>` so any provider satisfies it). That tag is both what its recipes craft from
+    and the "does this metal exist" probe: when it is empty the
     recipes are uncraftable and `ModCreativeTabs` hides the material outright (`isAvailable()`), since
     tab contents are rebuilt after datapacks load. A compat for a metal-adding mod is therefore a
     **pure datapack** — a tag file plus recipes, no Java.
@@ -72,7 +74,7 @@ Everything is driven from two enums + one item class in `weapon/`:
   vanilla items — see [Vanilla tooltips](#vanilla-tooltips).
 
 ### Registration
-`registry/ModItems` builds the cross-product `WeaponType × WeaponMaterial` (**112 weapons**) into the
+`registry/ModItems` builds the cross-product `WeaponType × WeaponMaterial` (**144 weapons**, 9 materials) into the
 `WEAPONS` map. Item class is chosen by `type.abilities.isThrowable()` → `ThrowableWeaponItem`, else
 `WeaponItem`.
 **The cross-product is built from a `RegisterEvent` listener, not a static initialiser** — that is what
@@ -105,7 +107,7 @@ keys; without them the GUI shows raw key strings.
 **Disabling a weapon** cannot deregister the item (that breaks saves), so it means: dropped from the
 creative tab (`ModCreativeTabs` filters on `isWeaponEnabled`) and stripped of its recipes. Recipes are
 gated by `config/WeaponEnabledCondition`, an `ICondition` registered through `registry/ModConditions`
-into `NeoForgeRegistries.Keys.CONDITION_CODECS`; all **130** weapon recipes carry
+into `NeoForgeRegistries.Keys.CONDITION_CODECS`; all **162** weapon recipes carry
 `"neoforge:conditions": [{"type": "requiem_armory:weapon_enabled", "weapon": "<item id>"}]`
 (`handle`/`pole` are components and stay ungated). Conditions are evaluated at datapack load, so a
 config change needs `/reload` or a rejoin before recipes follow.
@@ -226,6 +228,9 @@ The **wooden tier is the vanilla item**, retuned in place (the user's chosen "re
 - Mixins are wired via `requiem_armory.mixins.json` + `[[mixins]]` in `neoforge.mods.toml`. No refmap
   (NeoForge dev/prod are Mojang-named). **`@Shadow` of a *superclass* method fails to resolve without
   a refmap — `extends` the declaring class instead.** This is the mod's first mixin.
+- `mixin/DiggerItemMixin` (`@Inject` HEAD-cancellable on `postHurtEnemy`, guarded to `minecraft:` axes)
+  spends 1 durability per attack instead of the tool default of 2, so using a vanilla axe as a weapon
+  costs the same as a sword. Shares the `retuneVanillaAxes` config switch.
 - `mixin/CrossbowItemMixin` does the same for `minecraft:crossbow`: `@Inject` on the static
   `getChargeDuration` (guarded by `Items.CROSSBOW`) → faster wooden charge, and `@Inject` (HEAD,
   cancellable) on `performShooting` → reduced wooden arrow velocity (fireworks untouched). Because
@@ -255,7 +260,7 @@ string, plus stick/tripwire_hook for crossbows), netherite via `smithing_transfo
   These base models carry the display transforms (copied from Dixta's Armory). The inventory sprite
   and its model are named `<material>_<type>_icon` — **not** `_gui`.
 - **Textures** are current **dev placeholders derived from Dixta's Armory** — to be replaced with
-  original art (see SPRITES.md: 213 melee/component + 85 ranged).
+  original art (see SPRITES.md: 273 melee/component + 85 ranged).
 - **Recipes** (`data/requiem_armory/recipe/` — singular folder; result uses `"id"`): crafting from
   material + `handle`/`pole` components; netherite via `smithing_transform`.
 - **Enchantability**: all weapons are in `#minecraft:swords` (full weapon enchant set); throwables

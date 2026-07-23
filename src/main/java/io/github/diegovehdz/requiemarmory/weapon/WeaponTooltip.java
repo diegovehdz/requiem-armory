@@ -103,6 +103,23 @@ public final class WeaponTooltip {
         }
     }
 
+    /**
+     * Appends the material's own trait, if it has one. Kept separate from
+     * {@link #append} because it belongs to the metal, not the weapon shape, and applies to every
+     * shape made of it.
+     */
+    public static void appendMaterial(List<Component> tooltip, WeaponMaterial material) {
+        if (!RequiemArmoryConfig.CLIENT_SPEC.isLoaded() || !RequiemArmoryConfig.CLIENT.showAbilityTooltips.get()) {
+            return;
+        }
+        if (material.hasMagicDamage()) {
+            tooltip.add(name("magic_damage"));
+            if (Screen.hasShiftDown()) {
+                tooltip.add(desc("magic_damage.desc", fmt(material.magicDamage)));
+            }
+        }
+    }
+
     /** Gold ability name line. */
     public static Component name(String key) {
         return Component.translatable("tooltip." + RequiemArmory.MOD_ID + "." + key).withStyle(ChatFormatting.GOLD);
